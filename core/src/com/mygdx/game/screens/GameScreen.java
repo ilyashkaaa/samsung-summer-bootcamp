@@ -28,7 +28,7 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
-        generateMap = new GenerateMap(this);
+        generateMap = new GenerateMap();
         Body playerBody = BodyCreator.createBody(
                 -100, -100,
                 32, 60, false,
