@@ -24,7 +24,7 @@ public class MyGdxGame extends Game {
 		Box2D.init();
 		world = new World(new Vector2(0, 0), true);
 		camera = new OrthographicCamera();
-		camera.setToOrtho(true, GameSettings.SCR_WIDTH,GameSettings.SCR_HEIGHT);
+		camera.setToOrtho(false, GameSettings.SCR_WIDTH,GameSettings.SCR_HEIGHT);
 		batch = new SpriteBatch();
 		gameScreen = new GameScreen(this);
 		setScreen(gameScreen);

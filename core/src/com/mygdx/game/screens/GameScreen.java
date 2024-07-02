@@ -82,7 +82,11 @@ public class GameScreen extends ScreenAdapter {
         for (int i = 0; i < 200; ++i) {
             for (int k = 0; k < 1000; ++k) {
                 if (Math.abs(i*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE - myGdxGame.camera.position.x) < 500 && Math.abs(k*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE - myGdxGame.camera.position.y) < 500) {
-                    myGdxGame.batch.draw(blocksStates[i][k].getTexture(), i*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE, k*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE);
+                    myGdxGame.batch.draw(blocksStates[i][k].getTexture(),
+                            i*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE, k*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE,
+                            GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE,
+                            GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE
+                    );
                 }
             }
         }

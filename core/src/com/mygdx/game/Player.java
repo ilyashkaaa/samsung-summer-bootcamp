@@ -29,13 +29,13 @@ public class Player extends GameEntity {
 //        myGdxGame.camera.position.set(position);
         updateCamera();
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            velY -= speed;
+            velY += speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             velX -= speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            velY += speed;
+            velY -= speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             velX += speed;
