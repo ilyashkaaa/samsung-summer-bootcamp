@@ -2,15 +2,18 @@ package com.mygdx.game.map.blocks;
 
 import com.badlogic.gdx.graphics.Texture;
 
-public class BasicBlock {
-    private int durability;
-    protected static Texture texture;
-    public BasicBlock(int durability) {
-        this.durability = durability;
+public abstract class BasicBlock {
+    protected static int durability;
+    private int hp;
+    private boolean isNeedCollision;
+     protected static Texture texture;
+
+    public BasicBlock() {
+        this.hp = durability;
+        this.isNeedCollision = true;
     }
 
-    public int getDurability() {
-        return durability;
-    }
+    public abstract int getDurability();
 
+    public abstract Texture getTexture();
 }

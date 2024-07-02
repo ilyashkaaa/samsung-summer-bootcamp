@@ -14,7 +14,7 @@ import com.mygdx.game.screens.GameScreen;
 
 public class MyGdxGame extends Game {
 	public World world;
-	SpriteBatch batch;
+	public SpriteBatch batch;
 	public OrthographicCamera camera;
 	public GameScreen gameScreen;
 	float accumulator = 0;
@@ -22,11 +22,12 @@ public class MyGdxGame extends Game {
 	@Override
 	public void create () {
 		Box2D.init();
-		world = new World(new Vector2(0, -10), true);
+		world = new World(new Vector2(0, 0), true);
 		camera = new OrthographicCamera();
 		camera.setToOrtho(true, GameSettings.SCR_WIDTH,GameSettings.SCR_HEIGHT);
 		batch = new SpriteBatch();
 		gameScreen = new GameScreen(this);
+		setScreen(gameScreen);
 	}
 	@Override
 	public void dispose () {
