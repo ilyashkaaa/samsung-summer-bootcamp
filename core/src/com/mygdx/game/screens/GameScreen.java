@@ -3,6 +3,7 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -22,7 +23,6 @@ public class GameScreen extends ScreenAdapter {
     MyGdxGame myGdxGame;
     Player player;
     Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
-    BasicBlock[][] blocksStates;
     GenerateMap generateMap;
 
 
@@ -35,9 +35,6 @@ public class GameScreen extends ScreenAdapter {
                 myGdxGame.world
         );
         player = new Player(GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, playerBody, myGdxGame);
-        blocksStates = new BasicBlock[200][1000];
-        setBlocksStates();
-
     }
 
     @Override
@@ -62,34 +59,18 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
-    private void setBlocksStates() {
-        for (int i = 0; i < GameSettings.MAP_WIDTH; i++) {
-            for (int k = 0; k < GameSettings.MAP_HEIGHT; k++) {
-                switch (generateMap.mapArray[i][k]) {
-                    case 1:
-                        blocksStates[i][k] = new Grass();
-                        break;
-                    case 2:
-                        blocksStates[i][k] = new Dirt();
-                        break;
-                }
-
+private void drawBlocks() {
+    for (int i = 0; i < 200; ++i) {
+        for (int k = 0; k < 1000; ++k) {
+            if (Math.abs(i*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE - myGdxGame.camera.position.x) < 500 && Math.abs(k*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE - myGdxGame.camera.position.y) < 500) {
+                myGdxGame.batch.draw(generateMap.mapArray[i][k].getTexture(),
+                        i*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE, k*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE,
+                        GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE,
+                        GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE
+                );
             }
-
         }
     }
-    private void drawBlocks() {
-        for (int i = 0; i < 200; ++i) {
-            for (int k = 0; k < 1000; ++k) {
-                if (Math.abs(i*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE - myGdxGame.camera.position.x) < 500 && Math.abs(k*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE - myGdxGame.camera.position.y) < 500) {
-                    myGdxGame.batch.draw(blocksStates[i][k].getTexture(),
-                            i*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE, k*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE,
-                            GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE,
-                            GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE
-                    );
-                }
-            }
-        }
 
     }
 

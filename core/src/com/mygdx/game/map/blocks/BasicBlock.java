@@ -6,7 +6,8 @@ public abstract class BasicBlock {
     protected static int durability;
     private int hp;
     private boolean isNeedCollision;
-     protected static Texture texture;
+    public int x, y;
+    protected static Texture texture;
 
     public BasicBlock() {
         this.hp = durability;
