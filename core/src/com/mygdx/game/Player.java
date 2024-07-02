@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 
 public class Player extends GameEntity {
+    private final int speed = 100;
 
     public Player(float width, float height, Body body, MyGdxGame myGdxGame) {
         super(width, height, body, myGdxGame);
@@ -19,8 +20,7 @@ public class Player extends GameEntity {
 
     @Override
     public void update() {
-        x = getX()+velX;
-        y = getY()+velX;
+
         velY = 0;
         velX = 0;
         //Vector3 position = myGdxGame.camera.position;
@@ -29,27 +29,29 @@ public class Player extends GameEntity {
 //        myGdxGame.camera.position.set(position);
         updateCamera();
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            velY += 10;
+            velY -= speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            velX -= 10;
+            velX -= speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            velY -= 10;
+            velY += speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            velX += 10;
+            velX += speed;
         }
+        x = (getX()+velX);
+        y = (getY()+velY);
         //body.applyForceToCenter(0, -10, true);
 
 //        body.setLinearVelocity(velX, velY);
-        setX((int) x);
-        setY((int) y);
+        setX(x);
+        setY(y);
 //        body.setTransform(getX(), getY(), 0);
 
 //        body.applyForceToCenter();
 //        body.setTransform(x + body.getLinearVelocity().x, y + body.getLinearVelocity().y, 0);
-      //  System.out.println(x + " " + y);
+        //  System.out.println(x + " " + y);
 
     }
 
@@ -66,11 +68,11 @@ public class Player extends GameEntity {
         return (int) (body.getPosition().y / SCALE);
     }
 
-    public void setX(int x) {
+    public void setX(float x) {
         body.setTransform(x * SCALE, body.getPosition().y, 0);
     }
 
-    public void setY(int y) {
+    public void setY(float y) {
         body.setTransform(body.getPosition().x, y * SCALE, 0);
     }
     public void updateCamera() {
@@ -78,7 +80,6 @@ public class Player extends GameEntity {
         position.x = x * SCALE;
         position.y = y * SCALE;
         myGdxGame.camera.position.set(position);
-
     }
 
 }
