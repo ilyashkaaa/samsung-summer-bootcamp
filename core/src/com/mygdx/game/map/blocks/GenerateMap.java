@@ -23,15 +23,12 @@ public class GenerateMap {
         mapArray = new BasicBlock[MAP_WIDTH][MAP_HEIGHT];
 
         for (int i = 0; i < MAP_HEIGHT; i++)
-            for (int j = 0; j < MAP_WIDTH; j++)
-                switch (random.nextInt(map(0, MAP_HEIGHT - 1, 5, 40, i))) {
-                    case 0:
-                        generateCluster(j, i, Stone.class, mapArray);
-                        break;
-                    case 1:
-                        generateCluster(j, i, Grass.class, mapArray);
-                        break;
-                }
+            for (int j = 0; j < MAP_WIDTH; j++) {
+                if (random.nextInt(map(0, MAP_HEIGHT - 1, 5, 40, i)) == 0)
+                    generateCluster(i, j, Stone.class, mapArray);
+                if (random.nextInt(map(0, MAP_HEIGHT - 1, 5, 40, i)) == 0)
+                    generateCluster(i, j, Grass.class, mapArray);
+            }
 
         for (int i = 0; i < MAP_WIDTH; i++)
             for (int j = 0; j < MAP_HEIGHT; j++)
@@ -46,9 +43,8 @@ public class GenerateMap {
             ArrayList<Integer> blocksY = new ArrayList<>();
 
             try {
-                Constructor<? extends BasicBlock> constructor = block.getConstructor();
 
-                map[x][y] = constructor.newInstance();
+                map[x][y] = block.newInstance();
                 blocksX.add(x);
                 blocksY.add(y);
                 int countOfUnGenerated = 1;
@@ -65,13 +61,13 @@ public class GenerateMap {
                                 countOfUnGenerated++;
                                 blocksX.add(xc);
                                 blocksY.add(yc);
-                                map[xc][yc] = constructor.newInstance();
+                                map[xc][yc] = block.newInstance();
                             }
                         }
                     }
                     counter++;
                 }
-            } catch (NoSuchMethodException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            } catch (InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         }
