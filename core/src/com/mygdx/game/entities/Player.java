@@ -7,6 +7,7 @@ import static com.mygdx.game.GameSettings.SCALE;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.mygdx.game.GameResources;
@@ -17,9 +18,11 @@ public class Player extends GameEntity {
     private final int speed = 100;
     PlayerStates playerState;
     int frameCounterForHead;
-    int frameCounterForBody;
+    int frameCounterForWalking;
+    int frameCounterForDownDigging;
     int frameMultiplierForHead = 20;
-    int frameMultiplierForBody = 4;
+    int frameMultiplierForWalking = 4;
+    int frameMultiplierForDigging = 4;
     boolean movingLeft;
 
     public Player(float width, float height, Body body, MyGdxGame myGdxGame) {
@@ -41,7 +44,6 @@ public class Player extends GameEntity {
 //        position.x = x;
 //        position.y = y;
 //        myGdxGame.camera.position.set(position);
-        updateCamera();
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             velY += speed;
         }
@@ -51,6 +53,10 @@ public class Player extends GameEntity {
                 for (int i = 0; i < 8; i++) {
                     GameResources.PLAYER_WALKING_TEXTURES[i].flip(true, false);
                 }
+                for (int i = 0; i < 6; i++) {
+                    GameResources.PLAYER_DOWN_DIGGING_TEXTURES[i].flip(true, false);
+                }
+
                 GameResources.PLAYER_STANDING_TEXTURE.flip(true, false);
                 GameResources.PLAYER_HEAD_TEXTURE.flip(true, false);
                 movingLeft = true;
@@ -110,10 +116,16 @@ public class Player extends GameEntity {
 
     public void updateCamera() {
         Vector3 position = myGdxGame.camera.position;
-        position.x = x * SCALE;
-        position.y = y * SCALE;
+        position.x = body.getPosition().x;
+        position.y = body.getPosition().y;
         myGdxGame.camera.position.set(position);
 
+    }
+    public void setMoveVector (Vector2 moveVector){
+        body.setLinearVelocity(moveVector);
+//        body.setTransform((moveVector.x + getX()) * SCALE, (moveVector.y + getY()) * SCALE, 0);
+        updateCamera();
+//        System.out.println(body.getPosition());
     }
 
     public void draw(SpriteBatch batch) {
@@ -132,13 +144,18 @@ public class Player extends GameEntity {
                 GameResources.PLAYER_STANDING_TEXTURE.setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
                 GameResources.PLAYER_STANDING_TEXTURE.draw(batch);
                 break;
-            case RIGHT_WALKING, LEFT_WALKING:
-                if (frameCounterForBody++ == GameResources.PLAYER_WALKING_TEXTURES.length * frameMultiplierForBody - 1)
-                    frameCounterForBody = 0;
-                GameResources.PLAYER_WALKING_TEXTURES[frameCounterForBody / frameMultiplierForBody].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-                GameResources.PLAYER_WALKING_TEXTURES[frameCounterForBody / frameMultiplierForBody].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-                GameResources.PLAYER_WALKING_TEXTURES[frameCounterForBody / frameMultiplierForBody].draw(batch);
+            case RIGHT_WALKING:
+                if (frameCounterForWalking++ == GameResources.PLAYER_WALKING_TEXTURES.length * frameMultiplierForWalking - 1) frameCounterForWalking = 0;
+                GameResources.PLAYER_WALKING_TEXTURES[frameCounterForWalking / frameMultiplierForWalking].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                GameResources.PLAYER_WALKING_TEXTURES[frameCounterForWalking / frameMultiplierForWalking].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                GameResources.PLAYER_WALKING_TEXTURES[frameCounterForWalking / frameMultiplierForWalking].draw(batch);
                 break;
+            case DOWN_DIGGING:
+                if (frameCounterForDownDigging++ == GameResources.PLAYER_WALKING_TEXTURES.length * frameMultiplierForDigging - 1) frameCounterForDownDigging = 0;
+
+
+
+
 
 
         }

@@ -4,15 +4,17 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.BodyCreator;
-import com.mygdx.game.GameEntity;
+
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Player;
+
+import com.mygdx.game.entities.Player;
 import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
 import com.mygdx.game.map.blocks.Dirt;
@@ -50,13 +52,13 @@ public class GameScreen extends ScreenAdapter {
         );
         player = new Player(GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, playerBody, myGdxGame);
         touchPos = new Vector3();
-
+        myGdxGame.camera.position.set(0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE + 60, 0);
+//        System.out.println(playerBody.getPosition() + "\t" + myGdxGame.camera.position);
     }
 
     @Override
     public void render(float delta) {
         myGdxGame.stepWorld();
-
 //        player.update();
 //        joystick.setX(player.getX());
 //        joystick.setY(player.getY());
@@ -67,7 +69,7 @@ public class GameScreen extends ScreenAdapter {
         Vector3 touch = new Vector3(Gdx.input.getX(indexJoystick(countOfTouching())), Gdx.input.getY(indexJoystick(countOfTouching())), 0);
         myGdxGame.camera.unproject(touch);
 //        myGdxGame.camera.position.set(new Vector3(50000, 0, 0));
-        if (Gdx.input.isTouched(indexJoystick(countOfTouching())) && touch.x <= GameSettings.SCR_WIDTH / 2) {
+        if (Gdx.input.isTouched(indexJoystick(countOfTouching())) && myGdxGame.camera.position.x - touch.x >= 0) {
             if (!keepTouching) {
                 joystick.changeRelativeCords(touch.sub(myGdxGame.camera.position));
             }
