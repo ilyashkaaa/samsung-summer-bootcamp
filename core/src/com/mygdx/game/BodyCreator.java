@@ -15,7 +15,7 @@ public class BodyCreator {
         Body body = world.createBody(bodyDef);
 
         PolygonShape shape = new PolygonShape();
-        shape.setAsBox(width/2/GameSettings.OBJECT_SCALE, height/2/GameSettings.OBJECT_SCALE);
+        shape.setAsBox(width/2*GameSettings.OBJECT_SCALE, height/2*GameSettings.OBJECT_SCALE);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         body.createFixture(fixtureDef);

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -20,17 +21,21 @@ import com.mygdx.game.map.blocks.Grass;
 
 import javax.swing.Box;
 
+import UI.Joystick;
+
 public class GameScreen extends ScreenAdapter {
     MyGdxGame myGdxGame;
     Player player;
     Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
     GenerateMap generateMap;
+    Joystick joystick;
     Vector3 touchPos;
     float touchX, touchY;
 
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
+        joystick = new Joystick(0, 0, myGdxGame);
         generateMap = new GenerateMap();
         Body playerBody = BodyCreator.createBody(
                 0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE + 60,
@@ -45,7 +50,11 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         myGdxGame.stepWorld();
-        player.update();
+//        player.update();
+        joystick.setX(player.getX());
+        joystick.setY(player.getY());
+        player.addMoveVector(joystick.getDirection());
+//        System.out.println(new Vector2(9, 12).setLength(5));
         draw();
 
     }

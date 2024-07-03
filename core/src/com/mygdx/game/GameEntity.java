@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 public abstract class GameEntity {
 
     protected float x, y, velX, velY, speed;
-    protected  float width, height;
+    protected float width, height;
     protected Body body;
     MyGdxGame myGdxGame;
     public GameEntity(float width, float height, Body body, MyGdxGame myGdxGame) {

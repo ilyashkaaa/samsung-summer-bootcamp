@@ -6,11 +6,12 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 
 public class Player extends GameEntity {
-    private final int speed = 100;
+    public static int speed = 100;
 
     public Player(float width, float height, Body body, MyGdxGame myGdxGame) {
         super(width, height, body, myGdxGame);
@@ -61,26 +62,30 @@ public class Player extends GameEntity {
     }
 
     public int getX() {
-        return (int) (body.getPosition().x / SCALE);
+        return (int) (body.getPosition().x);
     }
 
     public int getY() {
-        return (int) (body.getPosition().y / SCALE);
+        return (int) (body.getPosition().y);
     }
 
     public void setX(float x) {
-        body.setTransform(x * SCALE, body.getPosition().y, 0);
+        this.x = x;
     }
 
     public void setY(float y) {
-        body.setTransform(body.getPosition().x, y * SCALE, 0);
+        this.y = y;
+    }
+    public void addMoveVector (Vector2 moveVector){
+        body.setTransform(moveVector.add(body.getPosition()), 0);
+//        body.setTransform((moveVector.x + getX()) * SCALE, (moveVector.y + getY()) * SCALE, 0);
+        updateCamera();
     }
     public void updateCamera() {
         Vector3 position = myGdxGame.camera.position;
-        position.x = x * SCALE;
-        position.y = y * SCALE;
+        position.x = getX();
+        position.y = getY();
         myGdxGame.camera.position.set(position);
-
     }
 
 }
