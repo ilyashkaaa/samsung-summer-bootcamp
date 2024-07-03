@@ -1,8 +1,10 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -24,19 +26,22 @@ public class GameScreen extends ScreenAdapter {
     Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
     BasicBlock[][] blocksStates;
     GenerateMap generateMap;
+    Vector3 touchPos;
+    float touchX, touchY;
 
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
         generateMap = new GenerateMap(this);
         Body playerBody = BodyCreator.createBody(
-                -100, -100,
+                0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE + 60,
                 32, 60, false,
                 myGdxGame.world
         );
         player = new Player(GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, playerBody, myGdxGame);
         blocksStates = new BasicBlock[200][1000];
         setBlocksStates();
+        touchPos = new Vector3();
 
     }
 
@@ -54,7 +59,6 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(Color.CLEAR);
         myGdxGame.batch.begin();
         drawBlocks();
-
 
 
         myGdxGame.batch.end();
@@ -78,19 +82,34 @@ public class GameScreen extends ScreenAdapter {
 
         }
     }
+
     private void drawBlocks() {
+        if (Gdx.input.isTouched()) {
+            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
+            myGdxGame.camera.unproject(touchPos);
+            touchX = touchPos.x;
+            touchY = touchPos.y;
+        }
         for (int i = 0; i < 200; ++i) {
             for (int k = 0; k < 1000; ++k) {
-                if (Math.abs(i*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE - myGdxGame.camera.position.x) < 500 && Math.abs(k*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE - myGdxGame.camera.position.y) < 500) {
-                    myGdxGame.batch.draw(blocksStates[i][k].getTexture(),
-                            i*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE, k*GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE,
-                            GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE,
-                            GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE
-                    );
+                if (Math.abs(i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE - myGdxGame.camera.position.x) < 500 && Math.abs(k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE - myGdxGame.camera.position.y) < 500) {
+                    if (touchX >= i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE && touchX < i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE + 80
+                            && touchY >= k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE && touchY < k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE +80) {
+                        blocksStates[i][k].setDurability(0);
+                    }
+                    if (blocksStates[i][k].getDurability() != 0) {
+                        myGdxGame.batch.draw(blocksStates[i][k].getTexture(),
+                                i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE, k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE,
+                                GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE,
+                                GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE
+                        );
+                    }
+
                 }
             }
         }
 
     }
+
 
 }

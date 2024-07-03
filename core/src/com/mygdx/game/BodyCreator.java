@@ -20,7 +20,7 @@ public class BodyCreator {
         fixtureDef.shape = shape;
         body.createFixture(fixtureDef);
         shape.dispose();
-        body.setTransform(x * GameSettings.SCALE, y * GameSettings.SCALE, 0);
+        body.setTransform(x, y, 0);
         return body;
 
 
