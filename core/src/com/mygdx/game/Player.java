@@ -40,8 +40,8 @@ public class Player extends GameEntity {
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
             velX += speed;
         }
-        x = (getX()+velX);
-        y = (getY()+velY);
+        x = getX()+velX;
+        y = getY()+velY;
         //body.applyForceToCenter(0, -10, true);
 
 //        body.setLinearVelocity(velX, velY);
@@ -51,7 +51,7 @@ public class Player extends GameEntity {
 
 //        body.applyForceToCenter();
 //        body.setTransform(x + body.getLinearVelocity().x, y + body.getLinearVelocity().y, 0);
-        //  System.out.println(x + " " + y);
+      //  System.out.println(x + " " + y);
 
     }
 
@@ -80,6 +80,7 @@ public class Player extends GameEntity {
         position.x = x * SCALE;
         position.y = y * SCALE;
         myGdxGame.camera.position.set(position);
+
     }
 
 }

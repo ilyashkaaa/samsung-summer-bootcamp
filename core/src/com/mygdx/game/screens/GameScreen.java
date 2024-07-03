@@ -24,7 +24,6 @@ public class GameScreen extends ScreenAdapter {
     MyGdxGame myGdxGame;
     Player player;
     Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
-    BasicBlock[][] blocksStates;
     GenerateMap generateMap;
     Vector3 touchPos;
     float touchX, touchY;
@@ -32,15 +31,13 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
-        generateMap = new GenerateMap(this);
+        generateMap = new GenerateMap();
         Body playerBody = BodyCreator.createBody(
                 0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE + 60,
                 32, 60, false,
                 myGdxGame.world
         );
         player = new Player(GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, playerBody, myGdxGame);
-        blocksStates = new BasicBlock[200][1000];
-        setBlocksStates();
         touchPos = new Vector3();
 
     }
@@ -61,26 +58,10 @@ public class GameScreen extends ScreenAdapter {
         drawBlocks();
 
 
+
         myGdxGame.batch.end();
         box2DDebugRenderer.render(myGdxGame.world, myGdxGame.camera.combined);
 
-    }
-
-    private void setBlocksStates() {
-        for (int i = 0; i < GameSettings.MAP_WIDTH; i++) {
-            for (int k = 0; k < GameSettings.MAP_HEIGHT; k++) {
-                switch (generateMap.mapArray[i][k]) {
-                    case 1:
-                        blocksStates[i][k] = new Grass();
-                        break;
-                    case 2:
-                        blocksStates[i][k] = new Dirt();
-                        break;
-                }
-
-            }
-
-        }
     }
 
     private void drawBlocks() {
@@ -95,10 +76,10 @@ public class GameScreen extends ScreenAdapter {
                 if (Math.abs(i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE - myGdxGame.camera.position.x) < 500 && Math.abs(k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE - myGdxGame.camera.position.y) < 500) {
                     if (touchX >= i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE && touchX < i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE + 80
                             && touchY >= k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE && touchY < k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE +80) {
-                        blocksStates[i][k].setDurability(0);
+                        generateMap.mapArray[i][k].setDurability(0);
                     }
-                    if (blocksStates[i][k].getDurability() != 0) {
-                        myGdxGame.batch.draw(blocksStates[i][k].getTexture(),
+                    if (generateMap.mapArray[i][k].getDurability() != 0) {
+                        myGdxGame.batch.draw(generateMap.mapArray[i][k].getTexture(),
                                 i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE, k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE,
                                 GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE,
                                 GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE
@@ -110,6 +91,5 @@ public class GameScreen extends ScreenAdapter {
         }
 
     }
-
 
 }
