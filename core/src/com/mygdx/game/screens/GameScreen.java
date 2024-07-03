@@ -74,8 +74,8 @@ public class GameScreen extends ScreenAdapter {
         for (int i = 0; i < 200; ++i) {
             for (int k = 0; k < 1000; ++k) {
                 if (Math.abs(i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE - myGdxGame.camera.position.x) < 500 && Math.abs(k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE - myGdxGame.camera.position.y) < 500) {
-                    if (touchX >= i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE && touchX < i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE + 80
-                            && touchY >= k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE && touchY < k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE +80) {
+                    if (touchX >= i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE && touchX < (i+1) * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE
+                            && touchY >= k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE && touchY < (k+1) * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE) {
                         generateMap.mapArray[i][k].setDurability(0);
                     }
                     if (generateMap.mapArray[i][k].getDurability() != 0) {

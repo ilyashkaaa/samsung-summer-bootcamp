@@ -25,9 +25,9 @@ public class GenerateMap {
         for (int i = 0; i < MAP_HEIGHT; i++)
             for (int j = 0; j < MAP_WIDTH; j++) {
                 if (random.nextInt(map(0, MAP_HEIGHT - 1, 5, 40, i)) == 0)
-                    generateCluster(i, j, Stone.class, mapArray);
+                    generateCluster(j, i, Stone.class, mapArray);
                 if (random.nextInt(map(0, MAP_HEIGHT - 1, 5, 40, i)) == 0)
-                    generateCluster(i, j, Grass.class, mapArray);
+                    generateCluster(j, i, Grass.class, mapArray);
             }
 
         for (int i = 0; i < MAP_WIDTH; i++)
