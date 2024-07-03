@@ -15,4 +15,5 @@ public class Dirt extends BasicBlock {
     public void setDurability(int durability) {
         this.durability = durability;
     }
+
 }

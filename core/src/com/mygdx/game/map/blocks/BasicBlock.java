@@ -5,37 +5,43 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.screens.GameScreen;
 
 public abstract class BasicBlock {
     protected static int durability;
     private int hp;
-    private boolean isNeedCollision;
+    private boolean hasCollision;
     public int x, y;
     protected static Texture texture;
 
     public BasicBlock() {
         this.hp = durability;
-        this.isNeedCollision = true;
+        this.hasCollision = false;
     }
 
     public abstract int getDurability();
 
     public abstract Texture getTexture();
 
-    public void setDurability(int durability) {
-        BasicBlock.durability= durability;
+    public abstract void setDurability(int durability);
+
+    public void setHasCollision(boolean isNeedCollision) {
+        this.hasCollision = isNeedCollision;
     }
 
-    public static Body createStaticBody(int i, int k, GameScreen gameScreen, MyGdxGame myGdxGame) {
+    public boolean getHasCollision() {
+        return hasCollision;
+    }
+
+    public static Body createStaticBody(int i, int k, MyGdxGame myGdxGame) {
 
         // Create our body definition
         BodyDef groundBodyDef = new BodyDef();
         groundBodyDef.type = BodyDef.BodyType.StaticBody;
 
         // Set its world position
-        groundBodyDef.position.set(new Vector2(i * 64 + 32, k * 64 + 32));
+        groundBodyDef.position.set(new Vector2(i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE+GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE/2, k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE+GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE/2));
         groundBodyDef.fixedRotation = true;
 
         // Create a body from the definition and add it to the world
@@ -46,7 +52,7 @@ public abstract class BasicBlock {
 
         // Set the polygon shape as a box which is twice the size of our view port and 20 high
         // (setAsBox takes half-width and half-height as arguments)
-        groundBox.setAsBox(32, 32);
+        groundBox.setAsBox(GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE/2, GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE/2);
 
         // Create a fixture from our polygon shape and add it to our ground body
         groundBody.createFixture(groundBox, 0.0f);
