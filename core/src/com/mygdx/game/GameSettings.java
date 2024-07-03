@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 
 public class GameSettings {
     public static final int SCR_WIDTH = Gdx.graphics.getWidth();
@@ -9,7 +10,7 @@ public class GameSettings {
     public static final int VELOCITY_ITERATIONS = 6;
     public static final int POSITION_ITERATIONS = 6;
     public static final float SCALE = 0.05f;
-    public static final float OBJECT_SCALE = 0.1f;
+    public static final float OBJECT_SCALE = 0.5f;
 
     public static final int MAP_WIDTH = 200;
     public static final int MAP_HEIGHT = 1000;
@@ -19,6 +20,10 @@ public class GameSettings {
 
 
 
-    public static final int PLAYER_WIDTH = 160;
+    public static final int PLAYER_WIDTH = 120;
     public static final int PLAYER_HEIGHT = 260;
+
+
+
+
 }

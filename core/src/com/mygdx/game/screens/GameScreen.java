@@ -1,6 +1,5 @@
 package com.mygdx.game.screens;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
@@ -9,17 +8,12 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.BodyCreator;
-import com.mygdx.game.GameEntity;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.Player;
+import com.mygdx.game.entities.Player;
 import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
-import com.mygdx.game.map.blocks.Dirt;
 import com.mygdx.game.map.blocks.GenerateMap;
-import com.mygdx.game.map.blocks.Grass;
-
-import javax.swing.Box;
 
 public class GameScreen extends ScreenAdapter {
     MyGdxGame myGdxGame;
@@ -60,13 +54,13 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.camera.update();
         myGdxGame.batch.setProjectionMatrix(myGdxGame.camera.combined);
         ScreenUtils.clear(Color.CLEAR);
+        BlocksCollision.deleteBlocks();
         myGdxGame.batch.begin();
         drawBlocks();
-
-
+        player.draw(myGdxGame.batch);
         myGdxGame.batch.end();
         box2DDebugRenderer.render(myGdxGame.world, myGdxGame.camera.combined);
-        BlocksCollision.deleteBlocks();
+
 
     }
 
