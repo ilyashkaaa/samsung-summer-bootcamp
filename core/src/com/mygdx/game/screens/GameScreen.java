@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -14,6 +15,7 @@ import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.Player;
 import com.mygdx.game.map.blocks.BasicBlock;
+import com.mygdx.game.map.blocks.BlocksCollision;
 import com.mygdx.game.map.blocks.Dirt;
 import com.mygdx.game.map.blocks.GenerateMap;
 import com.mygdx.game.map.blocks.Grass;
@@ -31,12 +33,13 @@ public class GameScreen extends ScreenAdapter {
     BlocksCollision blocksCollision;
     Vector3 touchPos;
     float touchX, touchY;
+    boolean keepTouching;
 
 
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
-        joystick = new Joystick(0, 0, myGdxGame);
+        joystick = new Joystick();
         generateMap = new GenerateMap();
         blocksCollision = new BlocksCollision(myGdxGame);
 
@@ -54,13 +57,29 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         myGdxGame.stepWorld();
+        BlocksCollision.deleteBlocks();
+
 //        player.update();
-        joystick.setX(player.getX());
-        joystick.setY(player.getY());
-        player.addMoveVector(joystick.getDirection());
+//        joystick.setX(player.getX());
+//        joystick.setY(player.getY());
+//        player.addMoveVector(joystick.getDirection());
 //        System.out.println(new Vector2(9, 12).setLength(5));
         draw();
 
+        Vector3 touch = new Vector3(Gdx.input.getX(indexJoystick(countOfTouching())), Gdx.input.getY(indexJoystick(countOfTouching())), 0);
+        myGdxGame.camera.unproject(touch);
+//        myGdxGame.camera.position.set(new Vector3(50000, 0, 0));
+        if (Gdx.input.isTouched(indexJoystick(countOfTouching())) && touch.x <= GameSettings.SCR_WIDTH / 2) {
+            if (!keepTouching) {
+                joystick.changeRelativeCords(touch.sub(myGdxGame.camera.position));
+            }
+            player.setMoveVector(joystick.getDirection(touch, myGdxGame.camera.position));
+            keepTouching = true;
+        } else {
+            player.setMoveVector(new Vector2(0, 0));
+            keepTouching = false;
+        }
+        draw();
     }
 
     public void draw() {
@@ -70,10 +89,11 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.batch.begin();
         drawBlocks();
 
+        if(keepTouching)
+            joystick.draw(myGdxGame.batch, myGdxGame.camera.position);
 
         myGdxGame.batch.end();
         box2DDebugRenderer.render(myGdxGame.world, myGdxGame.camera.combined);
-        BlocksCollision.deleteBlocks();
 
     }
 
@@ -112,5 +132,22 @@ public class GameScreen extends ScreenAdapter {
         }
 
     }
-
+    private int indexJoystick(int countOfTouching) {
+        int returned = 0;
+        for (int i = 0; i < countOfTouching + 1; i++) {
+            if (Gdx.input.getX(i) <= GameSettings.SCR_WIDTH / 2) {
+                returned = i;
+                break;
+            }
+        }
+        return returned;
+    }
+    private int countOfTouching() {
+        int i = 0;
+        while (i < Gdx.input.getMaxPointers()) {
+            i++;
+            if (Gdx.input.getPressure(i) == 0) break;
+        }
+        return i - 1;
+    }
 }

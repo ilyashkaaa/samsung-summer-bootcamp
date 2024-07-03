@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
@@ -18,7 +19,10 @@ public class BodyCreator {
         shape.setAsBox(width/2*GameSettings.OBJECT_SCALE, height/2*GameSettings.OBJECT_SCALE);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
+        fixtureDef.density = 0.1f; // устанавливаем плотность тела
+        fixtureDef.friction = 1f;
         body.createFixture(fixtureDef);
+
         shape.dispose();
         body.setTransform(x, y, 0);
         return body;

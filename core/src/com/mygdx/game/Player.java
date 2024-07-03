@@ -11,7 +11,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 
 public class Player extends GameEntity {
-    public static int speed = 100;
+    public static int speed = 10000;
 
     public Player(float width, float height, Body body, MyGdxGame myGdxGame) {
         super(width, height, body, myGdxGame);
@@ -76,10 +76,11 @@ public class Player extends GameEntity {
     public void setY(float y) {
         this.y = y;
     }
-    public void addMoveVector (Vector2 moveVector){
-        body.setTransform(moveVector.add(body.getPosition()), 0);
+    public void setMoveVector (Vector2 moveVector){
+        body.setLinearVelocity(moveVector);
 //        body.setTransform((moveVector.x + getX()) * SCALE, (moveVector.y + getY()) * SCALE, 0);
         updateCamera();
+//        System.out.println(body.getPosition());
     }
     public void updateCamera() {
         Vector3 position = myGdxGame.camera.position;
