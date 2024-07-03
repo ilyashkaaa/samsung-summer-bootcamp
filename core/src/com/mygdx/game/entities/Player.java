@@ -130,7 +130,6 @@ public class Player extends GameEntity {
             case STANDING:
                 GameResources.PLAYER_STANDING_TEXTURE.setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
                 GameResources.PLAYER_STANDING_TEXTURE.setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-
                 GameResources.PLAYER_STANDING_TEXTURE.draw(batch);
                 break;
             case RIGHT_WALKING, LEFT_WALKING:
@@ -138,7 +137,6 @@ public class Player extends GameEntity {
                     frameCounterForBody = 0;
                 GameResources.PLAYER_WALKING_TEXTURES[frameCounterForBody / frameMultiplierForBody].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
                 GameResources.PLAYER_WALKING_TEXTURES[frameCounterForBody / frameMultiplierForBody].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-
                 GameResources.PLAYER_WALKING_TEXTURES[frameCounterForBody / frameMultiplierForBody].draw(batch);
                 break;
 
