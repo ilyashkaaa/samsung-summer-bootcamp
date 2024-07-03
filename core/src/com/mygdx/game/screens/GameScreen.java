@@ -4,7 +4,6 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -57,7 +56,6 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         myGdxGame.stepWorld();
-        BlocksCollision.deleteBlocks();
 
 //        player.update();
 //        joystick.setX(player.getX());
@@ -86,8 +84,10 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.camera.update();
         myGdxGame.batch.setProjectionMatrix(myGdxGame.camera.combined);
         ScreenUtils.clear(Color.CLEAR);
+        BlocksCollision.deleteBlocks();
         myGdxGame.batch.begin();
         drawBlocks();
+        player.draw(myGdxGame.batch);
 
         if(keepTouching)
             joystick.draw(myGdxGame.batch, myGdxGame.camera.position);
@@ -95,9 +95,13 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.batch.end();
         box2DDebugRenderer.render(myGdxGame.world, myGdxGame.camera.combined);
 
+
     }
 
     private void drawBlocks() {
+
+
+
         if (Gdx.input.isTouched()) {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             myGdxGame.camera.unproject(touchPos);

@@ -1,7 +1,9 @@
-package com.mygdx.game;
+package com.mygdx.game.entities;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.mygdx.game.GameSettings;
+import com.mygdx.game.MyGdxGame;
 
 public abstract class GameEntity {
 
@@ -13,7 +15,7 @@ public abstract class GameEntity {
         this.myGdxGame = myGdxGame;
         this.x = body.getPosition().x;
         this.y = body.getPosition().y;
-        this.width = width/GameSettings.SCALE;
+        this.width = width/ GameSettings.SCALE;
         this.height = height/GameSettings.SCALE;
         this.body = body;
         this.velX = 0;

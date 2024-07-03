@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 
 public class GameSettings {
     public static final int SCR_WIDTH = Gdx.graphics.getWidth();
@@ -19,6 +20,10 @@ public class GameSettings {
 
 
 
-    public static final int PLAYER_WIDTH = 160;
+    public static final int PLAYER_WIDTH = 120;
     public static final int PLAYER_HEIGHT = 260;
+
+
+
+
 }
