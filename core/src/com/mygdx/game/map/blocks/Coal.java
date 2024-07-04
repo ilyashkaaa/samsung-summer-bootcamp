@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.GameResources;
 
 public class Coal extends BasicBlock{
-    private int durability = 5;
+    private int durability = 15;
     private static final Texture texture = new Texture(GameResources.COAL_BLOCK_TEXTURE);
 
     public int getDurability() {

@@ -2,9 +2,9 @@ package com.mygdx.game.entities;
 
 public enum PlayerStates {
     STANDING,
-    LEFT_WALKING,
-    RIGHT_WALKING,
+    WALKING,
     UP_DIGGING,
     DOWN_DIGGING,
+    SIDE_DIGGING,
     JUMPING
 }

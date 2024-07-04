@@ -58,7 +58,7 @@ public class GameScreen extends ScreenAdapter {
 
         BlocksCollision.generateCollision(generateMap.mapArray);
         Body playerBody = BodyCreator.createBody(
-                0, (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE),
+                GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE, ((GameSettings.MAP_HEIGHT +1)* GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE),
                 GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, false,
                 myGdxGame.world
         );

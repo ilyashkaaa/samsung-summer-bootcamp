@@ -20,7 +20,7 @@ public class BodyCreator {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0.1f; // устанавливаем плотность тела
-        fixtureDef.friction = 1f;
+        fixtureDef.friction = 0.2f;
         body.createFixture(fixtureDef);
 
         shape.dispose();
