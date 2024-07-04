@@ -128,14 +128,15 @@ public class Player extends GameEntity {
 
     }
     public void setMoveVector (Vector2 moveVector){
-        body.setLinearVelocity(moveVector);
+//        body.applyForceToCenter(moveVector, true);
+        body.setLinearVelocity(moveVector/*.setLength(speed)*/);
 //        body.setTransform((moveVector.x + getX()) * SCALE, (moveVector.y + getY()) * SCALE, 0);
         updateCamera();
 //        System.out.println(body.getPosition());
     }
 
     public void draw(SpriteBatch batch) {
-        if (frameCounterForHead++ ==2 * frameMultiplierForHead - 1) frameCounterForHead = 0;
+        if (frameCounterForHead++ == 2 * frameMultiplierForHead - 1) frameCounterForHead = 0;
         batch.draw(GameResources.PLAYER_HEAD_TEXTURE,
                 body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2,
                 body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2 - frameCounterForHead /frameMultiplierForHead* GameSettings.OBJECT_SCALE*5,
@@ -158,12 +159,6 @@ public class Player extends GameEntity {
                 break;
             case DOWN_DIGGING:
                 if (frameCounterForDownDigging++ == GameResources.PLAYER_WALKING_TEXTURES.length * frameMultiplierForDigging - 1) frameCounterForDownDigging = 0;
-
-
-
-
-
-
         }
     }
 

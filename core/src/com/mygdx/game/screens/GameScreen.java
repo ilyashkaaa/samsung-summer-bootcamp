@@ -4,6 +4,8 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -26,6 +28,14 @@ import javax.swing.Box;
 import com.mygdx.game.UI.Joystick;
 
 public class GameScreen extends ScreenAdapter {
+
+
+//****************** FOR FPS********************************
+    BitmapFont font = new BitmapFont();
+//    GlyphLayout glyphLayout = new GlyphLayout(font, "text");
+//***********************************************************
+
+
     MyGdxGame myGdxGame;
     Player player;
     Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
@@ -46,7 +56,7 @@ public class GameScreen extends ScreenAdapter {
 
         BlocksCollision.generateCollision(generateMap.mapArray);
         Body playerBody = BodyCreator.createBody(
-                0, (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE),
+                1000, (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE),
                 GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, false,
                 myGdxGame.world
         );
@@ -59,18 +69,18 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         myGdxGame.stepWorld();
-        draw();
+        draw(delta);
 
         Vector3 touch = new Vector3(Gdx.input.getX(indexJoystick(countOfTouching())),
                 Gdx.input.getY(indexJoystick(countOfTouching())), 0
         );
-        myGdxGame.camera.unproject(touch);
+//        myGdxGame.camera.unproject(touch);
 //        myGdxGame.camera.position.set(new Vector3(50000, 0, 0));
-        if (Gdx.input.isTouched(indexJoystick(countOfTouching())) && myGdxGame.camera.position.x - touch.x >= 0) {
+        if (Gdx.input.isTouched(indexJoystick(countOfTouching())) && touch.x <= GameSettings.SCR_WIDTH / 2) {
             if (!keepTouching) {
-                joystick.changeRelativeCords(touch.sub(myGdxGame.camera.position));
+                joystick.changeCords(new Vector2(touch.x, touch.y));
             }
-            player.setMoveVector(joystick.getDirection(touch, myGdxGame.camera.position));
+            player.setMoveVector(joystick.getDirection(new Vector2(touch.x, touch.y), myGdxGame.camera.position));
             keepTouching = true;
         } else {
             player.setMoveVector(new Vector2(0, 0));
@@ -78,7 +88,7 @@ public class GameScreen extends ScreenAdapter {
         }
     }
 
-    public void draw() {
+    public void draw(float delta) {
         myGdxGame.camera.update();
         myGdxGame.batch.setProjectionMatrix(myGdxGame.camera.combined);
         ScreenUtils.clear(Color.CLEAR);
@@ -88,12 +98,18 @@ public class GameScreen extends ScreenAdapter {
         player.draw(myGdxGame.batch);
 
         if(keepTouching){
-            Vector3 touch = new Vector3(Gdx.input.getX(indexJoystick(countOfTouching())),
-                    Gdx.input.getY(indexJoystick(countOfTouching())), 0
+            Vector2 touch = new Vector2(Gdx.input.getX(indexJoystick(countOfTouching())),
+                    Gdx.input.getY(indexJoystick(countOfTouching()))
             );
-            myGdxGame.camera.unproject(touch);
+//            myGdxGame.camera.unproject(touch);
             joystick.draw(myGdxGame.batch, myGdxGame.camera.position, touch);
         }
+
+
+//****************** FOR FPS********************************
+        font.draw(myGdxGame.batch, (1 / delta) + "", myGdxGame.camera.position.x, myGdxGame.camera.position.y);
+//**********************************************************
+
 
         myGdxGame.batch.end();
         box2DDebugRenderer.render(myGdxGame.world, myGdxGame.camera.combined);
@@ -104,7 +120,7 @@ public class GameScreen extends ScreenAdapter {
     private void drawBlocks() {
         if (Gdx.input.isTouched()) {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            myGdxGame.camera.unproject(touchPos);
+//            myGdxGame.camera.unproject(touchPos);
             touchX = touchPos.x;
             touchY = touchPos.y;
         }
