@@ -30,7 +30,7 @@ import com.mygdx.game.UI.Joystick;
 public class GameScreen extends ScreenAdapter {
 
 
-//****************** FOR FPS********************************
+    //****************** FOR FPS********************************
     BitmapFont font = new BitmapFont();
 //    GlyphLayout glyphLayout = new GlyphLayout(font, "text");
 //***********************************************************
@@ -99,7 +99,7 @@ public class GameScreen extends ScreenAdapter {
         drawBlocks();
         player.draw(myGdxGame.batch);
 
-        if(keepTouching){
+        if (keepTouching) {
             Vector2 touch = new Vector2(Gdx.input.getX(indexJoystick(countOfTouching())),
                     Gdx.input.getY(indexJoystick(countOfTouching()))
             );
@@ -122,66 +122,49 @@ public class GameScreen extends ScreenAdapter {
     private void drawBlocks() {
         if (Gdx.input.isTouched()) {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-//            myGdxGame.camera.unproject(touchPos);
-            touchX = touchPos.x;
-            touchY = touchPos.y;
+             myGdxGame.camera.unproject(touchPos);
         }
-        playerBlockCoordX = (int) (player.getBody().getPosition().x / GameSettings.SCALE / GameSettings.BLOCK_WIDTH / GameSettings.OBJECT_SCALE / 20);
+        playerBlockCoordX = (int) (player.getBody().getPosition().x / GameSettings.SCALE / GameSettings.BLOCK_WIDTH / GameSettings.OBJECT_SCALE * GameSettings.SCALE);
 
-        playerBlockCoordY = (int) (player.getBody().getPosition().y / GameSettings.SCALE / GameSettings.BLOCK_WIDTH / GameSettings.OBJECT_SCALE / 20);
-        System.out.println(playerBlockCoordX + " " + playerBlockCoordY);
+        playerBlockCoordY = (int) (player.getBody().getPosition().y / GameSettings.SCALE / GameSettings.BLOCK_WIDTH / GameSettings.OBJECT_SCALE * GameSettings.SCALE);
 
 
-//        for (int i = 0; i < GameSettings.MAP_WIDTH; ++i) {
-//            for (int k = 0; k < GameSettings.MAP_HEIGHT; ++k) {
-//                if (Math.abs(i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE - myGdxGame.camera.position.x) < 500
-//                        && Math.abs(k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE - myGdxGame.camera.position.y) < 500) {
-//                    if (playerBlockCoordX - GameSettings.MAP_WIDTH / 2 + i >= 0 && playerBlockCoordX - GameSettings.MAP_WIDTH / 2 + i < GameSettings.MAP_WIDTH
-//                    && GameSettings.MAP_HEIGHT-playerBlockCoordY+) {
-//                        if (touchX >= (playerBlockCoordX - GameSettings.MAP_WIDTH / 2 + i) * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE
-//                                && touchX < (playerBlockCoordX - GameSettings.MAP_WIDTH / 2 + i + 1) * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE
-//                                && touchY >= k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE
-//                                && touchY < (k + 1) * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE) {
-//                            generateMap.mapArray[playerBlockCoordX - GameSettings.MAP_WIDTH / 2 + i][k].setDurability(0);
-//                            BlocksCollision.updateCollision(generateMap.mapArray, playerBlockCoordX - GameSettings.MAP_WIDTH / 2 + i, k);
-//                        }
 //
-//                       // System.out.println("bimbom");
-//                        if (generateMap.mapArray[playerBlockCoordX - GameSettings.MAP_WIDTH / 2 + i][k].getDurability() != 0) {
-//                            ;
-//                            myGdxGame.batch.draw(generateMap.mapArray[playerBlockCoordX - GameSettings.MAP_WIDTH / 2 + i][k].getTexture(),
-//                                    (playerBlockCoordX - GameSettings.MAP_WIDTH / 2 + i) * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE, k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE,
-//                                    GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE,
-//                                    GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE
-//                            );
-//                        }
-//                        if (generateMap.mapArray[playerBlockCoordX - GameSettings.MAP_WIDTH / 2 + i][k].getHasCollision()) {
-//                            BlocksCollision.bodyArray.add(BasicBlock.createStaticBody(playerBlockCoordX - GameSettings.MAP_WIDTH / 2 + i, k, myGdxGame));
-//                        }
-//                    }
-//
-//                }
-//            }
-//        }
         for (int i = 0; i < viewBlocksX; i++) {
             for (int k = 0; k < viewBlocksY; k++) {
                 if (playerBlockCoordX - viewBlocksX / 2 + i >= 0 && playerBlockCoordX - viewBlocksX / 2 + i < GameSettings.MAP_WIDTH
-                        && playerBlockCoordY - viewBlocksY/2+k >=0 && playerBlockCoordY - viewBlocksY/2+k<GameSettings.MAP_HEIGHT) {
+                        && playerBlockCoordY - viewBlocksY / 2 + k >= 0 && playerBlockCoordY - viewBlocksY / 2 + k < GameSettings.MAP_HEIGHT) {
 
+                    //drawing blocks
                     if (generateMap.mapArray[playerBlockCoordX - viewBlocksX / 2 + i][playerBlockCoordY - viewBlocksY / 2 + k].getDurability() != 0) {
-
                         myGdxGame.batch.draw(generateMap.mapArray[playerBlockCoordX - viewBlocksX / 2 + i][playerBlockCoordY - viewBlocksY / 2 + k].getTexture(),
                                 (playerBlockCoordX - viewBlocksX / 2 + i) * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE,
                                 (playerBlockCoordY - viewBlocksY / 2 + k) * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE,
                                 GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE,
                                 GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE);
+
+                        //add collision
+                        if (generateMap.mapArray[playerBlockCoordX - viewBlocksX / 2 + i][playerBlockCoordY - viewBlocksY / 2 + k].getHasCollision()) {
+                            BlocksCollision.bodyArray.add(BasicBlock.createStaticBody(playerBlockCoordX - viewBlocksX / 2 + i, playerBlockCoordY - viewBlocksY / 2 + k, myGdxGame));
+                        }
                     }
 
+
+
+                    //update collision for blocks
+                    if (touchPos.x >= (playerBlockCoordX - viewBlocksX / 2 + i) * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE
+                            && touchPos.x < (playerBlockCoordX - viewBlocksX / 2 + i + 1) * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE
+                            && touchPos.y >= (playerBlockCoordY - viewBlocksY / 2 + k) * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE
+                            && touchPos.y < (playerBlockCoordY - viewBlocksY / 2 + k + 1) * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE) {
+                        generateMap.mapArray[playerBlockCoordX - viewBlocksX / 2 + i][playerBlockCoordY - viewBlocksY / 2 + k].setDurability(0);
+                        BlocksCollision.updateCollision(generateMap.mapArray, playerBlockCoordX - viewBlocksX / 2 + i, playerBlockCoordY - viewBlocksY / 2 + k);
+                    }
                 }
             }
         }
 
     }
+
     private int indexJoystick(int countOfTouching) {
         int returned = 0;
         for (int i = 0; i < countOfTouching + 1; i++) {

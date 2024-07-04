@@ -129,7 +129,7 @@ public class Player extends GameEntity {
     }
     public void setMoveVector (Vector2 moveVector){
 //        body.applyForceToCenter(moveVector, true);
-        body.applyForceToCenter(moveVector.setLength(speed), true);
+        body.applyForceToCenter(moveVector.setLength(speed*1000), true);
 //        body.setTransform((moveVector.x + getX()) * SCALE, (moveVector.y + getY()) * SCALE, 0);
         updateCamera();
 //        System.out.println(body.getPosition());
