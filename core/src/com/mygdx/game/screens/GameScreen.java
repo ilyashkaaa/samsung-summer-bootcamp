@@ -46,7 +46,7 @@ public class GameScreen extends ScreenAdapter {
 
         BlocksCollision.generateCollision(generateMap.mapArray);
         Body playerBody = BodyCreator.createBody(
-                0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE + 60,
+                0, (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE),
                 GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, false,
                 myGdxGame.world
         );
@@ -64,7 +64,6 @@ public class GameScreen extends ScreenAdapter {
 //        joystick.setY(player.getY());
 //        player.addMoveVector(joystick.getDirection());
 //        System.out.println(new Vector2(9, 12).setLength(5));
-        draw();
 
         Vector3 touch = new Vector3(Gdx.input.getX(indexJoystick(countOfTouching())), Gdx.input.getY(indexJoystick(countOfTouching())), 0);
         myGdxGame.camera.unproject(touch);
@@ -76,7 +75,8 @@ public class GameScreen extends ScreenAdapter {
             player.setMoveVector(joystick.getDirection(touch, myGdxGame.camera.position));
             keepTouching = true;
         } else {
-            player.setMoveVector(new Vector2(0, 0));
+            player.updateCamera();
+            //player.setMoveVector(new Vector2(0, 0));
             keepTouching = false;
         }
         draw();
@@ -123,7 +123,7 @@ public class GameScreen extends ScreenAdapter {
                     }
                     if (generateMap.mapArray[i][k].getDurability() != 0) {
                         myGdxGame.batch.draw(generateMap.mapArray[i][k].getTexture(),
-                                i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE, k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE,
+                                 i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE, k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE,
                                 GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE,
                                 GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE
                         );

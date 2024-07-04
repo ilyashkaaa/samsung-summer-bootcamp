@@ -41,7 +41,9 @@ public abstract class BasicBlock {
         groundBodyDef.type = BodyDef.BodyType.StaticBody;
 
         // Set its world position
-        groundBodyDef.position.set(new Vector2(i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE+GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE/2, k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE+GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE/2));
+        groundBodyDef.position.set(new Vector2((i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE + GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE / 2),
+                (k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE + GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE / 2))
+        );
         groundBodyDef.fixedRotation = true;
 
         // Create a body from the definition and add it to the world
@@ -52,7 +54,7 @@ public abstract class BasicBlock {
 
         // Set the polygon shape as a box which is twice the size of our view port and 20 high
         // (setAsBox takes half-width and half-height as arguments)
-        groundBox.setAsBox(GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE/2, GameSettings.BLOCK_WIDTH*GameSettings.OBJECT_SCALE/2);
+        groundBox.setAsBox(GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE / 2, GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE / 2);
 
         // Create a fixture from our polygon shape and add it to our ground body
         groundBody.createFixture(groundBox, 0.0f);
