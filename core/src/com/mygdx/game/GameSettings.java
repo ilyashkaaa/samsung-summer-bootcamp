@@ -10,7 +10,7 @@ public class GameSettings {
     public static final int VELOCITY_ITERATIONS = 6;
     public static final int POSITION_ITERATIONS = 6;
     public static final float SCALE = 0.05f;
-    public static final float OBJECT_SCALE = 0.05f;
+    public static final float OBJECT_SCALE = 0.005f;
 
     public static final int MAP_WIDTH = 20;
     public static final int MAP_HEIGHT = 100;

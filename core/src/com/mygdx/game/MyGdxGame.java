@@ -22,7 +22,7 @@ public class MyGdxGame extends Game {
 	@Override
 	public void create () {
 		Box2D.init();
-		world = new World(new Vector2(0, -500), true);
+		world = new World(new Vector2(0, 0), true);
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, GameSettings.SCR_WIDTH*GameSettings.SCALE,GameSettings.SCR_HEIGHT*GameSettings.SCALE);
 		batch = new SpriteBatch();
