@@ -1,5 +1,6 @@
 package com.mygdx.game.screens;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
@@ -16,7 +17,11 @@ import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.entities.Player;
 import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
+import com.mygdx.game.map.blocks.Dirt;
 import com.mygdx.game.map.blocks.GenerateMap;
+import com.mygdx.game.map.blocks.Grass;
+
+import javax.swing.Box;
 
 import com.mygdx.game.UI.Joystick;
 
@@ -41,7 +46,7 @@ public class GameScreen extends ScreenAdapter {
 
         BlocksCollision.generateCollision(generateMap.mapArray);
         Body playerBody = BodyCreator.createBody(
-                0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE + 60,
+                0, (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE),
                 GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, false,
                 myGdxGame.world
         );
@@ -116,7 +121,7 @@ public class GameScreen extends ScreenAdapter {
                     }
                     if (generateMap.mapArray[i][k].getDurability() != 0) {
                         myGdxGame.batch.draw(generateMap.mapArray[i][k].getTexture(),
-                                i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE, k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE,
+                                 i * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE, k * GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE,
                                 GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE,
                                 GameSettings.BLOCK_WIDTH * GameSettings.OBJECT_SCALE
                         );

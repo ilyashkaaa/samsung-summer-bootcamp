@@ -7,10 +7,10 @@ public class GameSettings {
     public static final int SCR_WIDTH = Gdx.graphics.getWidth();
     public static final int SCR_HEIGHT = Gdx.graphics.getHeight();
     public static final float STEP_TIME = 1f / 60f;
-    public static final int VELOCITY_ITERATIONS = 6;
-    public static final int POSITION_ITERATIONS = 6;
+    public static final int VELOCITY_ITERATIONS = 10;
+    public static final int POSITION_ITERATIONS = 10;
     public static final float SCALE = 0.05f;
-    public static final float OBJECT_SCALE = 0.5f;
+    public static final float OBJECT_SCALE = 0.05f;
 
     public static final int MAP_WIDTH = 200;
     public static final int MAP_HEIGHT = 1000;
@@ -21,8 +21,8 @@ public class GameSettings {
     public static final int JOYSTICK_TRIGGER_SIDE = 1600;
 
 
-    public static final int PLAYER_WIDTH = 120;
-    public static final int PLAYER_HEIGHT = 260;
+    public static final int PLAYER_WIDTH = 100;
+    public static final int PLAYER_HEIGHT = 270;
 
 
 

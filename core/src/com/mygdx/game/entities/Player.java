@@ -30,68 +30,74 @@ public class Player extends GameEntity {
 //        this.speed = 4f;
         playerState = PlayerStates.STANDING;
         movingLeft = false;
+        body.setLinearDamping(10);
 
 
     }
 
     @Override
     public void update() {
-        playerState = PlayerStates.STANDING;
-
-        velY = 0;
-        velX = 0;
-        //Vector3 position = myGdxGame.camera.position;
-//        position.x = x;
-//        position.y = y;
-//        myGdxGame.camera.position.set(position);
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            velY += speed;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            playerState = PlayerStates.LEFT_WALKING;
-            if (!movingLeft) {
-                for (int i = 0; i < 8; i++) {
-                    GameResources.PLAYER_WALKING_TEXTURES[i].flip(true, false);
-                }
-                for (int i = 0; i < 6; i++) {
-                    GameResources.PLAYER_DOWN_DIGGING_TEXTURES[i].flip(true, false);
-                }
-
-                GameResources.PLAYER_STANDING_TEXTURE.flip(true, false);
-                GameResources.PLAYER_HEAD_TEXTURE.flip(true, false);
-                movingLeft = true;
-            }
-            velX -= speed;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            velY -= speed;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            playerState = PlayerStates.LEFT_WALKING;
-            if (movingLeft) {
-                for (int i = 0; i < 8; i++) {
-                    GameResources.PLAYER_WALKING_TEXTURES[i].flip(true, false);
-                }
-                GameResources.PLAYER_STANDING_TEXTURE.flip(true, false);
-                GameResources.PLAYER_HEAD_TEXTURE.flip(true, false);
-                movingLeft = false;
-            }
-            velX += speed;
-        }
-        x = getX() + velX;
-        y = getY() + velY;
-        //body.applyForceToCenter(0, -10, true);
-
-//        body.setLinearVelocity(velX, velY);
-        setX(x);
-        setY(y);
-//        body.setTransform(getX(), getY(), 0);
-
-//        body.applyForceToCenter();
-//        body.setTransform(x + body.getLinearVelocity().x, y + body.getLinearVelocity().y, 0);
-        //  System.out.println(x + " " + y);
 
     }
+
+//    @Override
+//    public void update() {
+//        playerState = PlayerStates.STANDING;
+//
+//        velY = 0;
+//        velX = 0;
+//        //Vector3 position = myGdxGame.camera.position;
+////        position.x = x;
+////        position.y = y;
+////        myGdxGame.camera.position.set(position);
+//        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+//            velY += speed;
+//        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+//            playerState = PlayerStates.LEFT_WALKING;
+//            if (!movingLeft) {
+//                for (int i = 0; i < 8; i++) {
+//                    GameResources.PLAYER_WALKING_TEXTURES[i].flip(true, false);
+//                }
+//                for (int i = 0; i < 6; i++) {
+//                    GameResources.PLAYER_DOWN_DIGGING_TEXTURES[i].flip(true, false);
+//                }
+//
+//                GameResources.PLAYER_STANDING_TEXTURE.flip(true, false);
+//                GameResources.PLAYER_HEAD_TEXTURE.flip(true, false);
+//                movingLeft = true;
+//            }
+//            velX -= speed;
+//        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+//            velY -= speed;
+//        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+//            playerState = PlayerStates.LEFT_WALKING;
+//            if (movingLeft) {
+//                for (int i = 0; i < 8; i++) {
+//                    GameResources.PLAYER_WALKING_TEXTURES[i].flip(true, false);
+//                }
+//                GameResources.PLAYER_STANDING_TEXTURE.flip(true, false);
+//                GameResources.PLAYER_HEAD_TEXTURE.flip(true, false);
+//                movingLeft = false;
+//            }
+//            velX += speed;
+//        }
+//        x = getX() + velX;
+//        y = getY() + velY;
+//        //body.applyForceToCenter(0, -10, true);
+//
+////        body.setLinearVelocity(velX, velY);
+//        setX(x);
+//        setY(y);
+////        body.setTransform(getX(), getY(), 0);
+//
+////        body.applyForceToCenter();
+////        body.setTransform(x + body.getLinearVelocity().x, y + body.getLinearVelocity().y, 0);
+//        //  System.out.println(x + " " + y);
+
+//    }
 
     @Override
     public void render(SpriteBatch batch) {
@@ -129,10 +135,10 @@ public class Player extends GameEntity {
     }
 
     public void draw(SpriteBatch batch) {
-        if (frameCounterForHead++ == frameMultiplierForHead - 1) frameCounterForHead = 0;
+        if (frameCounterForHead++ ==2 * frameMultiplierForHead - 1) frameCounterForHead = 0;
         batch.draw(GameResources.PLAYER_HEAD_TEXTURE,
                 body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2,
-                body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2 - 2 * frameCounterForHead / frameMultiplierForHead,
+                body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2 - frameCounterForHead /frameMultiplierForHead* GameSettings.OBJECT_SCALE*5,
                 PLAYER_WIDTH * GameSettings.OBJECT_SCALE,
                 PLAYER_HEIGHT * GameSettings.OBJECT_SCALE
         );
