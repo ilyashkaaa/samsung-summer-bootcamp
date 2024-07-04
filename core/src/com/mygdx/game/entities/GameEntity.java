@@ -15,8 +15,8 @@ public abstract class GameEntity {
         this.myGdxGame = myGdxGame;
         this.x = body.getPosition().x;
         this.y = body.getPosition().y;
-        this.width = width/ GameSettings.SCALE;
-        this.height = height/GameSettings.SCALE;
+        this.width = width;
+        this.height = height;
         this.body = body;
         this.velX = 0;
         this.velY = 0;

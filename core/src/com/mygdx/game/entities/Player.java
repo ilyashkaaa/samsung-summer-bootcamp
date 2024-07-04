@@ -104,21 +104,21 @@ public class Player extends GameEntity {
 
     }
 
-    public int getX() {
-        return (int) (body.getPosition().x / SCALE);
-    }
-
-    public int getY() {
-        return (int) (body.getPosition().y / SCALE);
-    }
-
-    public void setX(float x) {
-        body.setTransform(x * SCALE, body.getPosition().y, 0);
-    }
-
-    public void setY(float y) {
-        body.setTransform(body.getPosition().x, y * SCALE, 0);
-    }
+//    public int getX() {
+//        return (int) (body.getPosition().x / SCALE);
+//    }
+//
+//    public int getY() {
+//        return (int) (body.getPosition().y / SCALE);
+//    }
+//
+//    public void setX(float x) {
+//        body.setTransform(x * SCALE, body.getPosition().y, 0);
+//    }
+//
+//    public void setY(float y) {
+//        body.setTransform(body.getPosition().x, y * SCALE, 0);
+//    }
 
     public void updateCamera() {
         Vector3 position = myGdxGame.camera.position;
@@ -128,7 +128,9 @@ public class Player extends GameEntity {
 
     }
     public void setMoveVector (Vector2 moveVector){
-        body.setLinearVelocity(moveVector);
+        //body.setLinearVelocity(moveVector.setLength(100));
+        body.applyForceToCenter(moveVector, true);
+
 //        body.setTransform((moveVector.x + getX()) * SCALE, (moveVector.y + getY()) * SCALE, 0);
         updateCamera();
 //        System.out.println(body.getPosition());

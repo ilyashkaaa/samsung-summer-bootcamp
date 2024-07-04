@@ -25,7 +25,7 @@ public class BlocksCollision {
     }
 
     public static void generateCollision(BasicBlock[][] mapArray) {
-        for (int i = 0; i < 200; i++) {
+        for (int i = 0; i < GameSettings.MAP_WIDTH; i++) {
             mapArray[i][GameSettings.MAP_HEIGHT-1].setHasCollision(true);
         }
 
