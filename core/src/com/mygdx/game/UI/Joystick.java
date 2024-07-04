@@ -36,15 +36,15 @@ public class Joystick {
         batch.draw(GameResources.JOYSTICK_BACKGROUND_TEXTURE,
                 cameraPos.x - ((GameSettings.SCR_WIDTH + GameSettings.JOYSTICK_SIDE) / 2 - cords.x) * SCALE,
                 cameraPos.y + ((GameSettings.SCR_HEIGHT - GameSettings.JOYSTICK_SIDE) / 2 - cords.y) * SCALE,
-                GameSettings.JOYSTICK_SIDE * OBJECT_SCALE,
-                GameSettings.JOYSTICK_SIDE * OBJECT_SCALE
+                GameSettings.JOYSTICK_SIDE * SCALE,
+                GameSettings.JOYSTICK_SIDE * SCALE
         );
 
         if ((touchPos.cpy().sub(cords)).len() < GameSettings.JOYSTICK_SIDE / 2)
             batch.draw(GameResources.JOYSTICK_TRIGGER_TEXTURE,
                     cameraPos.x - ((GameSettings.SCR_WIDTH + GameSettings.JOYSTICK_TRIGGER_SIDE) / 2 - touchPos.x) * SCALE,
                     cameraPos.y + ((GameSettings.SCR_HEIGHT - GameSettings.JOYSTICK_TRIGGER_SIDE) / 2 - touchPos.y) * SCALE,
-                    GameSettings.JOYSTICK_TRIGGER_SIDE * OBJECT_SCALE, GameSettings.JOYSTICK_TRIGGER_SIDE * OBJECT_SCALE
+                    GameSettings.JOYSTICK_TRIGGER_SIDE * SCALE, GameSettings.JOYSTICK_TRIGGER_SIDE * SCALE
             );
         else
             batch.draw(GameResources.JOYSTICK_TRIGGER_TEXTURE,
@@ -54,7 +54,7 @@ public class Joystick {
                     cameraPos.y + ((GameSettings.SCR_HEIGHT - GameSettings.JOYSTICK_TRIGGER_SIDE) / 2 -
                             touchPos.cpy().sub(cords).setLength(GameSettings.JOYSTICK_SIDE / 2).y/* +
                             GameSettings.JOYSTICK_SIDE / 2*/ - cords.y) * SCALE,
-                    GameSettings.JOYSTICK_TRIGGER_SIDE * OBJECT_SCALE, GameSettings.JOYSTICK_TRIGGER_SIDE * OBJECT_SCALE
+                    GameSettings.JOYSTICK_TRIGGER_SIDE * SCALE, GameSettings.JOYSTICK_TRIGGER_SIDE * SCALE
             );
 
 //        if (border.len() < GameSettings.JOYSTICK_SIDE * GameSettings.OBJECT_SCALE / 2)

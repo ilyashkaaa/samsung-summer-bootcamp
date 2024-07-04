@@ -15,7 +15,7 @@ import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
 
 public class Player extends GameEntity {
-    private final int speed = 100;
+    private final int speed = 10;
     PlayerStates playerState;
     int frameCounterForHead;
     int frameCounterForWalking;
@@ -129,7 +129,7 @@ public class Player extends GameEntity {
     }
     public void setMoveVector (Vector2 moveVector){
 //        body.applyForceToCenter(moveVector, true);
-        body.applyForceToCenter(moveVector/*.setLength(speed)*/, true);
+        body.applyForceToCenter(moveVector.setLength(speed), true);
 //        body.setTransform((moveVector.x + getX()) * SCALE, (moveVector.y + getY()) * SCALE, 0);
         updateCamera();
 //        System.out.println(body.getPosition());
