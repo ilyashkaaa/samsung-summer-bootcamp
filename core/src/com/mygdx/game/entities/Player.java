@@ -15,9 +15,10 @@ import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
 
 public class Player extends GameEntity {
-    private final int speed = 10;
+    private final int speedX = 25;
+    private boolean canJump;
     PlayerStates playerState;
-    int frameCounter=0;
+    int frameCounter = 0;
     int frameMultiplierForHead = 20;
     int frameMultiplierForWalking = 4;
     int frameMultiplierForDigging = 4;
@@ -26,9 +27,10 @@ public class Player extends GameEntity {
 
     public Player(float width, float height, Body body, MyGdxGame myGdxGame) {
         super(width, height, body, myGdxGame);
+        canJump = false;
 //        this.speed = 4f;
         playerState = PlayerStates.STANDING;
-        //body.setLinearDamping(10);
+        body.setLinearDamping(1);
 
 
     }
@@ -50,9 +52,23 @@ public class Player extends GameEntity {
         myGdxGame.camera.position.set(position);
 
     }
+//    public void checkVelocityY(){
+//        if (Math.abs(body.getLinearVelocity().y) > speedY)
+//            body.setLinearVelocity(body.getLinearVelocity().x,
+//                    speedY * Math.abs(body.getLinearVelocity().y) / body.getLinearVelocity().y);
+//        System.out.println(body.getLinearVelocity().y);
+//
+//    }
+    public void setJumpClickClack(boolean canJump){
+        this.canJump = canJump;
+    }
     public void setMoveVector (Vector2 moveVector){
-//        body.applyForceToCenter(moveVector, true);
-        body.applyForceToCenter(moveVector.setLength(speed*100), true);
+        body.setLinearVelocity(moveVector.setLength(speedX).x, body.getLinearVelocity().y);
+        if (moveVector.setLength(1).y > 0.65f && canJump) {
+            body.applyForceToCenter(0, 4500, true);
+            canJump = false;
+        }
+//        body.applyForceToCenter(moveVector.setLength(speed), true);
 //        body.setTransform((moveVector.x + getX()) * SCALE, (moveVector.y + getY()) * SCALE, 0);
         updateCamera();
 //        System.out.println(body.getPosition());

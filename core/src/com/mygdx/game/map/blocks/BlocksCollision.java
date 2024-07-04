@@ -18,10 +18,10 @@ public class BlocksCollision {
     }
 
     public static void updateCollision(BasicBlock[][] mapArray, int i, int k) {
-        if (i + 1 < GameSettings.MAP_WIDTH) mapArray[i + 1][k].setHasCollision(true);
-        if (i - 1 >= 0) mapArray[i - 1][k].setHasCollision(true);
-        if (k + 1 < GameSettings.MAP_HEIGHT) mapArray[i][k + 1].setHasCollision(true);
-        if (k - 1 >= 0) mapArray[i][k - 1].setHasCollision(true);
+        if (i + 1 < GameSettings.MAP_WIDTH && mapArray[i + 1][k] != null) mapArray[i + 1][k].setHasCollision(true);
+        if (i - 1 >= 0 && mapArray[i - 1][k] != null) mapArray[i - 1][k].setHasCollision(true);
+        if (k + 1 < GameSettings.MAP_HEIGHT && mapArray[i][k + 1] != null) mapArray[i][k + 1].setHasCollision(true);
+        if (k - 1 >= 0 && mapArray[i][k - 1] != null) mapArray[i][k - 1].setHasCollision(true);
     }
 
     public static void generateCollision(BasicBlock[][] mapArray) {
