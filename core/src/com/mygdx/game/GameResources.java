@@ -44,7 +44,7 @@ public class GameResources {
     public static final String WOOD_BLOCK_TEXTURE ="textures/blocks/wood.png";
     public static final String WOOD2_BLOCK_TEXTURE ="textures/blocks/wood2.png";
 
-
-
+    public static final Sprite JOYSTICK_BACKGROUND_TEXTURE = new Sprite(new Texture("textures/joystick/joystick.png"));
+    public static final Sprite JOYSTICK_TRIGGER_TEXTURE = new Sprite(new Texture("textures/joystick/joystickTrigger.png"));
 
 }

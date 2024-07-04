@@ -23,7 +23,7 @@ import com.mygdx.game.map.blocks.Grass;
 
 import javax.swing.Box;
 
-import UI.Joystick;
+import com.mygdx.game.UI.Joystick;
 
 public class GameScreen extends ScreenAdapter {
     MyGdxGame myGdxGame;
@@ -59,13 +59,11 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         myGdxGame.stepWorld();
-//        player.update();
-//        joystick.setX(player.getX());
-//        joystick.setY(player.getY());
-//        player.addMoveVector(joystick.getDirection());
-//        System.out.println(new Vector2(9, 12).setLength(5));
+        draw();
 
-        Vector3 touch = new Vector3(Gdx.input.getX(indexJoystick(countOfTouching())), Gdx.input.getY(indexJoystick(countOfTouching())), 0);
+        Vector3 touch = new Vector3(Gdx.input.getX(indexJoystick(countOfTouching())),
+                Gdx.input.getY(indexJoystick(countOfTouching())), 0
+        );
         myGdxGame.camera.unproject(touch);
 //        myGdxGame.camera.position.set(new Vector3(50000, 0, 0));
         if (Gdx.input.isTouched(indexJoystick(countOfTouching())) && myGdxGame.camera.position.x - touch.x >= 0) {
@@ -75,11 +73,9 @@ public class GameScreen extends ScreenAdapter {
             player.setMoveVector(joystick.getDirection(touch, myGdxGame.camera.position));
             keepTouching = true;
         } else {
-            player.updateCamera();
-            //player.setMoveVector(new Vector2(0, 0));
+            player.setMoveVector(new Vector2(0, 0));
             keepTouching = false;
         }
-        draw();
     }
 
     public void draw() {
@@ -91,8 +87,13 @@ public class GameScreen extends ScreenAdapter {
         drawBlocks();
         player.draw(myGdxGame.batch);
 
-        if(keepTouching)
-            joystick.draw(myGdxGame.batch, myGdxGame.camera.position);
+        if(keepTouching){
+            Vector3 touch = new Vector3(Gdx.input.getX(indexJoystick(countOfTouching())),
+                    Gdx.input.getY(indexJoystick(countOfTouching())), 0
+            );
+            myGdxGame.camera.unproject(touch);
+            joystick.draw(myGdxGame.batch, myGdxGame.camera.position, touch);
+        }
 
         myGdxGame.batch.end();
         box2DDebugRenderer.render(myGdxGame.world, myGdxGame.camera.combined);
@@ -101,9 +102,6 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void drawBlocks() {
-
-
-
         if (Gdx.input.isTouched()) {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             myGdxGame.camera.unproject(touchPos);

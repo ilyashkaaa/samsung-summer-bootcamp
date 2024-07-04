@@ -17,8 +17,8 @@ public class GameSettings {
 
     public static final int BLOCK_WIDTH = 160;
 
-
-
+    public static final int JOYSTICK_SIDE = 800;
+    public static final int JOYSTICK_TRIGGER_SIDE = 1600;
 
     public static final int PLAYER_WIDTH = 100;
     public static final int PLAYER_HEIGHT = 270;
