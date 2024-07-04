@@ -1,10 +1,12 @@
 package com.mygdx.game.map.blocks;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.mygdx.game.GameResources;
+import com.mygdx.game.GameSettings;
 
 public class Dirt extends BasicBlock {
     private int durability = 5;
-    private static Texture texture = new Texture("textures/blocks/dirt.png");
+    private static final Texture texture = new Texture(GameResources.DIRT_BLOCK_TEXTURE);
 
     public int getDurability() {
         return durability;
