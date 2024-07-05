@@ -1,16 +1,22 @@
 package com.mygdx.game.map.blocks;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
 
+import javax.swing.Spring;
+
 public abstract class BasicBlock {
     protected static int durability;
-    private int hp;
+    private int hp = 100;
+    private Sprite[] breaking = GameResources.BREAKING_BLOCKS;
     private boolean hasCollision;
     protected static Texture texture;
 
@@ -18,7 +24,10 @@ public abstract class BasicBlock {
         this.hp = durability;
         this.hasCollision = false;
     }
-
+    public boolean hit(int hit){
+        hp -= hit;
+        return hp > 0;
+    }
     public abstract int getDurability();
 
     public abstract Texture getTexture();
@@ -55,8 +64,11 @@ public abstract class BasicBlock {
         // (setAsBox takes half-width and half-height as arguments)
         groundBox.setAsBox(GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE / 2, GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE / 2);
 
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = groundBox;
+        fixtureDef.density = 0.1f; // устанавливаем плотность тела
         // Create a fixture from our polygon shape and add it to our ground body
-        groundBody.createFixture(groundBox, 0.0f);
+        groundBody.createFixture(fixtureDef);
 
         // Clean up after ourselves
         groundBox.dispose();

@@ -44,14 +44,31 @@ public class Player extends GameEntity {
     public void setJumpClickClack(boolean canJump){
         this.canJump = canJump;
     }
-    public void setMoveVector (Vector2 moveVector){
+    public Vector2 setMoveVector (Vector2 moveVector){
         body.setLinearVelocity(moveVector.setLength(PLAYER_SPEED_X).x, body.getLinearVelocity().y);
-        if (moveVector.setLength(1).y > 0.65f && canJump) {
+        Vector2 normalizeMove = moveVector.cpy().setLength(1);
+        if (normalizeMove.y > 0.65f && canJump) {
             body.applyForceToCenter(0, 4500, true);
             canJump = false;
         }
+
         flippingTextures(moveVector);
         updateCamera();
+
+        if (normalizeMove.y > 0.65f)
+            return new Vector2(0, 2);
+        else if (normalizeMove.y <= 0.65f && normalizeMove.y > 0 && normalizeMove.x > 0.5f)
+            return new Vector2(1, 1);
+        else if (normalizeMove.y <= 0 && normalizeMove.y > -0.65f && normalizeMove.x > 0.5f)
+            return new Vector2(1, 0);
+        else if (normalizeMove.y <= 0.65f && normalizeMove.y > 0 && normalizeMove.x < -0.5f)
+            return new Vector2(-1, 1);
+        else if (normalizeMove.y <= 0 && normalizeMove.y > -0.65f && normalizeMove.x < -0.5f)
+            return new Vector2(-1, 0);
+        else if (normalizeMove.y < -0.65f)
+            return new Vector2(0, -1);
+        else
+            return new Vector2(0, 0);
     }
 
     public void draw(SpriteBatch batch) {
