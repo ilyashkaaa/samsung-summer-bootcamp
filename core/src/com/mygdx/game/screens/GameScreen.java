@@ -49,7 +49,7 @@ public class GameScreen extends ScreenAdapter {
         generateMap = new GenerateMap();
         blocksCollision = new BlocksCollision(myGdxGame);
 
-        BlocksCollision.generateCollision(generateMap.mapArray);
+        blocksCollision.generateCollision(generateMap.mapArray);
         Body playerBody = BodyCreator.createBody(
                 GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, ((GameSettings.MAP_HEIGHT + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE),
                 GameSettings.PLAYER_WIDTH*GameSettings.OBJECT_SCALE, GameSettings.PLAYER_HEIGHT*GameSettings.OBJECT_SCALE, false,
@@ -99,7 +99,7 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.camera.update();
         myGdxGame.batch.setProjectionMatrix(myGdxGame.camera.combined);
         ScreenUtils.clear(Color.CLEAR);
-        BlocksCollision.deleteBlocks();
+        blocksCollision.deleteBlocks();
         myGdxGame.batch.begin();
         drawBlocks();
         player.draw(myGdxGame.batch);
@@ -150,11 +150,9 @@ public class GameScreen extends ScreenAdapter {
 
                         //add collision
                         if (generateMap.mapArray[playerBlockCoordX - viewBlocksX / 2 + i][playerBlockCoordY - viewBlocksY / 2 + k].getHasCollision()) {
-                            BlocksCollision.bodyArray.add(BasicBlock.createStaticBody(playerBlockCoordX - viewBlocksX / 2 + i, playerBlockCoordY - viewBlocksY / 2 + k, myGdxGame));
+                            blocksCollision.bodyArray.add(BasicBlock.createStaticBody(playerBlockCoordX - viewBlocksX / 2 + i, playerBlockCoordY - viewBlocksY / 2 + k, myGdxGame));
                         }
                     }
-
-
 
                     //update collision for blocks
                     if (touchPos.x >= (playerBlockCoordX - viewBlocksX / 2 + i) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
@@ -162,7 +160,7 @@ public class GameScreen extends ScreenAdapter {
                             && touchPos.y >= (playerBlockCoordY - viewBlocksY / 2 + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
                             && touchPos.y < (playerBlockCoordY - viewBlocksY / 2 + k + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE) {
                         generateMap.mapArray[playerBlockCoordX - viewBlocksX / 2 + i][playerBlockCoordY - viewBlocksY / 2 + k] = null;
-                        BlocksCollision.updateCollision(generateMap.mapArray, playerBlockCoordX - viewBlocksX / 2 + i, playerBlockCoordY - viewBlocksY / 2 + k
+                        blocksCollision.updateCollision(generateMap.mapArray, playerBlockCoordX - viewBlocksX / 2 + i, playerBlockCoordY - viewBlocksY / 2 + k
                         );
                     }
                 }

@@ -2,10 +2,7 @@ package com.mygdx.game.entities;
 
 import static com.mygdx.game.GameSettings.PLAYER_HEIGHT;
 import static com.mygdx.game.GameSettings.PLAYER_WIDTH;
-import static com.mygdx.game.GameSettings.SCALE;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -15,9 +12,10 @@ import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
 
 public class Player extends GameEntity {
-    private final int speedX = 25;
+    private static final int PLAYER_SPEED_X = 25;
     private boolean canJump;
     PlayerStates playerState;
+    boolean movingLeft;
     int frameCounter = 0;
     int frameMultiplierForHead = 20;
     int frameMultiplierForWalking = 4;
@@ -28,19 +26,10 @@ public class Player extends GameEntity {
     public Player(float width, float height, Body body, MyGdxGame myGdxGame) {
         super(width, height, body, myGdxGame);
         canJump = false;
-//        this.speed = 4f;
         playerState = PlayerStates.STANDING;
+        movingLeft = false;
         body.setLinearDamping(1);
 
-
-    }
-
-    @Override
-    public void update() {
-
-    }
-    @Override
-    public void render(SpriteBatch batch) {
 
     }
 
@@ -52,26 +41,19 @@ public class Player extends GameEntity {
         myGdxGame.camera.position.set(position);
 
     }
-//    public void checkVelocityY(){
-//        if (Math.abs(body.getLinearVelocity().y) > speedY)
-//            body.setLinearVelocity(body.getLinearVelocity().x,
-//                    speedY * Math.abs(body.getLinearVelocity().y) / body.getLinearVelocity().y);
-//        System.out.println(body.getLinearVelocity().y);
-//
-//    }
     public void setJumpClickClack(boolean canJump){
         this.canJump = canJump;
     }
     public void setMoveVector (Vector2 moveVector){
-        body.setLinearVelocity(moveVector.setLength(speedX).x, body.getLinearVelocity().y);
+        if ((movingLeft && moveVector.x<0) || (!movingLeft && moveVector.x>0)){
+            // TODO flip textures
+        }
+        body.setLinearVelocity(moveVector.setLength(PLAYER_SPEED_X).x, body.getLinearVelocity().y);
         if (moveVector.setLength(1).y > 0.65f && canJump) {
             body.applyForceToCenter(0, 4500, true);
             canJump = false;
         }
-//        body.applyForceToCenter(moveVector.setLength(speed), true);
-//        body.setTransform((moveVector.x + getX()) * SCALE, (moveVector.y + getY()) * SCALE, 0);
         updateCamera();
-//        System.out.println(body.getPosition());
     }
 
     public void draw(SpriteBatch batch) {
@@ -79,7 +61,7 @@ public class Player extends GameEntity {
         if (frameCounter == 2 * frameMultiplierForHead - 1) frameCounter= 0;
         batch.draw(GameResources.PLAYER_HEAD_TEXTURE,
                 body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2,
-                body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2 - frameCounter /frameMultiplierForHead* GameSettings.OBJECT_SCALE*5,
+                body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2 - (float) frameCounter /frameMultiplierForHead * GameSettings.OBJECT_SCALE*5,
                 PLAYER_WIDTH * GameSettings.OBJECT_SCALE,
                 PLAYER_HEIGHT * GameSettings.OBJECT_SCALE
         );
@@ -112,6 +94,8 @@ public class Player extends GameEntity {
                 GameResources.PLAYER_SIDE_DIGGING_TEXTURES[frameCounter / frameMultiplierForDigging].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
                 GameResources.PLAYER_SIDE_DIGGING_TEXTURES[frameCounter / frameMultiplierForDigging].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
                 GameResources.PLAYER_SIDE_DIGGING_TEXTURES[frameCounter / frameMultiplierForDigging].draw(batch);
+                break;
+            default:
                 break;
         }
     }
