@@ -45,14 +45,12 @@ public class Player extends GameEntity {
         this.canJump = canJump;
     }
     public void setMoveVector (Vector2 moveVector){
-        if ((movingLeft && moveVector.x<0) || (!movingLeft && moveVector.x>0)){
-            // TODO flip textures
-        }
         body.setLinearVelocity(moveVector.setLength(PLAYER_SPEED_X).x, body.getLinearVelocity().y);
         if (moveVector.setLength(1).y > 0.65f && canJump) {
             body.applyForceToCenter(0, 4500, true);
             canJump = false;
         }
+        flippingTextures(moveVector);
         updateCamera();
     }
 
@@ -99,5 +97,27 @@ public class Player extends GameEntity {
                 break;
         }
     }
+    private void flippingTextures(Vector2 moveVector) {
+        if ((moveVector.x>0 && movingLeft) || (moveVector.x<0 && !movingLeft) ) {
+            movingLeft = !movingLeft;
+            GameResources.PLAYER_HEAD_TEXTURE.flip(true, false);
+            GameResources.PLAYER_STANDING_TEXTURE.flip(true, false);
+            for (int i = 0; i < GameResources.PLAYER_WALKING_TEXTURES.length; i++) {
+                GameResources.PLAYER_WALKING_TEXTURES[i].flip(true, false);
+            }
+            for (int i = 0; i < GameResources.PLAYER_DOWN_DIGGING_TEXTURES.length; i++) {
+                GameResources.PLAYER_DOWN_DIGGING_TEXTURES[i].flip(true, false);
+            }
+            for (int i = 0; i < GameResources.PLAYER_UP_DIGGING_TEXTURES.length; i++) {
+                GameResources.PLAYER_UP_DIGGING_TEXTURES[i].flip(true, false);
+            }
+            for (int i = 0; i < GameResources.PLAYER_SIDE_DIGGING_TEXTURES.length; i++) {
+                GameResources.PLAYER_SIDE_DIGGING_TEXTURES[i].flip(true, false);
+            }
 
+
+        }
+
+
+    }
 }
