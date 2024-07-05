@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 public class BlocksCollision {
-    public static ArrayList<Body> bodyArray;
-    static MyGdxGame myGdxGame;
+    public ArrayList<Body> bodyArray;
+    MyGdxGame myGdxGame;
 
     public BlocksCollision(MyGdxGame myGdxGame) {
         bodyArray = new ArrayList<>();
@@ -17,21 +17,21 @@ public class BlocksCollision {
 
     }
 
-    public static void updateCollision(BasicBlock[][] mapArray, int i, int k) {
+    public void updateCollision(BasicBlock[][] mapArray, int i, int k) {
         if (i + 1 < GameSettings.MAP_WIDTH && mapArray[i + 1][k] != null) mapArray[i + 1][k].setHasCollision(true);
         if (i - 1 >= 0 && mapArray[i - 1][k] != null) mapArray[i - 1][k].setHasCollision(true);
         if (k + 1 < GameSettings.MAP_HEIGHT && mapArray[i][k + 1] != null) mapArray[i][k + 1].setHasCollision(true);
         if (k - 1 >= 0 && mapArray[i][k - 1] != null) mapArray[i][k - 1].setHasCollision(true);
     }
 
-    public static void generateCollision(BasicBlock[][] mapArray) {
+    public void generateCollision(BasicBlock[][] mapArray) {
         for (int i = 0; i < GameSettings.MAP_WIDTH; i++) {
             mapArray[i][GameSettings.MAP_HEIGHT-1].setHasCollision(true);
         }
 
     }
 
-    public static void deleteBlocks() {
+    public void deleteBlocks() {
         if (!bodyArray.isEmpty()) {
             Iterator<Body> iteratorBlock = bodyArray.iterator();
             while (iteratorBlock.hasNext()) {

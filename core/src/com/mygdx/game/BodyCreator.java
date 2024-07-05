@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class BodyCreator {
+    private BodyCreator() {}
     public static Body createBody(float x, float y, float width, float height, boolean isStatic, World world) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = isStatic ? BodyDef.BodyType.StaticBody : BodyDef.BodyType.DynamicBody;
@@ -23,13 +24,10 @@ public class BodyCreator {
         vertices[4] = new Vector2(-width/2, height/2);
         vertices[5] = new Vector2(-width/2, (-height+GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE)/2);
         shape.set(vertices);
-//        PolygonShape shape = new PolygonShape();
-//        shape.setAsBox(width/2*GameSettings.OBJECT_SCALE, height/2*GameSettings.OBJECT_SCALE);
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = shape;
         fixtureDef.density = 0.1f; // устанавливаем плотность тела
         fixtureDef.friction = 0.2f;
-       // body.setBullet(true);
         body.createFixture(fixtureDef);
 
         shape.dispose();
