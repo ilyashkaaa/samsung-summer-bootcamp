@@ -19,14 +19,13 @@ import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
 import com.mygdx.game.map.blocks.GenerateMap;
 
-import com.mygdx.game.UI.Joystick;
+import com.mygdx.game.ui.Joystick;
 
 public class GameScreen extends ScreenAdapter {
 
 
-    //****************** FOR FPS********************************
+//****************** FOR FPS********************************
     BitmapFont font = new BitmapFont();
-//    GlyphLayout glyphLayout = new GlyphLayout(font, "text");
 //***********************************************************
 
 
@@ -38,7 +37,8 @@ public class GameScreen extends ScreenAdapter {
     BlocksCollision blocksCollision;
     Vector3 touchPos;
     boolean keepTouching;
-    int playerBlockCoordX, playerBlockCoordY;
+    int playerBlockCordX;
+    int playerBlockCordY;
     int viewBlocksX = 40;
     int viewBlocksY = 40;
 
@@ -58,7 +58,6 @@ public class GameScreen extends ScreenAdapter {
         player = new Player(GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, playerBody, myGdxGame);
         touchPos = new Vector3();
         myGdxGame.camera.position.set(0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, 0);
-//        System.out.println(playerBody.getPosition() + "\t" + myGdxGame.camera.position);
     }
 
     @Override
@@ -69,30 +68,26 @@ public class GameScreen extends ScreenAdapter {
         Vector3 touch = new Vector3(Gdx.input.getX(indexJoystick(countOfTouching())),
                 Gdx.input.getY(indexJoystick(countOfTouching())), 0
         );
-//        myGdxGame.camera.unproject(touch);
-//        myGdxGame.camera.position.set(new Vector3(50000, 0, 0));
+
         if (Gdx.input.isTouched(indexJoystick(countOfTouching())) && touch.x <= GameSettings.SCR_WIDTH / 2) {
             if (!keepTouching) {
                 joystick.changeCords(new Vector2(touch.x, touch.y));
             }
-            player.setMoveVector(joystick.getDirection(new Vector2(touch.x, touch.y), myGdxGame.camera.position));
+            player.setMoveVector(joystick.getDirection(new Vector2(touch.x, touch.y)));
             keepTouching = true;
         } else {
-//            player.setMoveVector(new Vector2(0, 0));
             player.updateCamera();
             keepTouching = false;
         }
 
-        playerBlockCoordX = (int) (player.getBody().getPosition().x / GameSettings.SCALE / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE * GameSettings.SCALE);
+        playerBlockCordX = (int) (player.getBody().getPosition().x / GameSettings.SCALE / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE * GameSettings.SCALE);
 
-        playerBlockCoordY = (int) (player.getBody().getPosition().y / GameSettings.SCALE / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE * GameSettings.SCALE);
-        if (playerBlockCoordX >= 0 && playerBlockCoordX < GameSettings.MAP_WIDTH &&
-            playerBlockCoordY >= 1 && playerBlockCoordY <= GameSettings.MAP_HEIGHT
+        playerBlockCordY = (int) (player.getBody().getPosition().y / GameSettings.SCALE / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE * GameSettings.SCALE);
+        if (playerBlockCordX >= 0 && playerBlockCordX < GameSettings.MAP_WIDTH &&
+            playerBlockCordY >= 1 && playerBlockCordY <= GameSettings.MAP_HEIGHT
         )
-            if (generateMap.mapArray[playerBlockCoordX][playerBlockCoordY - 1] != null)
+            if (generateMap.mapArray[playerBlockCordX][playerBlockCordY - 1] != null)
                 player.setJumpClickClack(true);
-       // System.out.println(playerBlockCoordX + "\t" + playerBlockCoordY);
-//        player.checkVelocityY();
     }
 
     public void draw(float delta) {
@@ -108,7 +103,6 @@ public class GameScreen extends ScreenAdapter {
             Vector2 touch = new Vector2(Gdx.input.getX(indexJoystick(countOfTouching())),
                     Gdx.input.getY(indexJoystick(countOfTouching()))
             );
-//            myGdxGame.camera.unproject(touch);
             joystick.draw(myGdxGame.batch, myGdxGame.camera.position, touch);
         }
 
@@ -127,42 +121,42 @@ public class GameScreen extends ScreenAdapter {
     private void drawBlocks() {
         if (Gdx.input.isTouched()) {
             touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-             myGdxGame.camera.unproject(touchPos);
+            myGdxGame.camera.unproject(touchPos);
         }
-        playerBlockCoordX = (int) (player.getBody().getPosition().x / GameSettings.SCALE / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE * GameSettings.SCALE);
+        playerBlockCordX = (int) (player.getBody().getPosition().x / GameSettings.SCALE / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE * GameSettings.SCALE);
 
-        playerBlockCoordY = (int) (player.getBody().getPosition().y / GameSettings.SCALE / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE * GameSettings.SCALE);
+        playerBlockCordY = (int) (player.getBody().getPosition().y / GameSettings.SCALE / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE * GameSettings.SCALE);
 
 
 //
         for (int i = 0; i < viewBlocksX; i++) {
             for (int k = 0; k < viewBlocksY; k++) {
-                if (playerBlockCoordX - viewBlocksX / 2 + i >= 0 && playerBlockCoordX - viewBlocksX / 2 + i < GameSettings.MAP_WIDTH
-                        && playerBlockCoordY - viewBlocksY / 2 + k >= 0 && playerBlockCoordY - viewBlocksY / 2 + k < GameSettings.MAP_HEIGHT) {
+                if (playerBlockCordX - viewBlocksX / 2 + i >= 0 && playerBlockCordX - viewBlocksX / 2 + i < GameSettings.MAP_WIDTH
+                        && playerBlockCordY - viewBlocksY / 2 + k >= 0 && playerBlockCordY - viewBlocksY / 2 + k < GameSettings.MAP_HEIGHT) {
 
                     //drawing blocks
-                    if (generateMap.mapArray[playerBlockCoordX - viewBlocksX / 2 + i][playerBlockCoordY - viewBlocksY / 2 + k] != null) {
-                        myGdxGame.batch.draw(generateMap.mapArray[playerBlockCoordX - viewBlocksX / 2 + i][playerBlockCoordY - viewBlocksY / 2 + k].getTexture(),
-                                (playerBlockCoordX - viewBlocksX / 2 + i) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
-                                (playerBlockCoordY - viewBlocksY / 2 + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
+                    if (generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k] != null) {
+                        myGdxGame.batch.draw(generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k].getTexture(),
+                                (playerBlockCordX - viewBlocksX / 2f + i) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
+                                (playerBlockCordY - viewBlocksY / 2f + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
                                 GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
                                 GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE);
 
                         //add collision
-                        if (generateMap.mapArray[playerBlockCoordX - viewBlocksX / 2 + i][playerBlockCoordY - viewBlocksY / 2 + k].getHasCollision()) {
-                            BlocksCollision.bodyArray.add(BasicBlock.createStaticBody(playerBlockCoordX - viewBlocksX / 2 + i, playerBlockCoordY - viewBlocksY / 2 + k, myGdxGame));
+                        if (generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k].getHasCollision()) {
+                            BlocksCollision.bodyArray.add(BasicBlock.createStaticBody(playerBlockCordX - viewBlocksX / 2 + i, playerBlockCordY - viewBlocksY / 2 + k, myGdxGame));
                         }
                     }
 
 
 
                     //update collision for blocks
-                    if (touchPos.x >= (playerBlockCoordX - viewBlocksX / 2 + i) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
-                            && touchPos.x < (playerBlockCoordX - viewBlocksX / 2 + i + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
-                            && touchPos.y >= (playerBlockCoordY - viewBlocksY / 2 + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
-                            && touchPos.y < (playerBlockCoordY - viewBlocksY / 2 + k + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE) {
-                        generateMap.mapArray[playerBlockCoordX - viewBlocksX / 2 + i][playerBlockCoordY - viewBlocksY / 2 + k] = null;
-                        BlocksCollision.updateCollision(generateMap.mapArray, playerBlockCoordX - viewBlocksX / 2 + i, playerBlockCoordY - viewBlocksY / 2 + k
+                    if (touchPos.x >= (playerBlockCordX - viewBlocksX / 2f + i) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
+                            && touchPos.x < (playerBlockCordX - viewBlocksX / 2f + i + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
+                            && touchPos.y >= (playerBlockCordY - viewBlocksY / 2f + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
+                            && touchPos.y < (playerBlockCordY - viewBlocksY / 2f + k + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE) {
+                        generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k] = null;
+                        BlocksCollision.updateCollision(generateMap.mapArray, playerBlockCordX - viewBlocksX / 2 + i, playerBlockCordY - viewBlocksY / 2 + k
                         );
                     }
                 }

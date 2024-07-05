@@ -12,10 +12,9 @@ public abstract class BasicBlock {
     protected static int durability;
     private int hp;
     private boolean hasCollision;
-    public int x, y;
     protected static Texture texture;
 
-    public BasicBlock() {
+    protected BasicBlock() {
         this.hp = durability;
         this.hasCollision = false;
     }
