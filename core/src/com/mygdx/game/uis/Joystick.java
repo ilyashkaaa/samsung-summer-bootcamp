@@ -1,4 +1,4 @@
-package com.mygdx.game.ui;
+package com.mygdx.game.uis;
 
 import static com.mygdx.game.GameSettings.SCALE;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;

@@ -18,8 +18,8 @@ import com.mygdx.game.entities.Player;
 import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
 import com.mygdx.game.map.blocks.GenerateMap;
+import com.mygdx.game.uis.Joystick;
 
-import com.mygdx.game.ui.Joystick;
 
 public class GameScreen extends ScreenAdapter {
 
