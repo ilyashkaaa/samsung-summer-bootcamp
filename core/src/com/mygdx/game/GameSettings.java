@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 
 public class GameSettings {
     public static final int SCR_WIDTH = Gdx.graphics.getWidth();
@@ -15,7 +14,7 @@ public class GameSettings {
     public static final int MAP_WIDTH = 200;
     public static final int MAP_HEIGHT = 1000;
 
-    public static final int BLOCK_WIDTH = 160;
+    public static final int BLOCK_SIDE = 160;
 
     public static final int JOYSTICK_SIDE = 320;
     public static final int JOYSTICK_TRIGGER_SIDE = 1280;
