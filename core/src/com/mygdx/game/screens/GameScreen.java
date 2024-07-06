@@ -52,7 +52,7 @@ public class GameScreen extends ScreenAdapter {
         blocksCollision.generateCollision(generateMap.mapArray);
         Body playerBody = BodyCreator.createBody(
                 GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, ((GameSettings.MAP_HEIGHT + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE),
-                GameSettings.PLAYER_WIDTH*GameSettings.OBJECT_SCALE, GameSettings.PLAYER_HEIGHT*GameSettings.OBJECT_SCALE, false,
+                GameSettings.PLAYER_WIDTH * GameSettings.OBJECT_SCALE, GameSettings.PLAYER_HEIGHT * GameSettings.OBJECT_SCALE, false,
                 myGdxGame.world
         );
         player = new Player(GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, playerBody, myGdxGame);
@@ -84,10 +84,12 @@ public class GameScreen extends ScreenAdapter {
 
         playerBlockCordY = (int) (player.getBody().getPosition().y / GameSettings.SCALE / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE * GameSettings.SCALE);
         if (playerBlockCordX >= 0 && playerBlockCordX < GameSettings.MAP_WIDTH &&
-            playerBlockCordY >= 1 && playerBlockCordY <= GameSettings.MAP_HEIGHT
-        )
-            if (generateMap.mapArray[playerBlockCordX][playerBlockCordY - 1] != null)
+                playerBlockCordY >= 1 && playerBlockCordY <= GameSettings.MAP_HEIGHT) {
+            if (generateMap.mapArray[playerBlockCordX][playerBlockCordY - 1] != null || player.getBody().getLinearVelocity().y==0) {
                 player.setJumpClickClack(true);
+            }
+        }
+
     }
 
     public void draw(float delta) {
@@ -147,7 +149,6 @@ public class GameScreen extends ScreenAdapter {
                             blocksCollision.bodyArray.add(BasicBlock.createStaticBody(playerBlockCordX - viewBlocksX / 2 + i, playerBlockCordY - viewBlocksY / 2 + k, myGdxGame));
                         }
                     }
-
 
 
                     //update collision for blocks
