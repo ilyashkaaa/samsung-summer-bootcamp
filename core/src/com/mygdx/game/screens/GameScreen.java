@@ -42,7 +42,7 @@ public class GameScreen extends ScreenAdapter {
     Joystick joystick;
     BlocksCollision blocksCollision;
     Vector2 selectedBlock;
-    Texture selectionBlock = new Texture("textures/blocks/wood.png");
+    Texture selectionBlock = new Texture("textures/blocks/selected_block.png");
     Button jumpButton;
     Button breakingButton;
     Button placeButton;
@@ -58,11 +58,10 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
 
-        jumpButton = new Button("textures/joystick/joystick.png", "textures/blocks/stone.png",
-                700, -300, (int) (100 * GameSettings.OBJECT_SCALE), (int) (50 * GameSettings.OBJECT_SCALE), (int) (50 * GameSettings.OBJECT_SCALE));
-        breakingButton = new Button("textures/joystick/joystick.png", "textures/items/diamond_pickaxe.png",
+        jumpButton = new Button("textures/buttons/main_screen/jump_button_on.png", 700, -300, (int) (100 * GameSettings.OBJECT_SCALE));
+        breakingButton = new Button("textures/joystick/joystick.png", "textures/items/pickaxes/diamond_pickaxe.png",
                 700, -50, (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
-        placeButton = new Button("textures/joystick/joystick.png", "textures/blocks/mossyblock.png",
+        placeButton = new Button("textures/joystick/joystick.png", "textures/blocks/stone/mossyblock.png",
                 700, 200, (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
 
         joystick = new Joystick();
@@ -153,8 +152,7 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
             if (buttonHandler(placeButton) && !selectedBlock.isZero() &&
-                    playerBlockCordX >= 0 && playerBlockCordX < GameSettings.MAP_WIDTH &&
-                    playerBlockCordY >= 1 && playerBlockCordY <= GameSettings.MAP_HEIGHT) {
+                    x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT) {
                 generateMap.mapArray[x][y] = new Mossy();
                 generateMap.mapArray[x][y].setHasCollision(true);
                 blocksCollision.updateCollision(generateMap.mapArray, playerBlockCordX, playerBlockCordY - 1, false);
