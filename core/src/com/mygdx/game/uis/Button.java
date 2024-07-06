@@ -44,7 +44,7 @@ public class Button {
         buttonTexture = new Texture(buttonTexturePath);
         this.x = x;
         this.y = y;
-        this.radius = radius;
+        this.radius = radius / 2;
         isCircle = true;
         hasItem = false;
     }
@@ -53,7 +53,7 @@ public class Button {
         itemTexture = new Texture(itemTexturePath);
         this.x = x;
         this.y = y;
-        this.radius = radius;
+        this.radius = radius / 2;
         this.itemWidth = itemWidth;
         this.itemHeight = itemHeight;
         isCircle = true;

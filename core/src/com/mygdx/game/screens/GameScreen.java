@@ -58,11 +58,11 @@ public class GameScreen extends ScreenAdapter {
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
 
-        jumpButton = new Button("textures/buttons/main_screen/jump_button_on.png", 700, -300, (int) (100 * GameSettings.OBJECT_SCALE));
+        jumpButton = new Button("textures/buttons/main_screen/jump_button_on.png", 700, -300, (int) (200 * GameSettings.OBJECT_SCALE));
         breakingButton = new Button("textures/joystick/joystick.png", "textures/items/pickaxes/diamond_pickaxe.png",
-                700, -50, (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
+                700, -50, (int) (200 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
         placeButton = new Button("textures/joystick/joystick.png", "textures/blocks/stone/mossyblock.png",
-                700, 200, (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
+                700, 200, (int) (200 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
 
         joystick = new Joystick();
         

@@ -37,13 +37,21 @@ public class GenerateMap {
 
         for (int i = 0; i < MAP_WIDTH; i++) {
             mapArray[i][MAP_HEIGHT - 1] = new Grass();
-            mapArray[i][MAP_HEIGHT - 1].setHp(mapArray[i][MAP_HEIGHT - 1].getDurability());
+        }
+
+        for (int i = 1; i < 3; i++) {
+            for (int j = 0; j < MAP_WIDTH; j++) {
+                if (random.nextInt(i + 1) == 0)
+                    mapArray[j][MAP_HEIGHT - 11 + i] = new Stone();
+                if (random.nextInt(i + 1) == 0)
+                    mapArray[j][MAP_HEIGHT - 10 - i] = new Dirt();
+            }
         }
 
         for (int i = 0; i < MAP_WIDTH; i++)
             for (int j = 0; j < MAP_HEIGHT; j++)
                 if (mapArray[i][j] == null)
-                    if (MAP_HEIGHT - j < 10)
+                    if (MAP_HEIGHT - j <= 10)
                         mapArray[i][j] = new Dirt();
                     else
                         mapArray[i][j] = new Stone();
