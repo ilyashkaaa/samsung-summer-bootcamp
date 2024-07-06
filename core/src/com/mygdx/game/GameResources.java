@@ -61,34 +61,34 @@ public class GameResources {
     public static final Sprite PLAYER_STANDING_TEXTURE = new Sprite(new Texture("textures/hero/walking/step1.png"));
 
     //ITEMS
-    public static final Sprite DIAMOND_PICKAXE = new Sprite(new Texture("textures/items/diamond_pickaxe.png"));
-    public static final Sprite GOLD_PICKAXE = new Sprite(new Texture("textures/items/gold_pickaxe.png"));
-    public static final Sprite IRON_PICKAXE = new Sprite(new Texture("textures/items/iron_pickaxe.png"));
-    public static final Sprite STICK_PICKAXE = new Sprite(new Texture("textures/items/stick.png"));
-    public static final Sprite STONE_PICKAXE = new Sprite(new Texture("textures/items/stone_pickaxe.png"));
+    public static final Sprite DIAMOND_PICKAXE = new Sprite(new Texture("textures/items/pickaxes/diamond_pickaxe.png"));
+    public static final Sprite GOLD_PICKAXE = new Sprite(new Texture("textures/items/pickaxes/gold_pickaxe.png"));
+    public static final Sprite IRON_PICKAXE = new Sprite(new Texture("textures/items/pickaxes/iron_pickaxe.png"));
+    public static final Sprite STICK_PICKAXE = new Sprite(new Texture("textures/items/pickaxes/stick.png"));
+    public static final Sprite STONE_PICKAXE = new Sprite(new Texture("textures/items/pickaxes/stone_pickaxe.png"));
 
 
     //BLOCKS
-    public static final String DIRT_BLOCK_TEXTURE = "textures/blocks/dirt.png";
-    public static final String STONE_BLOCK_TEXTURE = "textures/blocks/stone.png";
-    public static final String GRASS_BLOCK_TEXTURE = "textures/blocks/grass.png";
-    public static final String AMETHYST_BLOCK_TEXTURE = "textures/blocks/amethystblock.png";
-    public static final String COAL_BLOCK_TEXTURE = "textures/blocks/coalblock.png";
-    public static final String DIAMOND_BLOCK_TEXTURE = "textures/blocks/diamondblock.png";
-    public static final String EMERALD_BLOCK_TEXTURE = "textures/blocks/emelardblock.png";
-    public static final String GOLD_BLOCK_TEXTURE = "textures/blocks/goldblock.png";
-    public static final String IRON_BLOCK_TEXTURE = "textures/blocks/ironblock.png";
-    public static final String LAZURITE_BLOCK_TEXTURE = "textures/blocks/lazuriteblock.png";
+    public static final String DIRT_BLOCK_TEXTURE = "textures/blocks/up/dirt.png";
+    public static final String STONE_BLOCK_TEXTURE = "textures/blocks/stone/stone.png";
+    public static final String GRASS_BLOCK_TEXTURE = "textures/blocks/up/grass.png";
+    public static final String AMETHYST_BLOCK_TEXTURE = "textures/blocks/stone/amethystblock.png";
+    public static final String COAL_BLOCK_TEXTURE = "textures/blocks/stone/coalblock.png";
+    public static final String DIAMOND_BLOCK_TEXTURE = "textures/blocks/stone/diamondblock.png";
+    public static final String EMERALD_BLOCK_TEXTURE = "textures/blocks/stone/emelardblock.png";
+    public static final String GOLD_BLOCK_TEXTURE = "textures/blocks/stone/goldblock.png";
+    public static final String IRON_BLOCK_TEXTURE = "textures/blocks/stone/ironblock.png";
+    public static final String LAZURITE_BLOCK_TEXTURE = "textures/blocks/stone/lazuriteblock.png";
 
-    public static final String MOSSY_BLOCK_TEXTURE = "textures/blocks/mossyblock.png";
-    public static final String RUBY_BLOCK_TEXTURE = "textures/blocks/rubyblock.png";
+    public static final String MOSSY_BLOCK_TEXTURE = "textures/blocks/stone/mossyblock.png";
+    public static final String RUBY_BLOCK_TEXTURE = "textures/blocks/stone/rubyblock.png";
 
-    public static final String LEAVES_TEXTURE = "textures/blocks/leaves.png";
-    public static final String WOOD_BLOCK_TEXTURE = "textures/blocks/wood.png";
-    public static final String WOOD2_BLOCK_TEXTURE = "textures/blocks/wood2.png";
+    public static final String LEAVES_TEXTURE = "textures/blocks/up/leaves.png";
+    public static final String WOOD_BLOCK_TEXTURE = "textures/blocks/up/wood.png";
+    public static final String WOOD2_BLOCK_TEXTURE = "textures/blocks/up/wood2.png";
 
-    public static final String FIRE_OVEN_TEXTURE = "textures/blocks/fireoven.png";
-    public static final String OVEN_TEXTURE = "textures/blocks/oven.png";
+    public static final String FIRE_OVEN_TEXTURE = "textures/blocks/ovens/fireoven.png";
+    public static final String OVEN_TEXTURE = "textures/blocks/ovens/oven.png";
 
     public static final Sprite[] BLOCK_DIGGING_TEXTURES = new Sprite[]{
             new Sprite(new Texture("textures/blocks/digging/block_digging1.png")),
