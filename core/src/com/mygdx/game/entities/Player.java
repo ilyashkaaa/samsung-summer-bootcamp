@@ -57,12 +57,17 @@ public class Player extends GameEntity {
         this.canJump = canJump;
     }
 
+    public void jump(){
+        if (canJump)
+            playerState = PlayerStates.JUMPING;
+    }
+
     public Vector2 setMoveVector(Vector2 moveVector) {
         body.setLinearVelocity(moveVector.setLength(PLAYER_SPEED_X).x, body.getLinearVelocity().y);
         Vector2 normalizeMove = moveVector.cpy().setLength(1);
-        if (normalizeMove.y > 0.65f && canJump) {
-            playerState = PlayerStates.JUMPING;
-        }
+//        if (normalizeMove.y > 0.65f && canJump) {
+//            playerState = PlayerStates.JUMPING;
+//        }
 
         flippingTextures(moveVector);
         updateCamera();
@@ -190,9 +195,6 @@ public class Player extends GameEntity {
         }
 
     }
-    public boolean needToPlaceBlock(){
-        return Gdx.input.isKeyPressed(Input.Keys.SPACE);
-    }
 
     public void drawFalling(SpriteBatch batch) {
         if (body.getLinearVelocity().y < 0) {
@@ -208,7 +210,6 @@ public class Player extends GameEntity {
                 fallingTime = TimeUtils.millis();
                 booleanFallingTime = false;
             }
-
 
             if (TimeUtils.millis() - fallingTime < 200) {
 
