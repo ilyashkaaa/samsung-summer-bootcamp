@@ -57,7 +57,6 @@ public class GameResources {
             new Sprite(new Texture("textures/hero/jumping/jump5.png")),
     };
 
-
     public static final Sprite PLAYER_HEAD_TEXTURE = new Sprite(new Texture("textures/hero/walking/head.png"));
     public static final Sprite PLAYER_STANDING_TEXTURE = new Sprite(new Texture("textures/hero/walking/step1.png"));
 
@@ -105,5 +104,7 @@ public class GameResources {
     //UI
     public static final Sprite JOYSTICK_BACKGROUND_TEXTURE = new Sprite(new Texture("textures/joystick/joystick.png"));
     public static final Sprite JOYSTICK_TRIGGER_TEXTURE = new Sprite(new Texture("textures/joystick/joystickTrigger.png"));
+    public static final String BACKPACK_BUTTON_IMG_PATH = "textures/buttons/button_background_square.png";
+
 
 }

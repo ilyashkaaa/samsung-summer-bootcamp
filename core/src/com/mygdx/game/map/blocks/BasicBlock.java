@@ -11,6 +11,8 @@ import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
 
+import java.lang.reflect.Type;
+
 import javax.swing.Spring;
 
 public abstract class BasicBlock {

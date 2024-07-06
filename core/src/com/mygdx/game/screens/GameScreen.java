@@ -20,13 +20,14 @@ import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
 import com.mygdx.game.map.blocks.GenerateMap;
 import com.mygdx.game.uis.Joystick;
+import com.mygdx.game.uis.backpack.BackpackUI;
 
 
 public class GameScreen extends ScreenAdapter {
 
 
 //****************** FOR FPS********************************
-    BitmapFont font = new BitmapFont();
+   public static BitmapFont font = new BitmapFont();
 //***********************************************************
 
 
@@ -43,6 +44,7 @@ public class GameScreen extends ScreenAdapter {
     int playerBlockCordY;
     int viewBlocksX = 40;
     int viewBlocksY = 40;
+    BackpackUI backpackUI;
 
 
     public GameScreen(MyGdxGame myGdxGame) {
@@ -50,6 +52,7 @@ public class GameScreen extends ScreenAdapter {
         joystick = new Joystick();
         generateMap = new GenerateMap();
         blocksCollision = new BlocksCollision(myGdxGame);
+        backpackUI = new BackpackUI(myGdxGame);
 
         lastHit = TimeUtils.millis();
 
@@ -67,6 +70,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         myGdxGame.stepWorld();
+        handleInput();
         draw(delta);
 
 
@@ -87,6 +91,8 @@ public class GameScreen extends ScreenAdapter {
                     generateMap.mapArray[x][y] != null && TimeUtils.millis() - lastHit >= 1000) {
                 lastHit = TimeUtils.millis();
                  if (!generateMap.mapArray[x][y].hit(10)) {
+                     backpackUI.blocksInventory.add(generateMap.mapArray[x][y].getTexture());
+                     backpackUI.addBlockToInventory();
                      generateMap.mapArray[x][y] = null;
                      blocksCollision.updateCollision(generateMap.mapArray, x, y);
                  }
@@ -114,6 +120,7 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.batch.begin();
         drawBlocks();
         player.draw(myGdxGame.batch);
+        backpackUI.draw(myGdxGame.batch);
 
         if (keepTouching) {
             Vector2 touch = new Vector2(Gdx.input.getX(indexJoystick(countOfTouching())),
@@ -159,14 +166,14 @@ public class GameScreen extends ScreenAdapter {
 
 
                     //update collision for blocks
-                    if (touchPos.x >= (playerBlockCordX - viewBlocksX / 2f + i) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
-                            && touchPos.x < (playerBlockCordX - viewBlocksX / 2f + i + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
-                            && touchPos.y >= (playerBlockCordY - viewBlocksY / 2f + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
-                            && touchPos.y < (playerBlockCordY - viewBlocksY / 2f + k + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE) {
-                        generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k] = null;
-                        blocksCollision.updateCollision(generateMap.mapArray, playerBlockCordX - viewBlocksX / 2 + i, playerBlockCordY - viewBlocksY / 2 + k
-                        );
-                    }
+//                    if (touchPos.x >= (playerBlockCordX - viewBlocksX / 2f + i) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
+//                            && touchPos.x < (playerBlockCordX - viewBlocksX / 2f + i + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
+//                            && touchPos.y >= (playerBlockCordY - viewBlocksY / 2f + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
+//                            && touchPos.y < (playerBlockCordY - viewBlocksY / 2f + k + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE) {
+//                        generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k] = null;
+//                        blocksCollision.updateCollision(generateMap.mapArray, playerBlockCordX - viewBlocksX / 2 + i, playerBlockCordY - viewBlocksY / 2 + k
+//                        );
+//                    }
                 }
             }
         }
@@ -191,5 +198,10 @@ public class GameScreen extends ScreenAdapter {
             if (Gdx.input.getPressure(i) == 0) break;
         }
         return i - 1;
+    }
+    private void handleInput() {
+        if (Gdx.input.isTouched()) {
+            backpackUI.handleInput(Gdx.input.getX(countOfTouching()), Gdx.input.getY(countOfTouching()));
+        }
     }
 }
