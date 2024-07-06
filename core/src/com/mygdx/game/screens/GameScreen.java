@@ -84,9 +84,9 @@ public class GameScreen extends ScreenAdapter {
             int x = (int) (playerBlockCordX + blockToDigUp.x);
             int y = (int) (playerBlockCordY + blockToDigUp.y);
             if (x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT &&
-                    generateMap.mapArray[x][y] != null && TimeUtils.millis() - lastHit >= 1000) {
+                    generateMap.mapArray[x][y] != null && TimeUtils.millis() - lastHit >= 200) {
                 lastHit = TimeUtils.millis();
-                 if (!generateMap.mapArray[x][y].hit(10)) {
+                 if (!generateMap.mapArray[x][y].hit(1)) {
                      generateMap.mapArray[x][y] = null;
                      blocksCollision.updateCollision(generateMap.mapArray, x, y);
                  }
@@ -145,13 +145,17 @@ public class GameScreen extends ScreenAdapter {
 
                     //drawing blocks
                     if (generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k] != null) {
-                        myGdxGame.batch.draw(generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k].getTexture(),
+//                        myGdxGame.batch.draw(generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k].getTexture(),
+//                                (playerBlockCordX - viewBlocksX / 2f + i) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
+//                                (playerBlockCordY - viewBlocksY / 2f + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
+//                                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
+//                                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE);
+                        generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k].draw(myGdxGame.batch,
                                 (playerBlockCordX - viewBlocksX / 2f + i) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
-                                (playerBlockCordY - viewBlocksY / 2f + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
-                                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
-                                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE);
-
-                        //add collision
+                                (playerBlockCordY - viewBlocksY / 2f + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
+                                );
+//                        System.out.println(generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k].getHp());
+                    //add collision
                         if (generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k].getHasCollision()) {
                             blocksCollision.bodyArray.add(BasicBlock.createStaticBody(playerBlockCordX - viewBlocksX / 2 + i, playerBlockCordY - viewBlocksY / 2 + k, myGdxGame));
                         }

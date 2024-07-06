@@ -2,6 +2,7 @@ package com.mygdx.game.map.blocks;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -11,12 +12,17 @@ import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
 
+import java.time.Duration;
+import java.util.function.DoubleUnaryOperator;
+
 import javax.swing.Spring;
 
 public abstract class BasicBlock {
-    protected static int durability;
-    private int hp = 100;
-    private Sprite[] breaking = GameResources.BREAKING_BLOCKS;
+    protected int durability;
+    protected int hp;
+    protected static float width = GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE;
+    protected static float height = GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE;
+    protected static Sprite[] breaking = GameResources.BREAKING_BLOCKS;
     private boolean hasCollision;
     protected static Texture texture;
 
@@ -25,14 +31,17 @@ public abstract class BasicBlock {
         this.hasCollision = false;
     }
     public boolean hit(int hit){
-        hp -= hit;
-        return hp > 0;
+        setHp(getHp() - hit);
+        return getHp() > 0;
     }
     public abstract int getDurability();
+
+    public abstract int getHp();
 
     public abstract Texture getTexture();
 
     public abstract void setDurability(int durability);
+    public abstract void setHp(int hp);
 
     public void setHasCollision(boolean isNeedCollision) {
         this.hasCollision = isNeedCollision;
@@ -73,5 +82,15 @@ public abstract class BasicBlock {
         // Clean up after ourselves
         groundBox.dispose();
         return groundBody;
+    }
+    public void draw(SpriteBatch batch, float x, float y){
+        batch.draw(getTexture(), x, y, width, height);
+
+        float slice = getDurability() / 9f;
+        for (int i = 0; i < 8; i++) {
+            if (getHp() >= getDurability() - slice * (i + 2) && getHp() < getDurability() - slice * (i + 1)){
+                batch.draw(breaking[i], x, y, width, height);
+                }
+        }
     }
 }
