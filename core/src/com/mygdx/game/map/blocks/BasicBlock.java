@@ -12,6 +12,8 @@ import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
 
+import java.lang.reflect.Type;
+
 import java.time.Duration;
 import java.util.function.DoubleUnaryOperator;
 

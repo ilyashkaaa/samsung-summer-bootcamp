@@ -24,13 +24,14 @@ import com.mygdx.game.map.blocks.GenerateMap;
 import com.mygdx.game.map.blocks.Mossy;
 import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.Joystick;
+import com.mygdx.game.uis.backpack.BackpackUI;
 
 
 public class GameScreen extends ScreenAdapter {
 
 
 //****************** FOR FPS********************************
-    BitmapFont font = new BitmapFont();
+   public static BitmapFont font = new BitmapFont();
 //***********************************************************
 
 
@@ -51,6 +52,7 @@ public class GameScreen extends ScreenAdapter {
     boolean keepTouching;
     int viewBlocksX = 40;
     int viewBlocksY = 40;
+    BackpackUI backpackUI;
 
 
     public GameScreen(MyGdxGame myGdxGame) {
@@ -64,8 +66,12 @@ public class GameScreen extends ScreenAdapter {
                 700, 200, (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
 
         joystick = new Joystick();
+        
         generateMap = new GenerateMap();
+        
         blocksCollision = new BlocksCollision(myGdxGame);
+        
+        backpackUI = new BackpackUI(myGdxGame);
 
         selectedBlock = new Vector2();
 
@@ -86,12 +92,14 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.stepWorld();
         draw(delta);
 
+
         playerBlockCordX = (int) (player.getBody().getPosition().x / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE);
         playerBlockCordY = (int) ((player.getBody().getPosition().y - 5) / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE);
 
         Vector3 touch = new Vector3(Gdx.input.getX(indexJoystick(countOfTouching())),
                 Gdx.input.getY(indexJoystick(countOfTouching())), 0
         );
+        Vector2 blockToDigUp;
 
         if (Gdx.input.isTouched(indexJoystick(countOfTouching())) && touch.x <= GameSettings.SCR_WIDTH / 2f) {
             if (!keepTouching)
@@ -127,6 +135,7 @@ public class GameScreen extends ScreenAdapter {
 //        }
 
         if (Gdx.input.isTouched()) {
+            backpackUI.handleInput(Gdx.input.getX(countOfTouching()), Gdx.input.getY(countOfTouching()));
             int x = (int) (playerBlockCordX + selectedBlock.x);
             int y = (int) (playerBlockCordY + selectedBlock.y);
             if (buttonHandler(jumpButton))
@@ -136,6 +145,8 @@ public class GameScreen extends ScreenAdapter {
                         generateMap.mapArray[x][y] != null && TimeUtils.millis() - lastHit >= 200) {
                     lastHit = TimeUtils.millis();
                     if (!generateMap.mapArray[x][y].hit(1)) {
+                        backpackUI.blocksInventory.add(generateMap.mapArray[x][y].getTexture());
+                        backpackUI.addBlockToInventory();
                         generateMap.mapArray[x][y] = null;
                         blocksCollision.updateCollision(generateMap.mapArray, x, y, true);
                     }
