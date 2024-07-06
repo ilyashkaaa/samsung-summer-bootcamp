@@ -1,6 +1,7 @@
 package com.mygdx.game.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -19,6 +20,7 @@ import com.mygdx.game.entities.Player;
 import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
 import com.mygdx.game.map.blocks.GenerateMap;
+import com.mygdx.game.map.blocks.Mossy;
 import com.mygdx.game.uis.Joystick;
 
 
@@ -88,7 +90,7 @@ public class GameScreen extends ScreenAdapter {
                 lastHit = TimeUtils.millis();
                  if (!generateMap.mapArray[x][y].hit(1)) {
                      generateMap.mapArray[x][y] = null;
-                     blocksCollision.updateCollision(generateMap.mapArray, x, y);
+                     blocksCollision.updateCollision(generateMap.mapArray, x, y, true);
                  }
             }
             keepTouching = true;
@@ -104,6 +106,13 @@ public class GameScreen extends ScreenAdapter {
             }
         }
 
+        if (player.needToPlaceBlock() &&
+                playerBlockCordX >= 0 && playerBlockCordX < GameSettings.MAP_WIDTH &&
+                playerBlockCordY >= 1 && playerBlockCordY <= GameSettings.MAP_HEIGHT) {
+            generateMap.mapArray[playerBlockCordX][playerBlockCordY - 1] = new Mossy();
+            generateMap.mapArray[playerBlockCordX][playerBlockCordY - 1].setHasCollision(true);
+            blocksCollision.updateCollision(generateMap.mapArray, playerBlockCordX, playerBlockCordY - 1, false);
+        }
     }
 
     public void draw(float delta) {
@@ -131,7 +140,6 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.batch.end();
         box2DDebugRenderer.render(myGdxGame.world, myGdxGame.camera.combined);
 
-
     }
 
     private void drawBlocks() {
@@ -145,17 +153,10 @@ public class GameScreen extends ScreenAdapter {
 
                     //drawing blocks
                     if (generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k] != null) {
-//                        myGdxGame.batch.draw(generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k].getTexture(),
-//                                (playerBlockCordX - viewBlocksX / 2f + i) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
-//                                (playerBlockCordY - viewBlocksY / 2f + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
-//                                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
-//                                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE);
                         generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k].draw(myGdxGame.batch,
                                 (playerBlockCordX - viewBlocksX / 2f + i) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
                                 (playerBlockCordY - viewBlocksY / 2f + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
                                 );
-//                        System.out.println(generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k].getHp());
-                    //add collision
                         if (generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k].getHasCollision()) {
                             blocksCollision.bodyArray.add(BasicBlock.createStaticBody(playerBlockCordX - viewBlocksX / 2 + i, playerBlockCordY - viewBlocksY / 2 + k, myGdxGame));
                         }
@@ -168,8 +169,7 @@ public class GameScreen extends ScreenAdapter {
                             && touchPos.y >= (playerBlockCordY - viewBlocksY / 2f + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
                             && touchPos.y < (playerBlockCordY - viewBlocksY / 2f + k + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE) {
                         generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k] = null;
-                        blocksCollision.updateCollision(generateMap.mapArray, playerBlockCordX - viewBlocksX / 2 + i, playerBlockCordY - viewBlocksY / 2 + k
-                        );
+                        blocksCollision.updateCollision(generateMap.mapArray, playerBlockCordX - viewBlocksX / 2 + i, playerBlockCordY - viewBlocksY / 2 + k, true);
                     }
                 }
             }
