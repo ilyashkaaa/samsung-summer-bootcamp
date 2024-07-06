@@ -15,6 +15,16 @@ public class GameResources {
             new Sprite(new Texture("textures/hero/walking/step8.png")),
             new Sprite(new Texture("textures/hero/walking/step9.png"))
     };
+    public static final Sprite[] BREAKING_BLOCKS = new Sprite[]{
+            new Sprite(new Texture("textures/blocks/digging/block_digging1.png")),
+            new Sprite(new Texture("textures/blocks/digging/block_digging2.png")),
+            new Sprite(new Texture("textures/blocks/digging/block_digging3.png")),
+            new Sprite(new Texture("textures/blocks/digging/block_digging4.png")),
+            new Sprite(new Texture("textures/blocks/digging/block_digging5.png")),
+            new Sprite(new Texture("textures/blocks/digging/block_digging6.png")),
+            new Sprite(new Texture("textures/blocks/digging/block_digging7.png")),
+            new Sprite(new Texture("textures/blocks/digging/block_digging8.png"))
+    };
     public static final Sprite[] PLAYER_DOWN_DIGGING_TEXTURES = new Sprite[]{
             new Sprite(new Texture("textures/hero/heroDigging/downDigging/down_dig1.png")),
             new Sprite(new Texture("textures/hero/heroDigging/downDigging/down_dig2.png")),

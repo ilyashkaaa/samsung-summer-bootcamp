@@ -54,13 +54,30 @@ public class Player extends GameEntity {
     public void setJumpClickClack(boolean canJump) {
         this.canJump = canJump;
     }
-    public void setMoveVector(Vector2 moveVector) {
+    public Vector2 setMoveVector(Vector2 moveVector) {
         body.setLinearVelocity(moveVector.setLength(PLAYER_SPEED_X).x, body.getLinearVelocity().y);
-        if (moveVector.setLength(1).y > 0.65f && canJump) {
+            Vector2 normalizeMove = moveVector.cpy().setLength(1);
+        if (normalizeMove.y > 0.65f && canJump) {
             playerState = PlayerStates.JUMPING;
         }
+
         flippingTextures(moveVector);
         updateCamera();
+
+        if (normalizeMove.y > 0.65f)
+            return new Vector2(0, 2);
+        else if (normalizeMove.y <= 0.65f && normalizeMove.y > 0 && normalizeMove.x > 0.5f)
+            return new Vector2(1, 1);
+        else if (normalizeMove.y <= 0 && normalizeMove.y > -0.65f && normalizeMove.x > 0.5f)
+            return new Vector2(1, 0);
+        else if (normalizeMove.y <= 0.65f && normalizeMove.y > 0 && normalizeMove.x < -0.5f)
+            return new Vector2(-1, 1);
+        else if (normalizeMove.y <= 0 && normalizeMove.y > -0.65f && normalizeMove.x < -0.5f)
+            return new Vector2(-1, 0);
+        else if (normalizeMove.y < -0.65f)
+            return new Vector2(0, -1);
+        else
+            return new Vector2(0, 0);
     }
 
     public void draw(SpriteBatch batch) {
@@ -82,29 +99,25 @@ public class Player extends GameEntity {
                 GameResources.PLAYER_STANDING_TEXTURE.draw(batch);
                 break;
             case WALKING:
-                if (frameCounter == GameResources.PLAYER_WALKING_TEXTURES.length * frameMultiplierForWalking - 1)
-                    frameCounter = 0;
+                if (frameCounter == GameResources.PLAYER_WALKING_TEXTURES.length * frameMultiplierForWalking - 1) frameCounter = 0;
                 GameResources.PLAYER_WALKING_TEXTURES[frameCounter / frameMultiplierForWalking].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
                 GameResources.PLAYER_WALKING_TEXTURES[frameCounter / frameMultiplierForWalking].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
                 GameResources.PLAYER_WALKING_TEXTURES[frameCounter / frameMultiplierForWalking].draw(batch);
                 break;
             case DOWN_DIGGING:
-                if (frameCounter == GameResources.PLAYER_DOWN_DIGGING_TEXTURES.length * frameMultiplierForDigging - 1)
-                    frameCounter = 0;
+                if (frameCounter == GameResources.PLAYER_DOWN_DIGGING_TEXTURES.length * frameMultiplierForDigging - 1) frameCounter = 0;
                 GameResources.PLAYER_DOWN_DIGGING_TEXTURES[frameCounter / frameMultiplierForDigging].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
                 GameResources.PLAYER_DOWN_DIGGING_TEXTURES[frameCounter / frameMultiplierForDigging].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
                 GameResources.PLAYER_DOWN_DIGGING_TEXTURES[frameCounter / frameMultiplierForDigging].draw(batch);
                 break;
             case UP_DIGGING:
-                if (frameCounter == GameResources.PLAYER_UP_DIGGING_TEXTURES.length * frameMultiplierForDigging - 1)
-                    frameCounter = 0;
+                if (frameCounter == GameResources.PLAYER_UP_DIGGING_TEXTURES.length * frameMultiplierForDigging - 1) frameCounter = 0;
                 GameResources.PLAYER_UP_DIGGING_TEXTURES[frameCounter / frameMultiplierForDigging].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
                 GameResources.PLAYER_UP_DIGGING_TEXTURES[frameCounter / frameMultiplierForDigging].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
                 GameResources.PLAYER_UP_DIGGING_TEXTURES[frameCounter / frameMultiplierForDigging].draw(batch);
                 break;
             case SIDE_DIGGING:
-                if (frameCounter == GameResources.PLAYER_SIDE_DIGGING_TEXTURES.length * frameMultiplierForDigging - 1)
-                    frameCounter = 0;
+                if (frameCounter == GameResources.PLAYER_SIDE_DIGGING_TEXTURES.length * frameMultiplierForDigging - 1) frameCounter = 0;
                 GameResources.PLAYER_SIDE_DIGGING_TEXTURES[frameCounter / frameMultiplierForDigging].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
                 GameResources.PLAYER_SIDE_DIGGING_TEXTURES[frameCounter / frameMultiplierForDigging].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
                 GameResources.PLAYER_SIDE_DIGGING_TEXTURES[frameCounter / frameMultiplierForDigging].draw(batch);

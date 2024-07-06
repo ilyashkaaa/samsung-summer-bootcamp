@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.BodyCreator;
 
 import com.mygdx.game.GameSettings;
@@ -36,6 +37,7 @@ public class GameScreen extends ScreenAdapter {
     Joystick joystick;
     BlocksCollision blocksCollision;
     Vector3 touchPos;
+    long lastHit;
     boolean keepTouching;
     int playerBlockCordX;
     int playerBlockCordY;
@@ -48,6 +50,8 @@ public class GameScreen extends ScreenAdapter {
         joystick = new Joystick();
         generateMap = new GenerateMap();
         blocksCollision = new BlocksCollision(myGdxGame);
+
+        lastHit = TimeUtils.millis();
 
         blocksCollision.generateCollision(generateMap.mapArray);
         Body playerBody = BodyCreator.createBody(
@@ -65,24 +69,34 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.stepWorld();
         draw(delta);
 
+
+        playerBlockCordX = (int) (player.getBody().getPosition().x / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE);
+        playerBlockCordY = (int) (player.getBody().getPosition().y / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE);
         Vector3 touch = new Vector3(Gdx.input.getX(indexJoystick(countOfTouching())),
                 Gdx.input.getY(indexJoystick(countOfTouching())), 0
         );
+        Vector2 blockToDigUp;
 
-        if (Gdx.input.isTouched(indexJoystick(countOfTouching())) && touch.x <= GameSettings.SCR_WIDTH / 2) {
-            if (!keepTouching) {
+        if (Gdx.input.isTouched(indexJoystick(countOfTouching())) && touch.x <= GameSettings.SCR_WIDTH / 2f) {
+            if (!keepTouching)
                 joystick.changeCords(new Vector2(touch.x, touch.y));
+            blockToDigUp = player.setMoveVector(joystick.getDirection(new Vector2(touch.x, touch.y)));
+            int x = (int) (playerBlockCordX + blockToDigUp.x);
+            int y = (int) (playerBlockCordY + blockToDigUp.y);
+            if (x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT &&
+                    generateMap.mapArray[x][y] != null && TimeUtils.millis() - lastHit >= 1000) {
+                lastHit = TimeUtils.millis();
+                 if (!generateMap.mapArray[x][y].hit(10)) {
+                     generateMap.mapArray[x][y] = null;
+                     blocksCollision.updateCollision(generateMap.mapArray, x, y);
+                 }
             }
-            player.setMoveVector(joystick.getDirection(new Vector2(touch.x, touch.y)));
             keepTouching = true;
         } else {
             player.updateCamera();
             keepTouching = false;
         }
 
-        playerBlockCordX = (int) (player.getBody().getPosition().x / GameSettings.SCALE / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE * GameSettings.SCALE);
-
-        playerBlockCordY = (int) (player.getBody().getPosition().y / GameSettings.SCALE / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE * GameSettings.SCALE);
         if (playerBlockCordX >= 0 && playerBlockCordX < GameSettings.MAP_WIDTH &&
                 playerBlockCordY >= 1 && playerBlockCordY <= GameSettings.MAP_HEIGHT) {
             if (generateMap.mapArray[playerBlockCordX][playerBlockCordY - 1] != null || player.getBody().getLinearVelocity().y==0) {
@@ -109,7 +123,7 @@ public class GameScreen extends ScreenAdapter {
         }
 
 
-//****************** FOR FPS********************************
+//****************** FOR FPS *******************************
         font.draw(myGdxGame.batch, (1 / delta) + "", myGdxGame.camera.position.x, myGdxGame.camera.position.y);
 //**********************************************************
 
@@ -121,16 +135,9 @@ public class GameScreen extends ScreenAdapter {
     }
 
     private void drawBlocks() {
-        if (Gdx.input.isTouched()) {
-            touchPos.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-            myGdxGame.camera.unproject(touchPos);
-        }
-        playerBlockCordX = (int) (player.getBody().getPosition().x / GameSettings.SCALE / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE * GameSettings.SCALE);
+        playerBlockCordX = (int) (player.getBody().getPosition().x / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE);
+        playerBlockCordY = (int) (player.getBody().getPosition().y / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE);
 
-        playerBlockCordY = (int) (player.getBody().getPosition().y / GameSettings.SCALE / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE * GameSettings.SCALE);
-
-
-//
         for (int i = 0; i < viewBlocksX; i++) {
             for (int k = 0; k < viewBlocksY; k++) {
                 if (playerBlockCordX - viewBlocksX / 2 + i >= 0 && playerBlockCordX - viewBlocksX / 2 + i < GameSettings.MAP_WIDTH

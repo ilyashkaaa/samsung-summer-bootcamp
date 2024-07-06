@@ -17,32 +17,48 @@ public class GenerateMap {
 
         for (int i = 0; i < MAP_HEIGHT; i++)
             for (int j = 0; j < MAP_WIDTH; j++) {
-                if (random.nextInt(map(0, MAP_HEIGHT - 1, 5, 40, i)) == 0)
-                    generateCluster(j, i, Stone.class, mapArray);
-                if (random.nextInt(map(0, MAP_HEIGHT - 1, 5, 40, i)) == 0)
-                    generateCluster(j, i, Grass.class, mapArray);
+                if (random.nextInt(map(0, MAP_HEIGHT - 1, 175, 600, i)) == 0 && i <= MAP_HEIGHT - 100)
+                    generateCluster(j, i, new Ruby(), mapArray, 10);
+                if (random.nextInt(map(0, MAP_HEIGHT - 1, 165, 550, i)) == 0 && i <= MAP_HEIGHT - 85)
+                    generateCluster(j, i, new Amethyst(), mapArray, 15);
+                if (random.nextInt(map(0, MAP_HEIGHT - 1, 150, 500, i)) == 0 && i <= MAP_HEIGHT - 65)
+                    generateCluster(j, i, new Emerald(), mapArray, 20);
+                if (random.nextInt(map(0, MAP_HEIGHT - 1, 140, 450, i)) == 0 && i <= MAP_HEIGHT - 50)
+                    generateCluster(j, i, new Diamond(), mapArray, 25);
+                if (random.nextInt(map(0, MAP_HEIGHT - 1, 125, 400, i)) == 0 && i <= MAP_HEIGHT - 40)
+                    generateCluster(j, i, new Gold(), mapArray, 30);
+                if (random.nextInt(map(0, MAP_HEIGHT - 1, 115, 350, i)) == 0 && i <= MAP_HEIGHT - 30)
+                    generateCluster(j, i, new Lazurite(), mapArray, 35);
+                if (random.nextInt(map(0, MAP_HEIGHT - 1, 100, 300, i)) == 0 && i <= MAP_HEIGHT - 20)
+                    generateCluster(j, i, new Iron(), mapArray, 40);
+                if (random.nextInt(map(0, MAP_HEIGHT - 1, 250, 250, i)) == 0)
+                    generateCluster(j, i, new Coal(), mapArray, 50);
             }
+
+        for (int i = 0; i < MAP_WIDTH; i++)
+            mapArray[i][MAP_HEIGHT - 1] = new Grass();
 
         for (int i = 0; i < MAP_WIDTH; i++)
             for (int j = 0; j < MAP_HEIGHT; j++)
                 if (mapArray[i][j] == null)
-                    mapArray[i][j] = new Dirt();
-
+                    if (MAP_HEIGHT - j < 10)
+                        mapArray[i][j] = new Dirt();
+                    else
+                        mapArray[i][j] = new Stone();
     }
 
-    private static void generateCluster(int x, int y, Class<? extends BasicBlock> block, BasicBlock[][] map) {
+    private static void generateCluster(int x, int y, BasicBlock block, /*Class<? extends BasicBlock> block,*/ BasicBlock[][] map, int maxAmountOfBLocks) {
         if (map[x][y] == null) {
             ArrayList<Integer> blocksX = new ArrayList<>();
             ArrayList<Integer> blocksY = new ArrayList<>();
-            try {
-                BasicBlock blockConstructor = block.getConstructor().newInstance();
-                map[x][y] = blockConstructor;
+            //try {
+                map[x][y] = block;
                 blocksX.add(x);
                 blocksY.add(y);
                 int countOfUnGenerated = 1;
 
                 int counter = 0;
-                while (countOfUnGenerated != 0) {
+                while (countOfUnGenerated != 0 && maxAmountOfBLocks > blocksY.size()) {
                     countOfUnGenerated--;
                     for (int i = 0; i < 4; i++) {
                         int clusterX = blocksX.get(counter) + (1 - i) * ((i + 1) % 2);
@@ -53,14 +69,14 @@ public class GenerateMap {
                                 countOfUnGenerated++;
                                 blocksX.add(clusterX);
                                 blocksY.add(clusterY);
-                                map[clusterX][clusterY] = blockConstructor;
+                                map[clusterX][clusterY] = block;
                             }
                         }
                     }
                     counter++;
-                }
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                e.printStackTrace();
+//                }
+//            } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+//                e.printStackTrace();
             }
         }
     }
