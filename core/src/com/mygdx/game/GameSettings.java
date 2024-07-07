@@ -14,6 +14,8 @@ public class GameSettings {
 
     public static final int MAP_WIDTH = 200;
     public static final int MAP_HEIGHT = 1000;
+    public static final int viewBlocksX = 20;
+    public static final int viewBlocksY = 20;
 
     public static final int BLOCK_SIDE = 160;
 

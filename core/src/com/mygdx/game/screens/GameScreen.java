@@ -1,5 +1,8 @@
 package com.mygdx.game.screens;
 
+import static com.mygdx.game.GameSettings.viewBlocksX;
+import static com.mygdx.game.GameSettings.viewBlocksY;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
@@ -15,8 +18,10 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.BodyCreator;
 
 import com.mygdx.game.GameSettings;
+import com.mygdx.game.MapBorder;
 import com.mygdx.game.MyGdxGame;
 
+import com.mygdx.game.entities.GameEntity;
 import com.mygdx.game.entities.Player;
 import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
@@ -39,6 +44,7 @@ public class GameScreen extends ScreenAdapter {
     Player player;
     Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
     GenerateMap generateMap;
+    MapBorder mapBorder;
     Joystick joystick;
     BlocksCollision blocksCollision;
     Vector2 selectedBlock;
@@ -51,8 +57,7 @@ public class GameScreen extends ScreenAdapter {
     long lastHit;
     boolean keepTouching;
     boolean backpackToggle;
-    int viewBlocksX = 40;
-    int viewBlocksY = 40;
+
     BackpackUI backpackUI;
 
 
@@ -70,6 +75,8 @@ public class GameScreen extends ScreenAdapter {
         generateMap = new GenerateMap();
         
         blocksCollision = new BlocksCollision(myGdxGame);
+
+        mapBorder = new MapBorder(myGdxGame.world);
         
         backpackUI = new BackpackUI(myGdxGame);
 
@@ -79,12 +86,13 @@ public class GameScreen extends ScreenAdapter {
 
         blocksCollision.generateCollision(generateMap.mapArray);
         Body playerBody = BodyCreator.createBody(
-                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, ((GameSettings.MAP_HEIGHT + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE),
+                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE*20, ((GameSettings.MAP_HEIGHT + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE),
                 GameSettings.PLAYER_WIDTH * GameSettings.OBJECT_SCALE, GameSettings.PLAYER_HEIGHT * GameSettings.OBJECT_SCALE, false,
                 myGdxGame.world
         );
+        mapBorder.createMapBorder(GameSettings.MAP_WIDTH*GameSettings.BLOCK_SIDE*GameSettings.OBJECT_SCALE, (GameSettings.MAP_HEIGHT+10)*GameSettings.BLOCK_SIDE*GameSettings.OBJECT_SCALE);
         player = new Player(GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, playerBody, myGdxGame);
-        myGdxGame.camera.position.set(0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, 0);
+        //myGdxGame.camera.position.set(0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, 0);
     }
 
     @Override
