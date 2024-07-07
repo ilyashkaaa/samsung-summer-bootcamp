@@ -104,7 +104,7 @@ public class GameResources {
     //UI
     public static final Sprite JOYSTICK_BACKGROUND_TEXTURE = new Sprite(new Texture("textures/joystick/joystick.png"));
     public static final Sprite JOYSTICK_TRIGGER_TEXTURE = new Sprite(new Texture("textures/joystick/joystickTrigger.png"));
-    public static final String BACKPACK_BUTTON_IMG_PATH = "textures/buttons/button_background_square.png";
+    public static final String BACKPACK_BUTTON_IMG_PATH = "textures/buttons/main_screen/bag_button_off.png";
 
 
 }

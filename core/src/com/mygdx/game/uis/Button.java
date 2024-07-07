@@ -84,8 +84,8 @@ public class Button {
         else {
             return touchPos.x <= x + GameSettings.SCR_WIDTH / 2f + width / GameSettings.OBJECT_SCALE / 2f &&
                     touchPos.x >= x + GameSettings.SCR_WIDTH / 2f - width / GameSettings.OBJECT_SCALE / 2f &&
-                    touchPos.y <= y + GameSettings.SCR_HEIGHT / 2f + height / GameSettings.OBJECT_SCALE / 2f &&
-                    touchPos.y >= y + GameSettings.SCR_HEIGHT / 2f - height / GameSettings.OBJECT_SCALE / 2f;
+                    touchPos.y >= - y + GameSettings.SCR_HEIGHT / 2f - height / GameSettings.OBJECT_SCALE / 2f &&
+                    touchPos.y <= - y + GameSettings.SCR_HEIGHT / 2f + height / GameSettings.OBJECT_SCALE / 2f;
         }
     }
 }

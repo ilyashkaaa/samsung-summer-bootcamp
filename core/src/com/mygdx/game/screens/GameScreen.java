@@ -106,7 +106,7 @@ public class GameScreen extends ScreenAdapter {
             selectedBlock = player.setMoveVector(joystick.getDirection(new Vector2(touch.x, touch.y)));
             keepTouching = true;
         } else {
-            selectedBlock.setZero();
+            //selectedBlock.setZero();
             player.updateCamera();
             keepTouching = false;
         }
@@ -134,7 +134,9 @@ public class GameScreen extends ScreenAdapter {
 //        }
 
         if (Gdx.input.isTouched()) {
-            backpackUI.handleInput(Gdx.input.getX(countOfTouching()), Gdx.input.getY(countOfTouching()));
+            if (buttonHandler(backpackUI.backpackButton)) {
+                backpackUI.backpackOpen = !backpackUI.backpackOpen;
+            }
             int x = (int) (playerBlockCordX + selectedBlock.x);
             int y = (int) (playerBlockCordY + selectedBlock.y);
             if (buttonHandler(jumpButton))
@@ -186,6 +188,7 @@ public class GameScreen extends ScreenAdapter {
         blocksCollision.deleteBlocks();
         myGdxGame.batch.begin();
         drawBlocks();
+        backpackUI.draw(myGdxGame.batch);
         if (!selectedBlock.isZero())
             myGdxGame.batch.draw(selectionBlock,
                     (selectedBlock.x + playerBlockCordX) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,

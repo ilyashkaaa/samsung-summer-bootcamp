@@ -5,19 +5,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.map.blocks.BasicBlock;
+
 import com.mygdx.game.screens.GameScreen;
-import com.mygdx.game.uis.ButtonView;
+import com.mygdx.game.uis.Button;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+
 
 public class BackpackUI {
-    ButtonView backpackButton;
+    public Button backpackButton;
     MyGdxGame myGdxGame;
     Texture backpackBackground;
     Texture backpackChooseButton;
-    boolean backpackOpen;
+    public boolean backpackOpen;
     public ArrayList<Texture> blocksInventory;
     public ArrayList<BackpackSlot> slotsInventory;
     public ArrayList<Texture> uniqueBlocks;
@@ -30,17 +30,13 @@ public class BackpackUI {
         uniqueBlocks = new ArrayList<>();
         slotsInventory = new ArrayList<>();
         backpackBackground = new Texture("textures/buttons/backpack_background.png");
-        backpackChooseButton = new Texture(GameResources.BACKPACK_BUTTON_IMG_PATH);
-        backpackButton = new ButtonView(GameSettings.SCR_WIDTH * GameSettings.SCALE - 10,
-                GameSettings.SCR_HEIGHT * GameSettings.SCALE - 10,
-                160 * GameSettings.SCALE,
-                160 * GameSettings.SCALE,
-                GameResources.BACKPACK_BUTTON_IMG_PATH, myGdxGame);
+        backpackChooseButton = new Texture("textures/buttons/button_background_square.png");
+        backpackButton = new Button(GameResources.BACKPACK_BUTTON_IMG_PATH, 700, 400, (int) (160*GameSettings.SCALE), (int) (160*GameSettings.SCALE));
 
     }
 
     public void draw(SpriteBatch batch) {
-        backpackButton.draw(batch);
+        backpackButton.draw(batch, myGdxGame.camera.position);
         if (backpackOpen) {
             batch.draw(backpackBackground,
                     myGdxGame.camera.position.x - myGdxGame.camera.viewportWidth / 2 + (float) (GameSettings.SCR_WIDTH - backpackBackground.getWidth()) / 2 * GameSettings.SCALE,
@@ -69,12 +65,12 @@ public class BackpackUI {
         }
     }
 
-    public void handleInput(float touchX, float touchY) {
-
-        if (backpackButton.isHit(touchX * GameSettings.SCALE, (GameSettings.SCR_HEIGHT - touchY) * GameSettings.SCALE)) {
-            backpackOpen = !backpackOpen;
-        }
-    }
+//    public void handleInput(Vector2 touchPos) {
+//
+//        if (backpackButton.isPressed()) {
+//            backpackOpen = !backpackOpen;
+//        }
+//    }
 
     public void addBlockToInventory() {
         for (int i = 0; i < blocksInventory.size(); i++) {
