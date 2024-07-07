@@ -66,6 +66,51 @@ public class GameResources {
     public static final Sprite IRON_PICKAXE = new Sprite(new Texture("textures/items/pickaxes/iron_pickaxe.png"));
     public static final Sprite STICK_PICKAXE = new Sprite(new Texture("textures/items/pickaxes/stick.png"));
     public static final Sprite STONE_PICKAXE = new Sprite(new Texture("textures/items/pickaxes/stone_pickaxe.png"));
+    public static final Sprite[] RIGHT_STONE_PICKAXE = new Sprite[] {
+         new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/stone/stone_dig1.png")),
+         new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/stone/stone_dig2.png")),
+         new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/stone/stone_dig3.png")),
+         new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/stone/stone_dig4.png")),
+         new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/stone/stone_dig5.png")),
+         new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/stone/stone_dig6.png")),
+         new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/stone/stone_dig7.png"))
+    };
+    public static final Sprite[] RIGHT_STICK_PICKAXE = new Sprite[]{
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/stick/stick_dig1.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/stick/stick_dig2.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/stick/stick_dig3.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/stick/stick_dig4.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/stick/stick_dig5.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/stick/stick_dig6.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/stick/stick_dig7.png"))
+    };
+    public static final Sprite[] RIGHT_IRON_PICKAXE = new Sprite[]{
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/iron/iron_dig1.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/iron/iron_dig2.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/iron/iron_dig3.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/iron/iron_dig4.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/iron/iron_dig5.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/iron/iron_dig6.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/iron/iron_dig7.png"))
+    };
+    public static final Sprite[] RIGHT_GOLD_PICKAXE = new Sprite[]{
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/gold/gold_dig1.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/gold/gold_dig2.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/gold/gold_dig3.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/gold/gold_dig4.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/gold/gold_dig5.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/gold/gold_dig6.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/gold/gold_dig7.png"))
+    };
+    public static final Sprite[] RIGHT_DIAMOND_PICKAXE = new Sprite[]{
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/diamond/diamond_dig1.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/diamond/diamond_dig2.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/diamond/diamond_dig3.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/diamond/diamond_dig4.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/diamond/diamond_dig5.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/diamond/diamond_dig6.png")),
+            new Sprite(new Texture("textures/hero/heroDigging/rightDigging/pickaxes/diamond/diamond_dig7.png"))
+    };
 
 
     //BLOCKS
@@ -89,17 +134,6 @@ public class GameResources {
 
     public static final String FIRE_OVEN_TEXTURE = "textures/blocks/ovens/fireoven.png";
     public static final String OVEN_TEXTURE = "textures/blocks/ovens/oven.png";
-
-    public static final Sprite[] BLOCK_DIGGING_TEXTURES = new Sprite[]{
-            new Sprite(new Texture("textures/blocks/digging/block_digging1.png")),
-            new Sprite(new Texture("textures/blocks/digging/block_digging2.png")),
-            new Sprite(new Texture("textures/blocks/digging/block_digging3.png")),
-            new Sprite(new Texture("textures/blocks/digging/block_digging4.png")),
-            new Sprite(new Texture("textures/blocks/digging/block_digging5.png")),
-            new Sprite(new Texture("textures/blocks/digging/block_digging6.png")),
-            new Sprite(new Texture("textures/blocks/digging/block_digging7.png")),
-            new Sprite(new Texture("textures/blocks/digging/block_digging8.png"))
-    };
 
     //UI
     public static final Sprite JOYSTICK_BACKGROUND_TEXTURE = new Sprite(new Texture("textures/joystick/joystick.png"));

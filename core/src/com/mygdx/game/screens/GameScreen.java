@@ -23,6 +23,7 @@ import com.mygdx.game.MyGdxGame;
 
 import com.mygdx.game.entities.GameEntity;
 import com.mygdx.game.entities.Player;
+import com.mygdx.game.entities.PlayerStates;
 import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
 import com.mygdx.game.map.blocks.GenerateMap;
@@ -112,7 +113,13 @@ public class GameScreen extends ScreenAdapter {
                 joystick.changeCords(new Vector2(touch.x, touch.y));
             selectedBlock = player.setMoveVector(joystick.getDirection(new Vector2(touch.x, touch.y)));
             keepTouching = true;
+            if (player.playerState == PlayerStates.STANDING) {
+                player.playerState = PlayerStates.WALKING;
+            }
         } else {
+            if (player.playerState == PlayerStates.WALKING ) {
+                player.playerState = PlayerStates.STANDING;
+            }
 //            selectedBlock.setZero();
             player.updateCamera();
             keepTouching = false;
@@ -132,8 +139,14 @@ public class GameScreen extends ScreenAdapter {
             if (buttonHandler(jumpButton))
                 player.jump();
             if (buttonHandler(breakingButton)){
-                if (x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT &&
-                        generateMap.mapArray[x][y] != null && TimeUtils.millis() - lastHit >= 200) {
+                if (player.getBody().getLinearVelocity().y==0) {
+                    player.drawDigging(x, y, playerBlockCordX, playerBlockCordY);
+                } else {
+                    player.playerState = PlayerStates.STANDING;
+                }
+                if (x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT
+                        && generateMap.mapArray[x][y] != null && TimeUtils.millis() - lastHit >= 200
+                        && player.playerState != PlayerStates.JUMPING && player.playerState != PlayerStates.FALLING) {
                     lastHit = TimeUtils.millis();
                     if (!generateMap.mapArray[x][y].hit(1)) {
                         backpackUI.blocksInventory.add(generateMap.mapArray[x][y].getTexture());
@@ -143,6 +156,7 @@ public class GameScreen extends ScreenAdapter {
                     }
                 }
             }
+
             if (buttonHandler(placeButton) && !selectedBlock.isZero() &&
                     x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT) {
                 generateMap.mapArray[x][y] = new Mossy();
@@ -151,6 +165,7 @@ public class GameScreen extends ScreenAdapter {
             }
         }
         else{
+            player.playerState = PlayerStates.STANDING;
             if (backpackToggle) {
                 backpackToggle = false;
                 backpackUI.backpackOpen = !backpackUI.backpackOpen;
