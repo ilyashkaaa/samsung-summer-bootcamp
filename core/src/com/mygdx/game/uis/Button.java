@@ -88,4 +88,10 @@ public class Button {
                     touchPos.y <= - y + GameSettings.SCR_HEIGHT / 2f + height / GameSettings.OBJECT_SCALE / 2f;
         }
     }
+    public void changeItem(String texturePath){itemTexture = new Texture(texturePath);}
+    public void changeItem(String texturePath, int itemWidth, int itemHeight){
+        itemTexture = new Texture(texturePath);
+        this.itemWidth = itemWidth;
+        this.itemHeight = itemHeight;
+    }
 }

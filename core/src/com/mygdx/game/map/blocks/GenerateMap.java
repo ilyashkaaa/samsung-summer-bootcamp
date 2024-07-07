@@ -41,9 +41,9 @@ public class GenerateMap {
 
         for (int i = 1; i < 3; i++) {
             for (int j = 0; j < MAP_WIDTH; j++) {
-                if (random.nextInt(i + 1) == 0)
+                if (random.nextInt(i + 1) == 0 && mapArray[j][MAP_HEIGHT - 11 + i] == null)
                     mapArray[j][MAP_HEIGHT - 11 + i] = new Stone();
-                if (random.nextInt(i + 1) == 0)
+                if (random.nextInt(i + 1) == 0 && mapArray[j][MAP_HEIGHT - 10 - i] == null)
                     mapArray[j][MAP_HEIGHT - 10 - i] = new Dirt();
             }
         }
