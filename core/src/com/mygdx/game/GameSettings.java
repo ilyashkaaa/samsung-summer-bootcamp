@@ -22,6 +22,6 @@ public class GameSettings {
     public static final int JOYSTICK_SIDE = 320;
     public static final int JOYSTICK_TRIGGER_SIDE = 1280;
 
-    public static final int PLAYER_WIDTH = 100;
-    public static final int PLAYER_HEIGHT = 270;
+    public static final int PLAYER_WIDTH = 133;
+    public static final int PLAYER_HEIGHT = 280;
 }

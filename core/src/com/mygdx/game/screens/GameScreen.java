@@ -17,11 +17,12 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.BodyCreator;
 
+import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MapBorder;
+import com.mygdx.game.MovingBackground;
 import com.mygdx.game.MyGdxGame;
 
-import com.mygdx.game.entities.GameEntity;
 import com.mygdx.game.entities.Player;
 import com.mygdx.game.entities.PlayerStates;
 import com.mygdx.game.map.blocks.BasicBlock;
@@ -36,8 +37,8 @@ import com.mygdx.game.uis.backpack.BackpackUI;
 public class GameScreen extends ScreenAdapter {
 
 
-//****************** FOR FPS********************************
-   public static BitmapFont font = new BitmapFont();
+    //****************** FOR FPS********************************
+    public static BitmapFont font = new BitmapFont();
 //***********************************************************
 
 
@@ -48,6 +49,7 @@ public class GameScreen extends ScreenAdapter {
     MapBorder mapBorder;
     Joystick joystick;
     BlocksCollision blocksCollision;
+    MovingBackground movingBackgroundSky;
     Vector2 selectedBlock;
     Texture selectionBlock = new Texture("textures/blocks/selected_block.png");
     Button jumpButton;
@@ -64,6 +66,7 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
+        movingBackgroundSky = new MovingBackground("textures/backscreens/sky.png");
 
         jumpButton = new Button("textures/buttons/main_screen/jump_button_on.png", 700, -300, (int) (200 * GameSettings.OBJECT_SCALE));
         breakingButton = new Button("textures/joystick/joystick.png", "textures/items/pickaxes/diamond_pickaxe.png",
@@ -72,13 +75,13 @@ public class GameScreen extends ScreenAdapter {
                 700, 200, (int) (200 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
 
         joystick = new Joystick();
-        
+
         generateMap = new GenerateMap();
-        
+
         blocksCollision = new BlocksCollision(myGdxGame);
 
         mapBorder = new MapBorder(myGdxGame.world);
-        
+
         backpackUI = new BackpackUI(myGdxGame);
 
         selectedBlock = new Vector2();
@@ -87,11 +90,11 @@ public class GameScreen extends ScreenAdapter {
 
         blocksCollision.generateCollision(generateMap.mapArray);
         Body playerBody = BodyCreator.createBody(
-                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE*20, ((GameSettings.MAP_HEIGHT + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE),
+                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE * 20, ((GameSettings.MAP_HEIGHT + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE),
                 GameSettings.PLAYER_WIDTH * GameSettings.OBJECT_SCALE, GameSettings.PLAYER_HEIGHT * GameSettings.OBJECT_SCALE, false,
                 myGdxGame.world
         );
-        mapBorder.createMapBorder(GameSettings.MAP_WIDTH*GameSettings.BLOCK_SIDE*GameSettings.OBJECT_SCALE, (GameSettings.MAP_HEIGHT+10)*GameSettings.BLOCK_SIDE*GameSettings.OBJECT_SCALE);
+        mapBorder.createMapBorder(GameSettings.MAP_WIDTH * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, (GameSettings.MAP_HEIGHT + 10) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE);
         player = new Player(GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, playerBody, myGdxGame);
         //myGdxGame.camera.position.set(0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, 0);
     }
@@ -117,7 +120,7 @@ public class GameScreen extends ScreenAdapter {
                 player.playerState = PlayerStates.WALKING;
             }
         } else {
-            if (player.playerState == PlayerStates.WALKING ) {
+            if (player.playerState == PlayerStates.WALKING) {
                 player.playerState = PlayerStates.STANDING;
             }
 //            selectedBlock.setZero();
@@ -131,15 +134,15 @@ public class GameScreen extends ScreenAdapter {
 
             if (buttonHandler(backpackUI.backpackButton))
                 backpackToggle = true;
-            if (!buttonHandler(backpackUI.backpackButton) && backpackToggle){
+            if (!buttonHandler(backpackUI.backpackButton) && backpackToggle) {
                 backpackToggle = false;
                 backpackUI.backpackOpen = !backpackUI.backpackOpen;
             }
 
             if (buttonHandler(jumpButton))
                 player.jump();
-            if (buttonHandler(breakingButton)){
-                if (player.getBody().getLinearVelocity().y==0) {
+            if (buttonHandler(breakingButton)) {
+                if (player.getBody().getLinearVelocity().y == 0) {
                     player.drawDigging(x, y, playerBlockCordX, playerBlockCordY);
                 } else {
                     player.playerState = PlayerStates.STANDING;
@@ -163,8 +166,7 @@ public class GameScreen extends ScreenAdapter {
                 generateMap.mapArray[x][y].setHasCollision(true);
                 blocksCollision.updateCollision(generateMap.mapArray, playerBlockCordX, playerBlockCordY - 1, false);
             }
-        }
-        else{
+        } else {
             player.playerState = PlayerStates.STANDING;
             if (backpackToggle) {
                 backpackToggle = false;
@@ -172,7 +174,7 @@ public class GameScreen extends ScreenAdapter {
             }
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.S)){
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             int x = (int) (playerBlockCordX + selectedBlock.x);
             int y = (int) (playerBlockCordY + selectedBlock.y);
             if (x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT &&
@@ -191,6 +193,7 @@ public class GameScreen extends ScreenAdapter {
                 player.setJumpClickClack(true);
             }
         }
+        movingBackgroundSky.move();
     }
 
     public void draw(float delta) {
@@ -199,6 +202,7 @@ public class GameScreen extends ScreenAdapter {
         ScreenUtils.clear(Color.CLEAR);
         blocksCollision.deleteBlocks();
         myGdxGame.batch.begin();
+        movingBackgroundSky.draw(myGdxGame.batch, myGdxGame);
         drawBlocks();
         player.draw(myGdxGame.batch);
         if (!selectedBlock.isZero())
@@ -242,10 +246,16 @@ public class GameScreen extends ScreenAdapter {
                         generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k].draw(myGdxGame.batch,
                                 (playerBlockCordX - viewBlocksX / 2f + i) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
                                 (playerBlockCordY - viewBlocksY / 2f + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
-                                );
+                        );
                         if (generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k].getHasCollision()) {
                             blocksCollision.bodyArray.add(BasicBlock.createStaticBody(playerBlockCordX - viewBlocksX / 2 + i, playerBlockCordY - viewBlocksY / 2 + k, myGdxGame));
                         }
+                    } else {
+                        myGdxGame.batch.draw(GameResources.STONE_BLOCK_BACKGROUND,
+                                (playerBlockCordX - viewBlocksX / 2f + i) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
+                                (playerBlockCordY - viewBlocksY / 2f + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
+                                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
+                                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE);
                     }
 
 
@@ -282,7 +292,8 @@ public class GameScreen extends ScreenAdapter {
         }
         return i - 1;
     }
-    private boolean buttonHandler (Button button){
+
+    private boolean buttonHandler(Button button) {
         for (int i = 0; i <= countOfTouching(); i++) {
             if (button.isPressed(new Vector2(Gdx.input.getX(i), Gdx.input.getY(i))))
                 return true;
