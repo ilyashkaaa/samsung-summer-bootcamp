@@ -14,10 +14,15 @@ import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
 
+import java.lang.reflect.InvocationTargetException;
+
+import pickaxes.BasicPickaxe;
+
 public class Player extends GameEntity {
     private static final int PLAYER_SPEED_X = 25;
     private boolean canJump;
     PlayerStates playerState;
+    public BasicPickaxe pickaxe;
     boolean movingLeft;
     boolean isNeedActivate;
     boolean isActivated;
@@ -34,8 +39,15 @@ public class Player extends GameEntity {
     int frameMultiplierForDigging = 4;
 
 
-    public Player(float width, float height, Body body, MyGdxGame myGdxGame) {
+    public Player(float width, float height, Body body, MyGdxGame myGdxGame, Class<? extends BasicPickaxe> pickaxe) {
         super(width, height, body, myGdxGame);
+
+        try {
+            this.pickaxe = pickaxe.getConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
+            e.printStackTrace();
+        }
+
         canJump = false;
         playerState = PlayerStates.STANDING;
         movingLeft = false;
@@ -44,6 +56,13 @@ public class Player extends GameEntity {
 
     }
 
+    public void setPickaxe (Class<? extends BasicPickaxe> pickaxe){
+        try {
+            this.pickaxe = pickaxe.getConstructor().newInstance();
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
+            e.printStackTrace();
+        }
+    }
 
     public void updateCamera() {
         Vector3 position = myGdxGame.camera.position;
@@ -70,7 +89,6 @@ public class Player extends GameEntity {
 //        }
 
         flippingTextures(moveVector);
-        updateCamera();
 
         if (normalizeMove.y > 0.65f)
             return new Vector2(0, 2);

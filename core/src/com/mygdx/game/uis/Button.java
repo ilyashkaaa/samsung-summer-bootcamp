@@ -13,13 +13,13 @@ public class Button {
     Texture itemTexture;
     int x;
     int y;
-    int width;
-    int height;
+    float width;
+    float height;
     int itemWidth;
     int itemHeight;
     int radius;
 
-    public Button(String buttonTexturePath, int x, int y, int width, int height) {
+    public Button(String buttonTexturePath, int x, int y, float width, float height) {
         buttonTexture = new Texture(buttonTexturePath);
         this.x = x;
         this.y = y;
@@ -89,6 +89,7 @@ public class Button {
         }
     }
     public void changeItem(String texturePath){itemTexture = new Texture(texturePath);}
+    public void changeButtonTexture(String texturePath){buttonTexture = new Texture(texturePath);}
     public void changeItem(String texturePath, int itemWidth, int itemHeight){
         itemTexture = new Texture(texturePath);
         this.itemWidth = itemWidth;

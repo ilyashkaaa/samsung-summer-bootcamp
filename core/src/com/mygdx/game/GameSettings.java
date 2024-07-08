@@ -17,6 +17,9 @@ public class GameSettings {
 
     public static final int BLOCK_SIDE = 160;
 
+    public static final int MARKET_WIDTH = 800;
+    public static final int MARKET_HEIGHT = 754;
+
     public static final int JOYSTICK_SIDE = 320;
     public static final int JOYSTICK_TRIGGER_SIDE = 1280;
 

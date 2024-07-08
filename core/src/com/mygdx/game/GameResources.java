@@ -79,9 +79,11 @@ public class GameResources {
     public static final String GOLD_BLOCK_TEXTURE = "textures/blocks/stone/goldblock.png";
     public static final String IRON_BLOCK_TEXTURE = "textures/blocks/stone/ironblock.png";
     public static final String LAZURITE_BLOCK_TEXTURE = "textures/blocks/stone/lazuriteblock.png";
-
     public static final String MOSSY_BLOCK_TEXTURE = "textures/blocks/stone/mossyblock.png";
     public static final String RUBY_BLOCK_TEXTURE = "textures/blocks/stone/rubyblock.png";
+
+    public static final String FOOD_MARKET_TEXTURE = "textures/buildings/foodshop.png";
+    public static final String SELL_MARKET_TEXTURE = "textures/buildings/market.png";
 
     public static final String LEAVES_TEXTURE = "textures/blocks/up/leaves.png";
     public static final String WOOD_BLOCK_TEXTURE = "textures/blocks/up/wood.png";
@@ -89,6 +91,9 @@ public class GameResources {
 
     public static final String FIRE_OVEN_TEXTURE = "textures/blocks/ovens/fireoven.png";
     public static final String OVEN_TEXTURE = "textures/blocks/ovens/oven.png";
+
+    public static final String DIAMOND_PICKAXE_TEXTURE = "textures/items/pickaxes/diamond_pickaxe.png";
+    public static final String GOLD_PICKAXE_TEXTURE = "textures/items/pickaxes/gold_pickaxe.png";
 
     public static final Sprite[] BLOCK_DIGGING_TEXTURES = new Sprite[]{
             new Sprite(new Texture("textures/blocks/digging/block_digging1.png")),
