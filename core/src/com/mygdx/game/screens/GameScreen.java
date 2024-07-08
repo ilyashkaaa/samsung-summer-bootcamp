@@ -77,7 +77,7 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
-        movingBackgroundSky = new MovingBackground("textures/backscreens/sky.png");
+        movingBackgroundSky = new MovingBackground(GameResources.SKY);
 
         generateMap = new GenerateMap();
 
@@ -86,8 +86,8 @@ public class GameScreen extends ScreenAdapter {
 //        sellMarket = new SellMarket(6.5f, generateMap.mapArray);
 //        foodMarket = new FoodMarket(10.5f, generateMap.mapArray);
 
-        jumpButton = new Button("textures/buttons/main_screen/jump_button_on.png", 700, -300, (int) (200 * GameSettings.OBJECT_SCALE));
-        actionButton = new Button("textures/joystick/joystick.png", "textures/items/pickaxes/diamond_pickaxe.png",
+        jumpButton = new Button(GameResources.JUMP_BUTTON, 700, -300, (int) (200 * GameSettings.OBJECT_SCALE));
+        actionButton = new Button("textures/joystick/joystick.png", GameResources.DIAMOND_PICKAXE,
                 700, -50, (int) (200 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
 //        placeButton = new Button("textures/joystick/joystick.png", "textures/blocks/stone/mossyblock.png",
 //                700, 200, (int) (200 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
@@ -126,15 +126,15 @@ public class GameScreen extends ScreenAdapter {
         if (nameOfMarketNearBy(markets) == null) {
             toggleActionButton = false;
             if (backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).type.equals("BasicBlock")) {
-                actionButton.changeItem(backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).texture.toString());
+                actionButton.changeItem(backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).texture);
             }
             else if (backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).type.equals("BasicPickaxe")){
-                actionButton.changeItem(player.pickaxe.getTexture().toString());
+                actionButton.changeItem(player.pickaxe.getTexture());
             }
         }
         else {
             toggleActionButton = true;
-            actionButton.changeItem("textures/blocks/selected_block.png");
+            actionButton.changeItem(GameResources.ACTION_BUTTON);
         }
 
         playerBlockCordX = (int) (player.getBody().getPosition().x / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE);
@@ -209,7 +209,7 @@ public class GameScreen extends ScreenAdapter {
                     for (int i = 0; i < backpackUI.backpackSlots.length; i++)
                         if (buttonHandler(backpackUI.backpackSlots[i]) && i < backpackUI.slotsInventoryItem.size()) {
                             backpackUI.cancelSelection();
-                            backpackUI.backpackSlots[i].changeButtonTexture("textures/blocks/selected_block.png");
+                            backpackUI.backpackSlots[i].changeButtonTexture(GameResources.SELECTED_BLOCK);
                             backpackUI.selectionIndex = i;
                             break;
                         }
@@ -238,7 +238,7 @@ public class GameScreen extends ScreenAdapter {
                                         }
                                         if (x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT
                                                 && generateMap.mapArray[x][y] != null && TimeUtils.millis() - lastHit >= 200
-                                                && player.playerState != PlayerStates.JUMPING && player.playerState != PlayerStates.FALLING{
+                                                && player.playerState != PlayerStates.JUMPING && player.playerState != PlayerStates.FALLING){
                                             lastHit = TimeUtils.millis();
                                             if (!generateMap.mapArray[x][y].hit(player.pickaxe.getDamage())) {
 //                            backpackUI.blocksInventory.add(generateMap.mapArray[x][y].getTexture());
@@ -378,7 +378,7 @@ public class GameScreen extends ScreenAdapter {
 
 
         myGdxGame.batch.end();
-        box2DDebugRenderer.render(myGdxGame.world, myGdxGame.camera.combined);
+       // box2DDebugRenderer.render(myGdxGame.world, myGdxGame.camera.combined);
 
     }
 

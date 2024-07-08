@@ -19,8 +19,8 @@ public class Button {
     int itemHeight;
     int radius;
 
-    public Button(String buttonTexturePath, int x, int y, float width, float height) {
-        buttonTexture = new Texture(buttonTexturePath);
+    public Button(Texture buttonTexture, int x, int y, float width, float height) {
+        this.buttonTexture = buttonTexture;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -88,8 +88,12 @@ public class Button {
                     touchPos.y <= - y + GameSettings.SCR_HEIGHT / 2f + height / GameSettings.OBJECT_SCALE / 2f;
         }
     }
-    public void changeItem(String texturePath){itemTexture = new Texture(texturePath);}
-    public void changeButtonTexture(String texturePath){buttonTexture = new Texture(texturePath);}
+    public void changeItem(Texture texture){
+        itemTexture = texture;
+    }
+    public void changeButtonTexture(Texture texture){
+        buttonTexture = texture;
+    }
     public void changeItem(String texturePath, int itemWidth, int itemHeight){
         itemTexture = new Texture(texturePath);
         this.itemWidth = itemWidth;

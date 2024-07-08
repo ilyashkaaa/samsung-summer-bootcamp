@@ -19,7 +19,7 @@ public class BackpackUI {
     public int selectionIndex;
     MyGdxGame myGdxGame;
     Texture backpackBackground;
-    String backpackChooseButton;
+    Texture backpackChooseButton;
     public boolean backpackOpen;
 //    public ArrayList<Texture> blocksInventory;
     public ArrayList<BackpackSlot> slotsInventoryItem;
@@ -36,8 +36,8 @@ public class BackpackUI {
         uniqueItem = new ArrayList<>();
         slotsInventoryItem = new ArrayList<>();
         backpackBackground = new Texture("textures/buttons/backpack_background.png");
-        backpackChooseButton = "textures/buttons/button_background_square.png";
-        backpackButton = new Button(GameResources.BACKPACK_BUTTON_IMG_PATH, 700, 400, (int) (160*GameSettings.SCALE), (int) (160*GameSettings.SCALE));
+        backpackChooseButton = new Texture("textures/buttons/button_background_square.png");
+        backpackButton = new Button(GameResources.BACKPACK_BUTTON_IMG, 700, 400, (int) (160*GameSettings.SCALE), (int) (160*GameSettings.SCALE));
         backpackSlots = new Button[15];
 
         for (int i = 0; i < 3; i++)
@@ -47,7 +47,7 @@ public class BackpackUI {
                         160 - i * 180,
                         175 * GameSettings.SCALE, 175 * GameSettings.SCALE);
 
-        backpackSlots[0].changeButtonTexture("textures/blocks/selected_block.png");
+        backpackSlots[0].changeButtonTexture(GameResources.SELECTED_BLOCK);
     }
 
     public void cancelSelection(){
@@ -81,8 +81,8 @@ public class BackpackUI {
                 batch.draw(slotsInventoryItem.get(k).texture,
                         cameraPos.x - myGdxGame.camera.viewportWidth / 2 + k % 5 * 250 * GameSettings.SCALE + 350 * GameSettings.SCALE,
                         cameraPos.y - myGdxGame.camera.viewportHeight / 2 - (k / 5) * 180 * GameSettings.SCALE + 250 * GameSettings.SCALE + 2 * 180 * GameSettings.SCALE,
-                        new Texture (backpackChooseButton).getWidth() * GameSettings.SCALE,
-                        new Texture (backpackChooseButton).getHeight() * GameSettings.SCALE);
+                        backpackChooseButton.getWidth() * GameSettings.SCALE,
+                        backpackChooseButton.getHeight() * GameSettings.SCALE);
                 if (slotsInventoryItem.get(k).showCount)
                     GameScreen.font.draw(batch, slotsInventoryItem.get(k).counterOfBlock + "",
                             cameraPos.x - myGdxGame.camera.viewportWidth / 2 + k % 5 * 250 * GameSettings.SCALE + 250 * GameSettings.SCALE,
@@ -142,7 +142,7 @@ public class BackpackUI {
                     uniqueItem.remove(backpackSlot.texture);
                     selectionIndex = 0;
                     cancelSelection();
-                    backpackSlots[0].changeButtonTexture("textures/blocks/selected_block.png");
+                    backpackSlots[0].changeButtonTexture(GameResources.SELECTED_BLOCK);
                 }
                 break;
             }
