@@ -143,8 +143,10 @@ public class GameResources {
     //UI
     public static final Sprite JOYSTICK_BACKGROUND_TEXTURE = new Sprite(new Texture("textures/joystick/joystick.png"));
     public static final Sprite JOYSTICK_TRIGGER_TEXTURE = new Sprite(new Texture("textures/joystick/joystickTrigger.png"));
-    public static final String BACKPACK_BUTTON_IMG_PATH = "textures/buttons/main_screen/bag_button_off.png";
+    public static final Texture BACKPACK_BUTTON_IMG = new Texture("textures/buttons/main_screen/bag_button_off.png");
     public static final Texture STONE_BLOCK_BACKGROUND = new Texture("textures/backscreens/stone_block_backscreen.png");
+    public static final Texture SELECTED_BLOCK = new Texture("textures/blocks/selected_block.png");
+
 
 
 }
