@@ -14,6 +14,8 @@ public class GameSettings {
 
     public static final int MAP_WIDTH = 200;
     public static final int MAP_HEIGHT = 1000;
+    public static final int viewBlocksX = 20;
+    public static final int viewBlocksY = 20;
 
     public static final int BLOCK_SIDE = 160;
 
@@ -23,6 +25,6 @@ public class GameSettings {
     public static final int JOYSTICK_SIDE = 320;
     public static final int JOYSTICK_TRIGGER_SIDE = 1280;
 
-    public static final int PLAYER_WIDTH = 100;
-    public static final int PLAYER_HEIGHT = 270;
+    public static final int PLAYER_WIDTH = 133;
+    public static final int PLAYER_HEIGHT = 280;
 }
