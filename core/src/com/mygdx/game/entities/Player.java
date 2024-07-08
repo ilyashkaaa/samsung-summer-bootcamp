@@ -14,7 +14,7 @@ import com.mygdx.game.MyGdxGame;
 
 import java.lang.reflect.InvocationTargetException;
 
-import pickaxes.BasicPickaxe;
+import com.mygdx.game.pickaxes.BasicPickaxe;
 
 public class Player extends GameEntity {
     private static final int PLAYER_SPEED_X = 25;
@@ -67,7 +67,8 @@ public class Player extends GameEntity {
         position.x = body.getPosition().x;
         position.y = body.getPosition().y;
         myGdxGame.camera.position.set(position);
-
+        body.setLinearVelocity(body.getLinearVelocity().cpy().sub(
+                body.getLinearVelocity().setLength(1).x, 0));
     }
 
     public void setJumpClickClack(boolean canJump) {

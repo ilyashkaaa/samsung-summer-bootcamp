@@ -1,4 +1,4 @@
-package markets;
+package com.mygdx.game.markets;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -21,7 +21,7 @@ public class BasicMarket {
     Texture backpackBackground;
     public Button exitButton;
 
-    public BasicMarket (String texturePath, float x, BasicBlock[][] mapArray){
+    public BasicMarket (String texturePath, float x){
         this.x = x;
 
         exitButton = new Button("textures/buttons/button_background_square.png", "textures/buttons/main_screen/jump_button_off.png",
@@ -35,10 +35,10 @@ public class BasicMarket {
         marketTexture = new Texture(texturePath);
         backpackBackground = new Texture("textures/buttons/backpack_background.png");
 
-        for (int i = 0; i < GameSettings.MARKET_WIDTH / 2 / GameSettings.BLOCK_SIDE + 1; i++) {
-            mapArray[(int) x - i][GameSettings.MAP_HEIGHT - 1] = new Mossy();
-            mapArray[(int) x + i][GameSettings.MAP_HEIGHT - 1] = new Mossy();
-        }
+//        for (int i = 0; i < GameSettings.MARKET_WIDTH / 2 / GameSettings.BLOCK_SIDE + 1; i++) {
+//            mapArray[(int) x - i][GameSettings.MAP_HEIGHT - 1] = new Mossy();
+//            mapArray[(int) x + i][GameSettings.MAP_HEIGHT - 1] = new Mossy();
+//        }
     }
 
     public boolean isNearBy(Vector2 playerPos){
