@@ -34,11 +34,11 @@ import com.mygdx.game.uis.backpack.BackpackUI;
 
 import java.lang.reflect.InvocationTargetException;
 
-import markets.BasicMarket;
-import markets.FoodMarket;
-import markets.SellMarket;
-import pickaxes.DiamondPickaxe;
-import pickaxes.GoldPickaxe;
+import com.mygdx.game.markets.BasicMarket;
+import com.mygdx.game.markets.FoodMarket;
+import com.mygdx.game.markets.SellMarket;
+import com.mygdx.game.pickaxes.DiamondPickaxe;
+import com.mygdx.game.pickaxes.GoldPickaxe;
 
 
 public class GameScreen extends ScreenAdapter {
@@ -81,7 +81,7 @@ public class GameScreen extends ScreenAdapter {
 
         generateMap = new GenerateMap();
 
-        markets = new BasicMarket[]{new SellMarket(6.5f, generateMap.mapArray), new FoodMarket(12.5f, generateMap.mapArray)};
+        markets = new BasicMarket[]{new SellMarket(6.5f), new FoodMarket(12.5f)};
 
 //        sellMarket = new SellMarket(6.5f, generateMap.mapArray);
 //        foodMarket = new FoodMarket(10.5f, generateMap.mapArray);

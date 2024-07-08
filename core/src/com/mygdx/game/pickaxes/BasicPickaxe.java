@@ -1,4 +1,4 @@
-package pickaxes;
+package com.mygdx.game.pickaxes;
 
 import com.badlogic.gdx.graphics.Texture;
 

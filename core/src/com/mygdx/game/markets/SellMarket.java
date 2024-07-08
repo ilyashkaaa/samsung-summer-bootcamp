@@ -1,12 +1,9 @@
-package markets;
+package com.mygdx.game.markets;
 
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.uis.Button;
 
 public class SellMarket extends BasicMarket{
@@ -21,8 +18,8 @@ public class SellMarket extends BasicMarket{
     public boolean inSell = false;
     public boolean inBuy = false;
 
-    public SellMarket(float x, BasicBlock[][] mapArray){
-        super(texturePath, x, mapArray);
+    public SellMarket(float x){
+        super(texturePath, x);
         buyButton = new Button("textures/buttons/button_background_square.png", "textures/items/pickaxes/diamond_pickaxe.png",
                 500, 0, (int) (250 * GameSettings.SCALE), (int) (250 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE));
         sellButton = new Button("textures/buttons/button_background_square.png", "textures/items/ores/gold.png",
