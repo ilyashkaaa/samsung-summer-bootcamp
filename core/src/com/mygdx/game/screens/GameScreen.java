@@ -44,8 +44,8 @@ import pickaxes.GoldPickaxe;
 public class GameScreen extends ScreenAdapter {
 
 
-//****************** FOR FPS********************************
-   public static BitmapFont font = new BitmapFont();
+    //****************** FOR FPS********************************
+    public static BitmapFont font = new BitmapFont();
 //***********************************************************
 
 
@@ -111,7 +111,8 @@ public class GameScreen extends ScreenAdapter {
                 myGdxGame.world
         );
         player = new Player(GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, playerBody, myGdxGame, GoldPickaxe.class);
-        myGdxGame.camera.position.set(0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, 0);
+        // myGdxGame.camera.position.set(0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, 0);
+        mapBorder.createMapBorder(GameSettings.MAP_WIDTH * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, (GameSettings.MAP_HEIGHT + 10) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE);
 
         backpackUI.addItemInInventory(player.pickaxe.getTexture(), player.pickaxe.getClass(), false);
     }
@@ -127,12 +128,10 @@ public class GameScreen extends ScreenAdapter {
             toggleActionButton = false;
             if (backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).type.equals("BasicBlock")) {
                 actionButton.changeItem(backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).texture);
-            }
-            else if (backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).type.equals("BasicPickaxe")){
+            } else if (backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).type.equals("BasicPickaxe")) {
                 actionButton.changeItem(player.pickaxe.getTexture());
             }
-        }
-        else {
+        } else {
             toggleActionButton = true;
             actionButton.changeItem(GameResources.SELECTED_BLOCK);
         }
@@ -156,7 +155,7 @@ public class GameScreen extends ScreenAdapter {
                 if (player.playerState == PlayerStates.WALKING) {
                     player.playerState = PlayerStates.STANDING;
                 }
-//            selectedBlock.setZero();
+                //selectedBlock.setZero();
                 keepTouching = false;
             }
         }
@@ -197,13 +196,11 @@ public class GameScreen extends ScreenAdapter {
                         ((SellMarket) markets[0]).inMenu = true;
                     }
                 }
-            }
-            else if (markets[1].inMarket) {
+            } else if (markets[1].inMarket) {
                 if (buttonHandler(markets[1].exitButton)) {
                     markets[1].inMarket = false;
                 }
-            }
-            else {
+            } else {
 
                 if (backpackUI.backpackOpen) {
                     for (int i = 0; i < backpackUI.backpackSlots.length; i++)
@@ -238,7 +235,7 @@ public class GameScreen extends ScreenAdapter {
                                         }
                                         if (x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT
                                                 && generateMap.mapArray[x][y] != null && TimeUtils.millis() - lastHit >= 200
-                                                && player.playerState != PlayerStates.JUMPING && player.playerState != PlayerStates.FALLING){
+                                                && player.playerState != PlayerStates.JUMPING && player.playerState != PlayerStates.FALLING) {
                                             lastHit = TimeUtils.millis();
                                             if (!generateMap.mapArray[x][y].hit(player.pickaxe.getDamage())) {
 //                            backpackUI.blocksInventory.add(generateMap.mapArray[x][y].getTexture());
@@ -299,8 +296,7 @@ public class GameScreen extends ScreenAdapter {
                 }
             }
             needToResetExitInMarketButton = isExitButtonInMarketPressed(markets);
-        }
-        else{
+        } else {
             player.playerState = PlayerStates.STANDING;
             needToResetExitInMarketButton = false;
             needToResetActionButton = false;
@@ -347,7 +343,7 @@ public class GameScreen extends ScreenAdapter {
             market.draw(myGdxGame.batch);
         }
 
-        player.draw(myGdxGame.batch);
+        player.draw(myGdxGame.batch, delta);
         if (!selectedBlock.isZero())
             myGdxGame.batch.draw(selectionBlock,
                     (selectedBlock.x + playerBlockCordX) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
@@ -373,12 +369,12 @@ public class GameScreen extends ScreenAdapter {
             markets[1].drawInterface(cameraPos, myGdxGame);
 
 //****************** FOR FPS *******************************
-//        font.draw(myGdxGame.batch, (1 / delta) + "", myGdxGame.camera.position.x, myGdxGame.camera.position.y);
+      font.draw(myGdxGame.batch, (1 / delta) + "", myGdxGame.camera.position.x, myGdxGame.camera.position.y);
 //**********************************************************
 
 
         myGdxGame.batch.end();
-       // box2DDebugRenderer.render(myGdxGame.world, myGdxGame.camera.combined);
+        // box2DDebugRenderer.render(myGdxGame.world, myGdxGame.camera.combined);
 
     }
 
@@ -420,7 +416,7 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
-    private String nameOfMarketNearBy(BasicMarket[] markets){
+    private String nameOfMarketNearBy(BasicMarket[] markets) {
         for (BasicMarket market : markets)
             if (market.isNearBy(player.getBody().getPosition()))
                 return market.getClass().getSimpleName();
@@ -438,14 +434,15 @@ public class GameScreen extends ScreenAdapter {
         return returned;
     }
 
-    private boolean isExitButtonInMarketPressed(BasicMarket[] markets){
+    private boolean isExitButtonInMarketPressed(BasicMarket[] markets) {
         for (BasicMarket market : markets) {
             if (buttonHandler(market.exitButton))
                 return true;
         }
         return false;
     }
-    private boolean isOneInMarket(BasicMarket[] markets){
+
+    private boolean isOneInMarket(BasicMarket[] markets) {
         for (BasicMarket market : markets) {
             if (market.inMarket)
                 return true;
