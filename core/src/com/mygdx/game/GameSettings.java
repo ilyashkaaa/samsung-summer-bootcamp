@@ -23,7 +23,7 @@ public class GameSettings {
     public static final int MARKET_HEIGHT = 754;
 
     public static final int JOYSTICK_SIDE = 320;
-    public static final int JOYSTICK_TRIGGER_SIDE = 1280;
+    public static final int JOYSTICK_TRIGGER_SIDE = 640;
 
     public static final int PLAYER_WIDTH = 133;
     public static final int PLAYER_HEIGHT = 280;
