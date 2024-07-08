@@ -15,8 +15,8 @@ public class Button {
     int y;
     float width;
     float height;
-    int itemWidth;
-    int itemHeight;
+    float itemWidth;
+    float itemHeight;
     int radius;
 
     public Button(Texture buttonTexture, int x, int y, float width, float height) {
@@ -28,9 +28,9 @@ public class Button {
         isCircle = false;
         hasItem = false;
     }
-    public Button(String buttonTexturePath, String itemTexturePath, int x, int y, int width, int height, int itemWidth, int itemHeight) {
-        buttonTexture = new Texture(buttonTexturePath);
-        itemTexture = new Texture(itemTexturePath);
+    public Button(Texture buttonTexturePath, Texture itemTexturePath, int x, int y, float width, float height, float itemWidth, float itemHeight) {
+        buttonTexture = buttonTexturePath;
+        itemTexture = itemTexturePath;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -40,17 +40,17 @@ public class Button {
         isCircle = false;
         hasItem = true;
     }
-    public Button(String buttonTexturePath, int x, int y, int radius) {
-        buttonTexture = new Texture(buttonTexturePath);
+    public Button(Texture buttonTexturePath, int x, int y, int radius) {
+        buttonTexture = buttonTexturePath;
         this.x = x;
         this.y = y;
         this.radius = radius / 2;
         isCircle = true;
         hasItem = false;
     }
-    public Button(String buttonTexturePath, String itemTexturePath, int x, int y, int radius, int itemWidth, int itemHeight) {
-        buttonTexture = new Texture(buttonTexturePath);
-        itemTexture = new Texture(itemTexturePath);
+    public Button(Texture buttonTexturePath, Texture itemTexturePath, int x, int y, int radius, float itemWidth, float itemHeight) {
+        buttonTexture = buttonTexturePath;
+        itemTexture = itemTexturePath;
         this.x = x;
         this.y = y;
         this.radius = radius / 2;
@@ -94,8 +94,9 @@ public class Button {
     public void changeButtonTexture(Texture texture){
         buttonTexture = texture;
     }
-    public void changeItem(String texturePath, int itemWidth, int itemHeight){
-        itemTexture = new Texture(texturePath);
+    public void setHasItem(boolean hasItem) {this.hasItem = hasItem;}
+    public void changeItem(Texture texture, float itemWidth, float itemHeight){
+        itemTexture = texture;
         this.itemWidth = itemWidth;
         this.itemHeight = itemHeight;
     }

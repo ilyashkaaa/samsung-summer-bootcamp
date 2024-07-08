@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.map.blocks.BasicBlock;
@@ -24,7 +25,7 @@ public class BasicMarket {
     public BasicMarket (String texturePath, float x){
         this.x = x;
 
-        exitButton = new Button("textures/buttons/button_background_square.png", "textures/buttons/main_screen/jump_button_off.png",
+        exitButton = new Button(GameResources.BUTTON_BACKGROUND, GameResources.EXIT_BUTTON,
                 0, -200, (int) (250 * GameSettings.SCALE), (int) (250 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE));
 
         y = GameSettings.MAP_HEIGHT * GameSettings.OBJECT_SCALE * GameSettings.BLOCK_SIDE;

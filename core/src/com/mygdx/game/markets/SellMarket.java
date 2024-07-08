@@ -20,13 +20,13 @@ public class SellMarket extends BasicMarket{
 
     public SellMarket(float x){
         super(texturePath, x);
-        buyButton = new Button("textures/buttons/button_background_square.png", "textures/items/pickaxes/diamond_pickaxe.png",
+        buyButton = new Button(GameResources.BUTTON_BACKGROUND, GameResources.DIAMOND_PICKAXE,
                 500, 0, (int) (250 * GameSettings.SCALE), (int) (250 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE));
-        sellButton = new Button("textures/buttons/button_background_square.png", "textures/items/ores/gold.png",
+        sellButton = new Button(GameResources.BUTTON_BACKGROUND, GameResources.MONEY,
                 -500, 0, (int) (250 * GameSettings.SCALE), (int) (250 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE));
-        diamondPickaxe = new Button("textures/buttons/button_background_square.png", "textures/items/pickaxes/diamond_pickaxe.png",
+        diamondPickaxe = new Button(GameResources.BUTTON_BACKGROUND, GameResources.DIAMOND_PICKAXE,
                 500, 0, (int) (250 * GameSettings.SCALE), (int) (250 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE));
-        goldPickaxe = new Button("textures/buttons/button_background_square.png", "textures/items/pickaxes/gold_pickaxe.png",
+        goldPickaxe = new Button(GameResources.BUTTON_BACKGROUND, GameResources.GOLD_PICKAXE,
                 -500, 0, (int) (250 * GameSettings.SCALE), (int) (250 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE));
     }
 

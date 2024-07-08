@@ -19,7 +19,7 @@ import com.mygdx.game.BodyCreator;
 
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
-import com.mygdx.game.MapBorder;
+import com.mygdx.game.map.blocks.MapBorder;
 import com.mygdx.game.MovingBackground;
 import com.mygdx.game.MyGdxGame;
 
@@ -29,6 +29,7 @@ import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
 import com.mygdx.game.map.blocks.GenerateMap;
 import com.mygdx.game.uis.Button;
+import com.mygdx.game.uis.CameraMovement;
 import com.mygdx.game.uis.Joystick;
 import com.mygdx.game.uis.backpack.BackpackUI;
 
@@ -62,6 +63,7 @@ public class GameScreen extends ScreenAdapter {
     Button jumpButton;
     Button actionButton;
     BackpackUI backpackUI;
+    CameraMovement cameraMovement;
 
     int playerBlockCordX;
     int playerBlockCordY;
@@ -77,6 +79,7 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
+        cameraMovement = new CameraMovement(myGdxGame);
         movingBackgroundSky = new MovingBackground(GameResources.SKY);
 
         generateMap = new GenerateMap();
@@ -87,7 +90,7 @@ public class GameScreen extends ScreenAdapter {
 //        foodMarket = new FoodMarket(10.5f, generateMap.mapArray);
 
         jumpButton = new Button(GameResources.JUMP_BUTTON, 700, -300, (int) (200 * GameSettings.OBJECT_SCALE));
-        actionButton = new Button("textures/joystick/joystick.png", GameResources.DIAMOND_PICKAXE,
+        actionButton = new Button(GameResources.JOYSTICK_BACKGROUND_TEXTURE, GameResources.DIAMOND_PICKAXE,
                 700, -50, (int) (200 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
 //        placeButton = new Button("textures/joystick/joystick.png", "textures/blocks/stone/mossyblock.png",
 //                700, 200, (int) (200 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
@@ -114,12 +117,16 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.camera.position.set(0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, 0);
 
         backpackUI.addItemInInventory(player.pickaxe.getTexture(), player.pickaxe.getClass(), false);
+        player.updateCamera();
+
     }
 
     @Override
     public void render(float delta) {
         myGdxGame.stepWorld();
         draw(delta);
+
+        cameraMovement.move(player.getBody().getPosition());
 
         actionClassName = nameOfMarketNearBy(markets);
 
@@ -160,7 +167,7 @@ public class GameScreen extends ScreenAdapter {
                 keepTouching = false;
             }
         }
-        player.updateCamera();
+//        player.updateCamera();
 
         if (Gdx.input.isTouched()) {
             int x = (int) (playerBlockCordX + selectedBlock.x);

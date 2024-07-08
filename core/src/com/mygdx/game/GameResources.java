@@ -61,8 +61,8 @@ public class GameResources {
     public static final Sprite PLAYER_STANDING_TEXTURE = new Sprite(new Texture("textures/hero/walking/step1.png"));
 
     //ITEMS
-    public static final String DIAMOND_PICKAXE = "textures/items/pickaxes/diamond_pickaxe.png";
-    public static final Sprite GOLD_PICKAXE = new Sprite(new Texture("textures/items/pickaxes/gold_pickaxe.png"));
+    public static final Texture DIAMOND_PICKAXE = new Texture("textures/items/pickaxes/diamond_pickaxe.png");
+    public static final Texture GOLD_PICKAXE = new Texture("textures/items/pickaxes/gold_pickaxe.png");
     public static final Sprite IRON_PICKAXE = new Sprite(new Texture("textures/items/pickaxes/iron_pickaxe.png"));
     public static final Sprite STICK_PICKAXE = new Sprite(new Texture("textures/items/pickaxes/stick.png"));
     public static final Sprite STONE_PICKAXE = new Sprite(new Texture("textures/items/pickaxes/stone_pickaxe.png"));
@@ -144,11 +144,14 @@ public class GameResources {
     public static final Texture JOYSTICK_BACKGROUND_TEXTURE = new Texture("textures/joystick/joystick.png");
     public static final Sprite JOYSTICK_TRIGGER_TEXTURE = new Sprite(new Texture("textures/joystick/joystickTrigger.png"));
     public static final Texture BACKPACK_BUTTON_IMG = new Texture("textures/buttons/main_screen/bag_button_off.png");
+    public static final Texture BUTTON_BACKGROUND = new Texture("textures/buttons/bag_screen/block_button.png");
+    public static final Texture EXIT_BUTTON = new Texture("textures/buttons/exit_button.png");
+    public static final Texture MONEY = new Texture("textures/items/money.png");
     public static final Texture STONE_BLOCK_BACKGROUND = new Texture("textures/backscreens/stone_block_backscreen.png");
     public static final Texture SELECTED_BLOCK = new Texture("textures/blocks/selected_block.png");
 
     public static final String SKY = "textures/backscreens/sky.png";
-    public static final String JUMP_BUTTON = "textures/buttons/main_screen/jump_button_off.png";
+    public static final Texture JUMP_BUTTON = new Texture("textures/buttons/main_screen/jump_button_off.png");
 
     public static final Texture  ACTION_BUTTON =  new Texture("textures/buttons/main_screen/action_button.png");
 
