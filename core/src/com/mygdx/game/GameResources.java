@@ -207,6 +207,7 @@ public class GameResources {
 
     public static final String FOOD_MARKET_TEXTURE = "textures/buildings/foodshop.png";
     public static final String SELL_MARKET_TEXTURE = "textures/buildings/market.png";
+    public static final String UPDATE_MARKET_TEXTURE = "textures/buildings/updateshop.png";
 
     public static final String LEAVES_TEXTURE = "textures/blocks/up/leaves.png";
     public static final String WOOD_BLOCK_TEXTURE = "textures/blocks/up/wood.png";
