@@ -7,5 +7,6 @@ public enum PlayerStates {
     DOWN_DIGGING,
     SIDE_DIGGING,
     JUMPING,
-    FALLING
+    FALLING,
+    LANDING
 }
