@@ -9,6 +9,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -23,11 +24,13 @@ import com.mygdx.game.map.blocks.MapBorder;
 import com.mygdx.game.MovingBackground;
 import com.mygdx.game.MyGdxGame;
 
+import com.mygdx.game.Npc;
 import com.mygdx.game.entities.Player;
 import com.mygdx.game.entities.PlayerStates;
 import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
 import com.mygdx.game.map.blocks.GenerateMap;
+import com.mygdx.game.markets.UpdateMarket;
 import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.CameraMovement;
 import com.mygdx.game.uis.Joystick;
@@ -76,6 +79,8 @@ public class GameScreen extends ScreenAdapter {
     boolean needToResetActionButton;
     boolean needToResetExitInMarketButton;
 
+
+
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
         cameraMovement = new CameraMovement(myGdxGame);
@@ -83,7 +88,7 @@ public class GameScreen extends ScreenAdapter {
 
         generateMap = new GenerateMap();
 
-        markets = new BasicMarket[]{new SellMarket(6.5f), new FoodMarket(12.5f)};
+        markets = new BasicMarket[]{new SellMarket(6.5f), new FoodMarket(12.5f), new UpdateMarket(18.5f)};
 
 //        sellMarket = new SellMarket(6.5f, generateMap.mapArray);
 //        foodMarket = new FoodMarket(10.5f, generateMap.mapArray);
@@ -164,7 +169,7 @@ public class GameScreen extends ScreenAdapter {
                 if (player.playerState == PlayerStates.WALKING && !player.isJumping) {
                     player.playerState = PlayerStates.STANDING;
                 }
-                //selectedBlock.setZero();
+//            selectedBlock.setZero();
                 keepTouching = false;
             }
         }
@@ -388,7 +393,7 @@ public class GameScreen extends ScreenAdapter {
 
 
         myGdxGame.batch.end();
-        // box2DDebugRenderer.render(myGdxGame.world, myGdxGame.camera.combined);
+       // box2DDebugRenderer.render(myGdxGame.world, myGdxGame.camera.combined);
 
     }
 

@@ -35,8 +35,8 @@ public class BackpackUI {
 //        blocksInventory = new ArrayList<>();
         uniqueItem = new ArrayList<>();
         slotsInventoryItem = new ArrayList<>();
-        backpackBackground = new Texture("textures/buttons/backpack_background.png");
-        backpackChooseButton = new Texture("textures/buttons/button_background_square.png");
+        backpackBackground = new Texture("textures/buttons/bag_screen/blue_back.png");
+        backpackChooseButton = new Texture("textures/buttons/bag_screen/block_button.png");
         backpackButton = new Button(GameResources.BACKPACK_BUTTON_IMG, 700, 400, (int) (160*GameSettings.SCALE), (int) (160*GameSettings.SCALE));
         backpackSlots = new Button[15];
 
