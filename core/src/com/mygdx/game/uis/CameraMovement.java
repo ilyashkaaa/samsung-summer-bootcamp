@@ -9,8 +9,8 @@ public class CameraMovement {
         this.myGdxGame = myGdxGame;
     }
     public void move (Vector2 playerPos) {
-        float x = myGdxGame.camera.position.x - (myGdxGame.camera.position.x - playerPos.x) / 64f;
-        float y = myGdxGame.camera.position.y - (myGdxGame.camera.position.y - playerPos.y) / 64f;
+        float x = myGdxGame.camera.position.x - (myGdxGame.camera.position.x - playerPos.x) / 16f;
+        float y = myGdxGame.camera.position.y - (myGdxGame.camera.position.y - playerPos.y) / 16f;
         myGdxGame.camera.position.set(x, y, 0);
     }
 }

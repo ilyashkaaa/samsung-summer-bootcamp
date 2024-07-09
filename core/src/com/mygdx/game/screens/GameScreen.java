@@ -51,6 +51,7 @@ public class GameScreen extends ScreenAdapter {
 
 
     MyGdxGame myGdxGame;
+    PauseScreen pauseScreen;
     Player player;
     Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
     GenerateMap generateMap;
@@ -60,6 +61,7 @@ public class GameScreen extends ScreenAdapter {
     MovingBackground movingBackgroundSky;
     Vector2 selectedBlock;
     Texture selectionBlock = new Texture("textures/blocks/selected_block.png");
+    Button pauseButton;
     Button jumpButton;
     Button actionButton;
     BackpackUI backpackUI;
@@ -94,6 +96,7 @@ public class GameScreen extends ScreenAdapter {
                 700, -50, (int) (200 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
 //        placeButton = new Button("textures/joystick/joystick.png", "textures/blocks/stone/mossyblock.png",
 //                700, 200, (int) (200 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
+        pauseButton = new Button(GameResources.PAUSE_BUTTON, 900, 470, GameResources.PAUSE_BUTTON.getWidth()*GameSettings.SCALE, GameResources.PAUSE_BUTTON.getHeight()*GameSettings.SCALE);
 
         joystick = new Joystick();
 
@@ -119,6 +122,7 @@ public class GameScreen extends ScreenAdapter {
 
         backpackUI.addItemInInventory(player.pickaxe.getTexture(), player.pickaxe.getClass(), false);
         player.updateCamera();
+        pauseScreen = new PauseScreen(myGdxGame,this, myGdxGame.camera.position);
 
     }
 
@@ -126,7 +130,6 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
         myGdxGame.stepWorld();
         draw(delta);
-
         cameraMovement.move(player.getBody().getPosition());
 
         actionClassName = nameOfMarketNearBy(markets);
@@ -224,6 +227,9 @@ public class GameScreen extends ScreenAdapter {
                 if (!buttonHandler(backpackUI.backpackButton) && backpackToggle) {
                     backpackToggle = false;
                     backpackUI.backpackOpen = !backpackUI.backpackOpen;
+                }
+                if (buttonHandler(pauseButton)) {
+                    myGdxGame.setScreen(pauseScreen);
                 }
 
                 if (!backpackUI.backpackOpen) {
@@ -360,6 +366,7 @@ public class GameScreen extends ScreenAdapter {
         jumpButton.draw(myGdxGame.batch, cameraPos);
         actionButton.draw(myGdxGame.batch, cameraPos);
 //        placeButton.draw(myGdxGame.batch, cameraPos);
+        pauseButton.draw(myGdxGame.batch, cameraPos);
 
         if (keepTouching) {
             Vector2 touch = new Vector2(Gdx.input.getX(indexJoystick(countOfTouching())),
@@ -466,7 +473,7 @@ public class GameScreen extends ScreenAdapter {
         return i - 1;
     }
 
-    private boolean buttonHandler(Button button) {
+    public boolean buttonHandler(Button button) {
         for (int i = 0; i <= countOfTouching(); i++) {
             if (button.isPressed(new Vector2(Gdx.input.getX(i), Gdx.input.getY(i))))
                 return true;
