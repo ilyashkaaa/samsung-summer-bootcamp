@@ -43,8 +43,8 @@ public class BackpackUI {
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 5; j++)
                 backpackSlots[i * 5 + j] = new Button(backpackChooseButton,
-                        -530 + j * 250,
-                        160 - i * 180,
+                        -500 + j * 250,
+                        180 - i * 180,
                         175 * GameSettings.SCALE, 175 * GameSettings.SCALE);
 
         backpackSlots[0].changeButtonTexture(GameResources.SELECTED_BLOCK);
@@ -58,11 +58,12 @@ public class BackpackUI {
     public void draw(SpriteBatch batch, Vector3 cameraPos) {
         backpackButton.draw(batch, cameraPos);
         if (backpackOpen) {
+            float scale = 1.3f;
             batch.draw(backpackBackground,
-                    cameraPos.x - myGdxGame.camera.viewportWidth / 2 + (float) (GameSettings.SCR_WIDTH - backpackBackground.getWidth()) / 2 * GameSettings.SCALE,
-                    cameraPos.y - myGdxGame.camera.viewportHeight / 2 + (float) (GameSettings.MAP_HEIGHT - backpackBackground.getHeight()) / 2 * GameSettings.SCALE,
-                    backpackBackground.getWidth() * GameSettings.SCALE,
-                    backpackBackground.getHeight() * GameSettings.SCALE);
+                    cameraPos.x - backpackBackground.getWidth() * scale / 2 * GameSettings.SCALE,
+                    cameraPos.y - backpackBackground.getHeight() * scale / 2 * GameSettings.SCALE,
+                    backpackBackground.getWidth() * GameSettings.SCALE * scale,
+                    backpackBackground.getHeight() * GameSettings.SCALE * scale);
 
 //            for (int i = 0; i < 5; i++) {
 //                for (int j = 0; j < 3; j++) {
@@ -154,6 +155,7 @@ public class BackpackUI {
 
     public void setItem(int index, Texture texture, Class<?> type, boolean showCount){
         uniqueItem.set(index, texture);
+        backpackSlots[index].changeItem(texture);
         slotsInventoryItem.set(0, new BackpackSlot(texture, type, showCount));
     }
 }

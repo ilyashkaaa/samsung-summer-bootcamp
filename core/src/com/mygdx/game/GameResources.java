@@ -218,6 +218,9 @@ public class GameResources {
 
     public static final String DIAMOND_PICKAXE_TEXTURE = "textures/items/pickaxes/diamond_pickaxe.png";
     public static final String GOLD_PICKAXE_TEXTURE = "textures/items/pickaxes/gold_pickaxe.png";
+    public static final String IRON_PICKAXE_TEXTURE = "textures/items/pickaxes/iron_pickaxe.png";
+    public static final String STICK_PICKAXE_TEXTURE = "textures/items/pickaxes/stick.png";
+    public static final String STONE_PICKAXE_TEXTURE = "textures/items/pickaxes/stone_pickaxe.png";
 
     //UI
     public static final Texture JOYSTICK_BACKGROUND_TEXTURE = new Texture("textures/joystick/joystick.png");

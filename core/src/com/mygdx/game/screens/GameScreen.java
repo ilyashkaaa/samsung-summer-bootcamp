@@ -9,7 +9,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -24,7 +23,6 @@ import com.mygdx.game.map.blocks.MapBorder;
 import com.mygdx.game.MovingBackground;
 import com.mygdx.game.MyGdxGame;
 
-import com.mygdx.game.Npc;
 import com.mygdx.game.entities.Player;
 import com.mygdx.game.entities.PlayerStates;
 import com.mygdx.game.map.blocks.BasicBlock;
@@ -88,7 +86,7 @@ public class GameScreen extends ScreenAdapter {
 
         generateMap = new GenerateMap();
 
-        markets = new BasicMarket[]{new SellMarket(6.5f), new FoodMarket(12.5f), new UpdateMarket(18.5f)};
+        markets = new BasicMarket[]{new SellMarket(24.5f), new FoodMarket(12.5f), new UpdateMarket(18.5f)};
 
 //        sellMarket = new SellMarket(6.5f, generateMap.mapArray);
 //        foodMarket = new FoodMarket(10.5f, generateMap.mapArray);
@@ -215,6 +213,10 @@ public class GameScreen extends ScreenAdapter {
                 if (buttonHandler(markets[1].exitButton)) {
                     markets[1].inMarket = false;
                 }
+            } else if (markets[2].inMarket) {
+                if (buttonHandler(markets[2].exitButton)) {
+                    markets[2].inMarket = false;
+                }
             } else {
 
                 if (backpackUI.backpackOpen) {
@@ -291,6 +293,11 @@ public class GameScreen extends ScreenAdapter {
                                     case "FoodMarket":
 //                                    player.setPickaxe(GoldPickaxe.class);
                                         markets[1].inMarket = true;
+//                                    System.out.println("food");
+                                        break;
+                                    case "UpdateMarket":
+//                                    player.setPickaxe(GoldPickaxe.class);
+                                        markets[2].inMarket = true;
 //                                    System.out.println("food");
                                         break;
                                 }
@@ -386,6 +393,8 @@ public class GameScreen extends ScreenAdapter {
             markets[0].drawInterface(cameraPos, myGdxGame);
         if (markets[1].inMarket)
             markets[1].drawInterface(cameraPos, myGdxGame);
+        if (markets[2].inMarket)
+            markets[2].drawInterface(cameraPos, myGdxGame);
 
 //****************** FOR FPS *******************************
 //      font.draw(myGdxGame.batch, (1 / delta) + "", myGdxGame.camera.position.x, myGdxGame.camera.position.y);

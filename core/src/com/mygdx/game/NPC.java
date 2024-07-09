@@ -1,19 +1,14 @@
 package com.mygdx.game;
 
-import static com.mygdx.game.GameSettings.PLAYER_HEIGHT;
-import static com.mygdx.game.GameSettings.PLAYER_WIDTH;
-
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.entities.PlayerStates;
 
-public class Npc {
+public class NPC {
     int x, y, height, width;
     int frameCounter = 0;
     int frameMultiplierForHead = 20;
     Texture bodyTexture, headTexture;
-    public Npc(int x, int y, int width, int height, Texture bodyTexture, Texture headTexture){
+    public NPC(int x, int y, int width, int height, Texture bodyTexture, Texture headTexture){
         this.x = x;
         this.y = y;
         this.bodyTexture = bodyTexture;
