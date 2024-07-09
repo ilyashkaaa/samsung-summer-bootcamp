@@ -10,7 +10,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.screens.GameScreen;
-import com.mygdx.game.uis.FontBuilder;
 
 public class MyGdxGame extends Game {
 	public World world;
@@ -25,7 +24,7 @@ public class MyGdxGame extends Game {
 		Gdx.graphics.setVSync(true);
 		Gdx.graphics.setForegroundFPS(60);
 		Box2D.init();
-		world = new World(new Vector2(0, -400), true);
+		world = new World(new Vector2(0, -150), true);
 		bitmapFont = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 		bitmapFont.setColor(Color.WHITE);
 		bitmapFont.getData().scale(0.0000005f);
