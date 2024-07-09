@@ -77,17 +77,17 @@ public class BackpackUI {
             for (Button button : backpackSlots)
                 button.draw(batch, cameraPos);
 
-            for (int k = 0; k < slotsInventoryItem.size(); k++) {
-                batch.draw(slotsInventoryItem.get(k).texture,
-                        cameraPos.x - myGdxGame.camera.viewportWidth / 2 + k % 5 * 250 * GameSettings.SCALE + 350 * GameSettings.SCALE,
-                        cameraPos.y - myGdxGame.camera.viewportHeight / 2 - (k / 5) * 180 * GameSettings.SCALE + 250 * GameSettings.SCALE + 2 * 180 * GameSettings.SCALE,
-                        backpackChooseButton.getWidth() * GameSettings.SCALE,
-                        backpackChooseButton.getHeight() * GameSettings.SCALE);
-                if (slotsInventoryItem.get(k).showCount)
-                    GameScreen.font.draw(batch, slotsInventoryItem.get(k).counterOfBlock + "",
-                            cameraPos.x - myGdxGame.camera.viewportWidth / 2 + k % 5 * 250 * GameSettings.SCALE + 250 * GameSettings.SCALE,
-                            cameraPos.y - myGdxGame.camera.viewportHeight / 2 + 140 * GameSettings.SCALE - (k / 5) * 180 * GameSettings.SCALE + 250 * GameSettings.SCALE + 2 * 180 * GameSettings.SCALE);
-            }
+//            for (int k = 0; k < slotsInventoryItem.size(); k++) {
+//                batch.draw(slotsInventoryItem.get(k).texture,
+//                        cameraPos.x - myGdxGame.camera.viewportWidth / 2 + k % 5 * 250 * GameSettings.SCALE + 350 * GameSettings.SCALE,
+//                        cameraPos.y - myGdxGame.camera.viewportHeight / 2 - (k / 5) * 180 * GameSettings.SCALE + 250 * GameSettings.SCALE + 2 * 180 * GameSettings.SCALE,
+//                        backpackChooseButton.getWidth() * GameSettings.SCALE,
+//                        backpackChooseButton.getHeight() * GameSettings.SCALE);
+//                if (slotsInventoryItem.get(k).showCount)
+//                    GameScreen.font.draw(batch, slotsInventoryItem.get(k).counterOfBlock + "",
+//                            cameraPos.x - myGdxGame.camera.viewportWidth / 2 + k % 5 * 250 * GameSettings.SCALE + 250 * GameSettings.SCALE,
+//                            cameraPos.y - myGdxGame.camera.viewportHeight / 2 + 140 * GameSettings.SCALE - (k / 5) * 180 * GameSettings.SCALE + 250 * GameSettings.SCALE + 2 * 180 * GameSettings.SCALE);
+//            }
         }
     }
 
