@@ -9,6 +9,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -23,6 +24,7 @@ import com.mygdx.game.MapBorder;
 import com.mygdx.game.MovingBackground;
 import com.mygdx.game.MyGdxGame;
 
+import com.mygdx.game.Npc;
 import com.mygdx.game.entities.Player;
 import com.mygdx.game.entities.PlayerStates;
 import com.mygdx.game.map.blocks.BasicBlock;
@@ -75,6 +77,8 @@ public class GameScreen extends ScreenAdapter {
 
     BasicMarket[] markets;
 
+    Npc updateSeller;
+
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
         movingBackgroundSky = new MovingBackground(GameResources.SKY);
@@ -114,6 +118,10 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.camera.position.set(0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, 0);
 
         backpackUI.addItemInInventory(player.pickaxe.getTexture(), player.pickaxe.getClass(), false);
+
+        updateSeller = new Npc(130, (int) (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE), 5, 13, new Texture("textures/npc/update_seller_body.png"), new Texture("textures/npc/update_seller_head.png"));
+
+
     }
 
     @Override
@@ -347,6 +355,7 @@ public class GameScreen extends ScreenAdapter {
             market.draw(myGdxGame.batch);
         }
 
+        updateSeller.draw(myGdxGame.batch);
         player.draw(myGdxGame.batch);
         if (!selectedBlock.isZero())
             myGdxGame.batch.draw(selectionBlock,

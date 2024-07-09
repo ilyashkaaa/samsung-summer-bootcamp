@@ -153,4 +153,8 @@ public class GameResources {
     public static final Texture  ACTION_BUTTON =  new Texture("textures/buttons/main_screen/action_button.png");
 
 
+    //npc
+    public static final Sprite FOODSELLER_HEAD_TEXTURE = new Sprite(new Texture("textures/npc/food_seller_head.png"));
+
+
 }
