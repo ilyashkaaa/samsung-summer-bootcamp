@@ -18,6 +18,8 @@ public class MyGdxGame extends Game {
 	
 	@Override
 	public void create () {
+		Gdx.graphics.setVSync(true);
+		Gdx.graphics.setForegroundFPS(60);
 		Box2D.init();
 		world = new World(new Vector2(0, -100), true);
 		camera = new OrthographicCamera();

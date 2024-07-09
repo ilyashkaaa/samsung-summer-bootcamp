@@ -122,6 +122,8 @@ public class BackpackUI {
         if (!uniqueItem.contains(texture)){
             uniqueItem.add(texture);
             slotsInventoryItem.add(new BackpackSlot(texture, type, showCount));
+            backpackSlots[slotsInventoryItem.size() - 1].setHasItem(true);
+            backpackSlots[slotsInventoryItem.size() - 1].changeItem(texture, 160 * GameSettings.SCALE, 160 * GameSettings.SCALE);
         }
         else {
             for (BackpackSlot backpackSlot : slotsInventoryItem)
@@ -136,8 +138,9 @@ public class BackpackUI {
         for (BackpackSlot backpackSlot : slotsInventoryItem)
             if (backpackSlot.block == type) {
                 backpackSlot.counterOfBlock--;
-                if (backpackSlot.counterOfBlock == 0) {
+                if (backpackSlot.counterOfBlock <= 0) {
                     ret = true;
+                    backpackSlots[slotsInventoryItem.size() - 1].setHasItem(false);
                     slotsInventoryItem.remove(backpackSlot);
                     uniqueItem.remove(backpackSlot.texture);
                     selectionIndex = 0;
