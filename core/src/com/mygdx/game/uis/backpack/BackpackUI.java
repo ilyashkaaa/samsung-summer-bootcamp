@@ -35,8 +35,8 @@ public class BackpackUI {
 //        blocksInventory = new ArrayList<>();
         uniqueItem = new ArrayList<>();
         slotsInventoryItem = new ArrayList<>();
-        backpackBackground = new Texture("textures/buttons/backpack_background.png");
-        backpackChooseButton = new Texture("textures/buttons/button_background_square.png");
+        backpackBackground = new Texture("textures/buttons/bag_screen/blue_back.png");
+        backpackChooseButton = new Texture("textures/buttons/bag_screen/block_button.png");
         backpackButton = new Button(GameResources.BACKPACK_BUTTON_IMG, 700, 400, (int) (160*GameSettings.SCALE), (int) (160*GameSettings.SCALE));
         backpackSlots = new Button[15];
 
@@ -77,17 +77,17 @@ public class BackpackUI {
             for (Button button : backpackSlots)
                 button.draw(batch, cameraPos);
 
-            for (int k = 0; k < slotsInventoryItem.size(); k++) {
-                batch.draw(slotsInventoryItem.get(k).texture,
-                        cameraPos.x - myGdxGame.camera.viewportWidth / 2 + k % 5 * 250 * GameSettings.SCALE + 350 * GameSettings.SCALE,
-                        cameraPos.y - myGdxGame.camera.viewportHeight / 2 - (k / 5) * 180 * GameSettings.SCALE + 250 * GameSettings.SCALE + 2 * 180 * GameSettings.SCALE,
-                        backpackChooseButton.getWidth() * GameSettings.SCALE,
-                        backpackChooseButton.getHeight() * GameSettings.SCALE);
-                if (slotsInventoryItem.get(k).showCount)
-                    GameScreen.font.draw(batch, slotsInventoryItem.get(k).counterOfBlock + "",
-                            cameraPos.x - myGdxGame.camera.viewportWidth / 2 + k % 5 * 250 * GameSettings.SCALE + 250 * GameSettings.SCALE,
-                            cameraPos.y - myGdxGame.camera.viewportHeight / 2 + 140 * GameSettings.SCALE - (k / 5) * 180 * GameSettings.SCALE + 250 * GameSettings.SCALE + 2 * 180 * GameSettings.SCALE);
-            }
+//            for (int k = 0; k < slotsInventoryItem.size(); k++) {
+//                batch.draw(slotsInventoryItem.get(k).texture,
+//                        cameraPos.x - myGdxGame.camera.viewportWidth / 2 + k % 5 * 250 * GameSettings.SCALE + 350 * GameSettings.SCALE,
+//                        cameraPos.y - myGdxGame.camera.viewportHeight / 2 - (k / 5) * 180 * GameSettings.SCALE + 250 * GameSettings.SCALE + 2 * 180 * GameSettings.SCALE,
+//                        backpackChooseButton.getWidth() * GameSettings.SCALE,
+//                        backpackChooseButton.getHeight() * GameSettings.SCALE);
+//                if (slotsInventoryItem.get(k).showCount)
+//                    GameScreen.font.draw(batch, slotsInventoryItem.get(k).counterOfBlock + "",
+//                            cameraPos.x - myGdxGame.camera.viewportWidth / 2 + k % 5 * 250 * GameSettings.SCALE + 250 * GameSettings.SCALE,
+//                            cameraPos.y - myGdxGame.camera.viewportHeight / 2 + 140 * GameSettings.SCALE - (k / 5) * 180 * GameSettings.SCALE + 250 * GameSettings.SCALE + 2 * 180 * GameSettings.SCALE);
+//            }
         }
     }
 

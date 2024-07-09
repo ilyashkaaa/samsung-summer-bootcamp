@@ -30,6 +30,7 @@ import com.mygdx.game.entities.PlayerStates;
 import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
 import com.mygdx.game.map.blocks.GenerateMap;
+import com.mygdx.game.markets.UpdateMarket;
 import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.CameraMovement;
 import com.mygdx.game.uis.Joystick;
@@ -79,7 +80,7 @@ public class GameScreen extends ScreenAdapter {
 
     BasicMarket[] markets;
 
-    Npc updateSeller;
+
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
@@ -88,7 +89,7 @@ public class GameScreen extends ScreenAdapter {
 
         generateMap = new GenerateMap();
 
-        markets = new BasicMarket[]{new SellMarket(6.5f), new FoodMarket(12.5f)};
+        markets = new BasicMarket[]{new SellMarket(6.5f), new FoodMarket(12.5f), new UpdateMarket(18.5f)};
 
 //        sellMarket = new SellMarket(6.5f, generateMap.mapArray);
 //        foodMarket = new FoodMarket(10.5f, generateMap.mapArray);
@@ -123,8 +124,6 @@ public class GameScreen extends ScreenAdapter {
 
         backpackUI.addItemInInventory(player.pickaxe.getTexture(), player.pickaxe.getClass(), false);
         player.updateCamera();
-
-        updateSeller = new Npc(130, (int) (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE), 5, 13, new Texture("textures/npc/update_seller_body.png"), new Texture("textures/npc/update_seller_head.png"));
 
 
     }
@@ -357,7 +356,6 @@ public class GameScreen extends ScreenAdapter {
             market.draw(myGdxGame.batch);
         }
 
-        updateSeller.draw(myGdxGame.batch);
         player.draw(myGdxGame.batch, delta);
         if (!selectedBlock.isZero())
             myGdxGame.batch.draw(selectionBlock,
