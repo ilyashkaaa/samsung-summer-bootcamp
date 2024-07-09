@@ -25,8 +25,8 @@ public class BasicMarket {
     public BasicMarket (String texturePath, float x){
         this.x = x;
 
-        exitButton = new Button(GameResources.BUTTON_BACKGROUND, GameResources.EXIT_BUTTON,
-                0, -200, (int) (250 * GameSettings.SCALE), (int) (250 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE));
+        exitButton = new Button(GameResources.EXIT_BUTTON,
+                0, -200, (int) (100 * GameSettings.SCALE));
 
         y = GameSettings.MAP_HEIGHT * GameSettings.OBJECT_SCALE * GameSettings.BLOCK_SIDE;
 
@@ -34,7 +34,7 @@ public class BasicMarket {
         height = (int) (GameSettings.MARKET_HEIGHT * GameSettings.OBJECT_SCALE);
 
         marketTexture = new Texture(texturePath);
-        backpackBackground = new Texture("textures/buttons/backpack_background.png");
+        backpackBackground = new Texture("textures/buttons/bag_screen/blue_back.png");
 
 //        for (int i = 0; i < GameSettings.MARKET_WIDTH / 2 / GameSettings.BLOCK_SIDE + 1; i++) {
 //            mapArray[(int) x - i][GameSettings.MAP_HEIGHT - 1] = new Mossy();
@@ -53,11 +53,12 @@ public class BasicMarket {
                 y, width, height);
     }
     public void drawInterface(Vector3 cameraPos, MyGdxGame myGdxGame){
+        float scale = 1.3f;
         myGdxGame.batch.draw(backpackBackground,
-                cameraPos.x - myGdxGame.camera.viewportWidth / 2 + (float) (GameSettings.SCR_WIDTH - backpackBackground.getWidth()) / 2 * GameSettings.SCALE,
-                cameraPos.y - myGdxGame.camera.viewportHeight / 2 + (float) (GameSettings.MAP_HEIGHT - backpackBackground.getHeight()) / 2 * GameSettings.SCALE,
-                backpackBackground.getWidth() * GameSettings.SCALE,
-                backpackBackground.getHeight() * GameSettings.SCALE);
+                cameraPos.x - backpackBackground.getWidth() * scale / 2 * GameSettings.SCALE,
+                cameraPos.y - backpackBackground.getHeight() * scale / 2 * GameSettings.SCALE,
+                backpackBackground.getWidth() * GameSettings.SCALE * scale,
+                backpackBackground.getHeight() * GameSettings.SCALE * scale);
         exitButton.draw(myGdxGame.batch, cameraPos);
     }
     public void setState(int state){}

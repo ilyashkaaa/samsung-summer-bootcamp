@@ -1,9 +1,12 @@
 package com.mygdx.game.markets;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.NPC;
 import com.mygdx.game.uis.Button;
 
 public class SellMarket extends BasicMarket{
@@ -17,6 +20,7 @@ public class SellMarket extends BasicMarket{
     public boolean inMenu = true;
     public boolean inSell = false;
     public boolean inBuy = false;
+    NPC marketSeller;
 
     public SellMarket(float x){
         super(texturePath, x);
@@ -28,6 +32,8 @@ public class SellMarket extends BasicMarket{
                 500, 0, (int) (250 * GameSettings.SCALE), (int) (250 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE));
         goldPickaxe = new Button(GameResources.BUTTON_BACKGROUND, GameResources.GOLD_PICKAXE,
                 -500, 0, (int) (250 * GameSettings.SCALE), (int) (250 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE));
+        marketSeller = new NPC(45, (int) (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE), 7, 15, new Texture("textures/npc/market_seller_body.png"), new Texture("textures/npc/market_seller_head.png"));
+
     }
 
     @Override
@@ -65,5 +71,10 @@ public class SellMarket extends BasicMarket{
                 inBuy = false;
                 break;
         }
+    }
+    @Override
+    public void draw(SpriteBatch batch){
+        super.draw(batch);
+        marketSeller.draw(batch);
     }
 }

@@ -28,6 +28,7 @@ import com.mygdx.game.entities.PlayerStates;
 import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
 import com.mygdx.game.map.blocks.GenerateMap;
+import com.mygdx.game.markets.UpdateMarket;
 import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.CameraMovement;
 import com.mygdx.game.uis.Joystick;
@@ -66,6 +67,8 @@ public class GameScreen extends ScreenAdapter {
     Button actionButton;
     BackpackUI backpackUI;
     CameraMovement cameraMovement;
+    BasicMarket[] markets;
+    String actionClassName;
 
     int playerBlockCordX;
     int playerBlockCordY;
@@ -75,9 +78,8 @@ public class GameScreen extends ScreenAdapter {
     boolean toggleActionButton;
     boolean needToResetActionButton;
     boolean needToResetExitInMarketButton;
-    String actionClassName;
 
-    BasicMarket[] markets;
+
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
@@ -86,7 +88,7 @@ public class GameScreen extends ScreenAdapter {
 
         generateMap = new GenerateMap();
 
-        markets = new BasicMarket[]{new SellMarket(6.5f), new FoodMarket(12.5f)};
+        markets = new BasicMarket[]{new SellMarket(24.5f), new FoodMarket(12.5f), new UpdateMarket(18.5f)};
 
 //        sellMarket = new SellMarket(6.5f, generateMap.mapArray);
 //        foodMarket = new FoodMarket(10.5f, generateMap.mapArray);
@@ -130,6 +132,10 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
         myGdxGame.stepWorld();
         draw(delta);
+
+        if (!player.isJumping && !player.falling && !player.fell)
+            player.playerState = PlayerStates.STANDING;
+
         cameraMovement.move(player.getBody().getPosition());
 
         actionClassName = nameOfMarketNearBy(markets);
@@ -158,18 +164,19 @@ public class GameScreen extends ScreenAdapter {
                     joystick.changeCords(new Vector2(touch.x, touch.y));
                 selectedBlock = player.setMoveVector(joystick.getDirection(new Vector2(touch.x, touch.y)));
                 keepTouching = true;
-                if (player.playerState == PlayerStates.STANDING) {
+                if (player.playerState == PlayerStates.STANDING && !player.isJumping) {
                     player.playerState = PlayerStates.WALKING;
                 }
             } else {
-                if (player.playerState == PlayerStates.WALKING) {
+                if (player.playerState == PlayerStates.WALKING && !player.isJumping) {
                     player.playerState = PlayerStates.STANDING;
                 }
-                //selectedBlock.setZero();
+//            selectedBlock.setZero();
                 keepTouching = false;
             }
         }
 //        player.updateCamera();
+        player.playerBreak();
 
         if (Gdx.input.isTouched()) {
             int x = (int) (playerBlockCordX + selectedBlock.x);
@@ -210,6 +217,10 @@ public class GameScreen extends ScreenAdapter {
                 if (buttonHandler(markets[1].exitButton)) {
                     markets[1].inMarket = false;
                 }
+            } else if (markets[2].inMarket) {
+                if (buttonHandler(markets[2].exitButton)) {
+                    markets[2].inMarket = false;
+                }
             } else {
 
                 if (backpackUI.backpackOpen) {
@@ -242,9 +253,9 @@ public class GameScreen extends ScreenAdapter {
                                 switch (backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).type) {
                                     case "BasicPickaxe":
                                         if (player.getBody().getLinearVelocity().y == 0) {
-                                            player.drawDigging(x, y, playerBlockCordX, playerBlockCordY);
-                                        } else {
-                                            player.playerState = PlayerStates.STANDING;
+                                            player.drawDigging(selectedBlock.x, selectedBlock.y);
+                                        } else if (!player.isJumping && !player.falling) {
+//                                            player.playerState = PlayerStates.STANDING;
                                         }
                                         if (x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT
                                                 && generateMap.mapArray[x][y] != null && TimeUtils.millis() - lastHit >= 200
@@ -291,6 +302,11 @@ public class GameScreen extends ScreenAdapter {
                                         markets[1].inMarket = true;
 //                                    System.out.println("food");
                                         break;
+                                    case "UpdateMarket":
+//                                    player.setPickaxe(GoldPickaxe.class);
+                                        markets[2].inMarket = true;
+//                                    System.out.println("food");
+                                        break;
                                 }
 //                    System.out.println(generateMap.mapArray[0][0].getClass().getGenericSuperclass());
 //                    System.out.println(generateMap.mapArray[0][0].getClass().getSuperclass().getSimpleName());
@@ -310,14 +326,16 @@ public class GameScreen extends ScreenAdapter {
             }
             needToResetExitInMarketButton = isExitButtonInMarketPressed(markets);
         } else {
-            player.playerState = PlayerStates.STANDING;
+
             needToResetExitInMarketButton = false;
             needToResetActionButton = false;
             if (backpackToggle) {
                 backpackToggle = false;
                 backpackUI.backpackOpen = !backpackUI.backpackOpen;
             }
+
         }
+
 
         if (Gdx.input.isKeyPressed(Input.Keys.S)) {
             int x = (int) (playerBlockCordX + selectedBlock.x);
@@ -334,10 +352,12 @@ public class GameScreen extends ScreenAdapter {
 
         if (playerBlockCordX >= 0 && playerBlockCordX < GameSettings.MAP_WIDTH &&
                 playerBlockCordY >= 1 && playerBlockCordY <= GameSettings.MAP_HEIGHT) {
-            if (generateMap.mapArray[playerBlockCordX][playerBlockCordY - 1] != null || player.getBody().getLinearVelocity().y == 0) {
+            if (generateMap.mapArray[playerBlockCordX][playerBlockCordY - 1] != null && player.getBody().getLinearVelocity().y == 0) {
                 player.setJumpClickClack(true);
             }
         }
+        else
+            player.setJumpClickClack(false);
         movingBackgroundSky.move();
     }
 
@@ -381,14 +401,16 @@ public class GameScreen extends ScreenAdapter {
             markets[0].drawInterface(cameraPos, myGdxGame);
         if (markets[1].inMarket)
             markets[1].drawInterface(cameraPos, myGdxGame);
+        if (markets[2].inMarket)
+            markets[2].drawInterface(cameraPos, myGdxGame);
 
 //****************** FOR FPS *******************************
-      font.draw(myGdxGame.batch, (1 / delta) + "", myGdxGame.camera.position.x, myGdxGame.camera.position.y);
+//      font.draw(myGdxGame.batch, (1 / delta) + "", myGdxGame.camera.position.x, myGdxGame.camera.position.y);
 //**********************************************************
 
 
         myGdxGame.batch.end();
-        // box2DDebugRenderer.render(myGdxGame.world, myGdxGame.camera.combined);
+       // box2DDebugRenderer.render(myGdxGame.world, myGdxGame.camera.combined);
 
     }
 

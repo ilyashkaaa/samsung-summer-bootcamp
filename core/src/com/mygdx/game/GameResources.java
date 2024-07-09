@@ -208,6 +208,7 @@ public class GameResources {
 
     public static final String FOOD_MARKET_TEXTURE = "textures/buildings/foodshop.png";
     public static final String SELL_MARKET_TEXTURE = "textures/buildings/market.png";
+    public static final String UPDATE_MARKET_TEXTURE = "textures/buildings/updateshop.png";
 
     public static final String LEAVES_TEXTURE = "textures/blocks/up/leaves.png";
     public static final String WOOD_BLOCK_TEXTURE = "textures/blocks/up/wood.png";
@@ -218,6 +219,9 @@ public class GameResources {
 
     public static final String DIAMOND_PICKAXE_TEXTURE = "textures/items/pickaxes/diamond_pickaxe.png";
     public static final String GOLD_PICKAXE_TEXTURE = "textures/items/pickaxes/gold_pickaxe.png";
+    public static final String IRON_PICKAXE_TEXTURE = "textures/items/pickaxes/iron_pickaxe.png";
+    public static final String STICK_PICKAXE_TEXTURE = "textures/items/pickaxes/stick.png";
+    public static final String STONE_PICKAXE_TEXTURE = "textures/items/pickaxes/stone_pickaxe.png";
 
     //UI
    // public static final BitmapFont PIXEL_FONT = new BitmapFont("fonts/font.fnt");
@@ -240,6 +244,10 @@ public class GameResources {
     public static final String SKY = "textures/backscreens/sky.png";
     public static final Texture JUMP_BUTTON = new Texture("textures/buttons/main_screen/jump_button_off.png");
     public static final Texture  ACTION_BUTTON =  new Texture("textures/buttons/main_screen/action_button.png");
+
+
+    //npc
+    public static final Sprite FOODSELLER_HEAD_TEXTURE = new Sprite(new Texture("textures/npc/food_seller_head.png"));
 
 
 }

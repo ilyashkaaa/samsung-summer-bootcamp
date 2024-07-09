@@ -24,12 +24,14 @@ public class Player extends GameEntity {
     boolean movingLeft;
     boolean isNeedActivate;
     boolean isActivated;
-    boolean fell;
-    boolean falling;
+    public boolean isJumping;
+    public boolean fell;
+    public boolean falling;
     boolean booleanFallingTime = true;
     boolean booleanJumpingTime = true;
     long jumpTime;
     long fallingTime;
+    long millis = 0;
     long forceActivatedTime;
 
     float timeElapsed = 0.0f;
@@ -66,13 +68,13 @@ public class Player extends GameEntity {
         }
     }
 
-    public void updateCamera() {
-//        Vector3 position = myGdxGame.camera.position;
-//        position.x = body.getPosition().x;
-//        position.y = ;
-        myGdxGame.camera.position.set(body.getPosition().x, body.getPosition().y, 0);
+    public void playerBreak(){
         body.setLinearVelocity(body.getLinearVelocity().cpy().sub(
                 body.getLinearVelocity().setLength(1).x, 0));
+    }
+
+    public void updateCamera() {
+        myGdxGame.camera.position.set(body.getPosition().x, body.getPosition().y, 0);
     }
 
     public void setJumpClickClack(boolean canJump) {
@@ -80,16 +82,15 @@ public class Player extends GameEntity {
     }
 
     public void jump() {
-        if (canJump)
+        if (canJump && body.getLinearVelocity().y == 0) {
             playerState = PlayerStates.JUMPING;
+            canJump = false;
+        }
     }
 
     public Vector2 setMoveVector(Vector2 moveVector) {
         body.setLinearVelocity(moveVector.setLength(PLAYER_SPEED_X).x, body.getLinearVelocity().y);
         Vector2 normalizeMove = moveVector.cpy().setLength(1);
-//        if (normalizeMove.y > 0.65f && canJump) {
-//            playerState = PlayerStates.JUMPING;
-//        }
 
         flippingTextures(moveVector);
 
@@ -110,86 +111,168 @@ public class Player extends GameEntity {
     }
 
     public void draw(SpriteBatch batch, float deltaTime) {
-        drawFalling(batch);
-        timeElapsed += deltaTime;
-        if (timeElapsed >= frameMultiplierForHead) {
-            currentFrame++;
-            if (currentFrame >= 2) {
-                currentFrame = 0;
-            }
-            timeElapsed = 0.0f;
-        }
+        int frame;
+
         if (playerState == PlayerStates.WALKING || playerState == PlayerStates.STANDING) {
             batch.draw(GameResources.PLAYER_HEAD_TEXTURE,
                     body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2,
-                    body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2 - currentFrame%2 * GameSettings.OBJECT_SCALE * 3,
+                    body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2 - TimeUtils.millis() / 500 % 2 * GameSettings.OBJECT_SCALE * 3,
                     PLAYER_WIDTH * GameSettings.OBJECT_SCALE,
                     PLAYER_HEIGHT * GameSettings.OBJECT_SCALE
             );
         }
-        switch (playerState) {
+
+        if (body.getLinearVelocity().y < 0)
+            falling = true;
+        if (body.getLinearVelocity().y == 0 && falling) {
+            playerState = PlayerStates.LANDING;
+            falling = false;
+        }
+
+        switch (playerState){
             case STANDING:
                 GameResources.PLAYER_STANDING_TEXTURE.setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
                 GameResources.PLAYER_STANDING_TEXTURE.setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
                 GameResources.PLAYER_STANDING_TEXTURE.draw(batch);
                 break;
             case WALKING:
-                if (currentFrame >= GameResources.PLAYER_WALKING_TEXTURES.length-1) {
-                    currentFrame = 0;
-                }
-                if (timeElapsed >= frameMultiplierForWalking) {
-                    currentFrame++;
-                    timeElapsed = 0.0f;
-                }
-                GameResources.PLAYER_WALKING_TEXTURES[currentFrame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-                GameResources.PLAYER_WALKING_TEXTURES[currentFrame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-                GameResources.PLAYER_WALKING_TEXTURES[currentFrame].draw(batch);
+                frame = (int) (TimeUtils.millis() / 75) % 8;
+                GameResources.PLAYER_WALKING_TEXTURES[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                GameResources.PLAYER_WALKING_TEXTURES[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                GameResources.PLAYER_WALKING_TEXTURES[frame].draw(batch);
                 break;
             case DOWN_DIGGING:
-                if (currentFrame >= GameResources.PLAYER_DOWN_DIGGING_TEXTURES.length-1) {
-                    currentFrame = 0;
-                }
-                if (timeElapsed >= frameMultiplierForDigging) {
-                    currentFrame++;
-                    timeElapsed = 0.0f;
-                }
-                GameResources.PLAYER_DOWN_DIGGING_TEXTURES[currentFrame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-                GameResources.PLAYER_DOWN_DIGGING_TEXTURES[currentFrame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-                GameResources.PLAYER_DOWN_DIGGING_TEXTURES[currentFrame].draw(batch);
-                drawPickaxe(PlayerStates.DOWN_DIGGING);
+                frame = (int) (TimeUtils.millis() / 75) % 6;
+                GameResources.PLAYER_DOWN_DIGGING_TEXTURES[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                GameResources.PLAYER_DOWN_DIGGING_TEXTURES[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                GameResources.PLAYER_DOWN_DIGGING_TEXTURES[frame].draw(batch);
+                drawPickaxe(PlayerStates.DOWN_DIGGING, frame);
                 break;
             case UP_DIGGING:
-                if (currentFrame >= GameResources.PLAYER_UP_DIGGING_TEXTURES.length-1) {
-                    currentFrame = 0;
-                }
-                if (timeElapsed >= frameMultiplierForWalking) {
-                    currentFrame++;
-                    timeElapsed = 0.0f;
-                }
-                GameResources.PLAYER_UP_DIGGING_TEXTURES[currentFrame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-                GameResources.PLAYER_UP_DIGGING_TEXTURES[currentFrame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-                GameResources.PLAYER_UP_DIGGING_TEXTURES[currentFrame].draw(batch);
-                drawPickaxe(PlayerStates.UP_DIGGING);
+                frame = (int) (TimeUtils.millis() / 75) % 5;
+                GameResources.PLAYER_UP_DIGGING_TEXTURES[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                GameResources.PLAYER_UP_DIGGING_TEXTURES[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                GameResources.PLAYER_UP_DIGGING_TEXTURES[frame].draw(batch);
+                drawPickaxe(PlayerStates.UP_DIGGING, frame);
                 break;
             case SIDE_DIGGING:
-                if (currentFrame >= GameResources.PLAYER_SIDE_DIGGING_TEXTURES.length-1) {
-                    currentFrame = 0;
-                }
-                if (timeElapsed >= frameMultiplierForWalking) {
-                    currentFrame++;
-                    timeElapsed = 0.0f;
-                }
-                GameResources.PLAYER_SIDE_DIGGING_TEXTURES[currentFrame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-                GameResources.PLAYER_SIDE_DIGGING_TEXTURES[currentFrame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-                GameResources.PLAYER_SIDE_DIGGING_TEXTURES[currentFrame].draw(batch);
-                drawPickaxe(PlayerStates.SIDE_DIGGING);
+                frame = (int) (TimeUtils.millis() / 75) % 6;
+                GameResources.PLAYER_SIDE_DIGGING_TEXTURES[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                GameResources.PLAYER_SIDE_DIGGING_TEXTURES[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                GameResources.PLAYER_SIDE_DIGGING_TEXTURES[frame].draw(batch);
+                drawPickaxe(PlayerStates.SIDE_DIGGING, frame);
                 break;
             case JUMPING:
-                drawingJump(batch);
+                if (!isJumping && body.getLinearVelocity().y == 0) {
+                    millis = TimeUtils.millis();
+                    isJumping = true;
+                }
+                frame = (int) ((TimeUtils.millis() - millis) / 200) % 3;
+                GameResources.PLAYER_JUMPING_TEXTURES[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                GameResources.PLAYER_JUMPING_TEXTURES[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                GameResources.PLAYER_JUMPING_TEXTURES[frame].draw(batch);
+                if (frame == 2 && body.getLinearVelocity().y == 0) {
+                    body.applyForceToCenter(0, 27000, true);
+                    isJumping = false;
+                }
                 break;
-            default:
+            case LANDING:
+                if (!fell) {
+                    millis = TimeUtils.millis();
+                    fell = true;
+                }
+                frame = (int) ((TimeUtils.millis() - millis) / 200) % 3 + 3;
+                if (frame == 5) {
+                    fell = false;
+                    break;
+                }
+                GameResources.PLAYER_JUMPING_TEXTURES[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                GameResources.PLAYER_JUMPING_TEXTURES[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                GameResources.PLAYER_JUMPING_TEXTURES[frame].draw(batch);
                 break;
         }
+
+
+//        drawFalling(batch);
+//        timeElapsed += deltaTime;
+//        if (timeElapsed >= frameMultiplierForHead) {
+//            currentFrame++;
+//            if (currentFrame >= 2) {
+//                currentFrame = 0;
+//            }
+//            timeElapsed = 0.0f;
+//        }
+//        if (playerState == PlayerStates.WALKING || playerState == PlayerStates.STANDING) {
+//            batch.draw(GameResources.PLAYER_HEAD_TEXTURE,
+//                    body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2,
+//                    body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2 - currentFrame%2 * GameSettings.OBJECT_SCALE * 3,
+//                    PLAYER_WIDTH * GameSettings.OBJECT_SCALE,
+//                    PLAYER_HEIGHT * GameSettings.OBJECT_SCALE
+//            );
+//        }
+//        switch (playerState) {
+//            case STANDING:
+//                GameResources.PLAYER_STANDING_TEXTURE.setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+//                GameResources.PLAYER_STANDING_TEXTURE.setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+//                GameResources.PLAYER_STANDING_TEXTURE.draw(batch);
+//                break;
+//            case WALKING:
+//                if (currentFrame >= GameResources.PLAYER_WALKING_TEXTURES.length-1) {
+//                    currentFrame = 0;
+//                }
+//                if (timeElapsed >= frameMultiplierForWalking) {
+//                    currentFrame++;
+//                    timeElapsed = 0.0f;
+//                }
+//                GameResources.PLAYER_WALKING_TEXTURES[currentFrame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+//                GameResources.PLAYER_WALKING_TEXTURES[currentFrame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+//                GameResources.PLAYER_WALKING_TEXTURES[currentFrame].draw(batch);
+//                break;
+//            case DOWN_DIGGING:
+//                if (currentFrame >= GameResources.PLAYER_DOWN_DIGGING_TEXTURES.length-1) {
+//                    currentFrame = 0;
+//                }
+//                if (timeElapsed >= frameMultiplierForDigging) {
+//                    currentFrame++;
+//                    timeElapsed = 0.0f;
+//                }
+//                GameResources.PLAYER_DOWN_DIGGING_TEXTURES[currentFrame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+//                GameResources.PLAYER_DOWN_DIGGING_TEXTURES[currentFrame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+//                GameResources.PLAYER_DOWN_DIGGING_TEXTURES[currentFrame].draw(batch);
+//                drawPickaxe(PlayerStates.DOWN_DIGGING);
+//                break;
+//            case UP_DIGGING:
+//                if (currentFrame >= GameResources.PLAYER_UP_DIGGING_TEXTURES.length-1) {
+//                    currentFrame = 0;
+//                }
+//                if (timeElapsed >= frameMultiplierForWalking) {
+//                    currentFrame++;
+//                    timeElapsed = 0.0f;
+//                }
+//                GameResources.PLAYER_UP_DIGGING_TEXTURES[currentFrame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+//                GameResources.PLAYER_UP_DIGGING_TEXTURES[currentFrame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+//                GameResources.PLAYER_UP_DIGGING_TEXTURES[currentFrame].draw(batch);
+//                drawPickaxe(PlayerStates.UP_DIGGING);
+//                break;
+//            case SIDE_DIGGING:
+//                if (currentFrame >= GameResources.PLAYER_SIDE_DIGGING_TEXTURES.length-1) {
+//                    currentFrame = 0;
+//                }
+//                if (timeElapsed >= frameMultiplierForWalking) {
+//                    currentFrame++;
+//                    timeElapsed = 0.0f;
+//                }
+//                GameResources.PLAYER_SIDE_DIGGING_TEXTURES[currentFrame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+//                GameResources.PLAYER_SIDE_DIGGING_TEXTURES[currentFrame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+//                GameResources.PLAYER_SIDE_DIGGING_TEXTURES[currentFrame].draw(batch);
+//                drawPickaxe(PlayerStates.SIDE_DIGGING);
+//                break;
+//            case JUMPING:
+//                drawingJump(batch);
+//                break;
+//            default:
+//                break;
+//        }
     }
 
     private void flippingTextures(Vector2 moveVector) {
@@ -262,71 +345,64 @@ public class Player extends GameEntity {
 
     }
 
-    public void drawFalling(SpriteBatch batch) {
-        if (body.getLinearVelocity().y < 0 && !fell) {
-            playerState = PlayerStates.FALLING;
-            GameResources.PLAYER_JUMPING_TEXTURES[2].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-            GameResources.PLAYER_JUMPING_TEXTURES[2].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-            GameResources.PLAYER_JUMPING_TEXTURES[2].draw(batch);
-            falling = true;
-        }
-        if (body.getLinearVelocity().y == 0 && falling) {
-            fell = true;
-            playerState = PlayerStates.FALLING;
+//    public void drawFalling(SpriteBatch batch) {
+//        if (body.getLinearVelocity().y < 0 && !fell) {
+//            playerState = PlayerStates.FALLING;
+//            GameResources.PLAYER_JUMPING_TEXTURES[2].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+//            GameResources.PLAYER_JUMPING_TEXTURES[2].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+//            GameResources.PLAYER_JUMPING_TEXTURES[2].draw(batch);
+//            falling = true;
+//        }
+//        if (body.getLinearVelocity().y == 0 && falling) {
+//            fell = true;
+//            playerState = PlayerStates.FALLING;
+//
+//        }
+//        if (fell && falling) {
+//            if (booleanFallingTime) {
+//                fallingTime = TimeUtils.millis();
+//                booleanFallingTime = false;
+//            }
+//
+//            if (TimeUtils.millis() - fallingTime < 200) {
+//
+//                GameResources.PLAYER_JUMPING_TEXTURES[3].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+//                GameResources.PLAYER_JUMPING_TEXTURES[3].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+//                GameResources.PLAYER_JUMPING_TEXTURES[3].draw(batch);
+//            }
+//            if (TimeUtils.millis() - fallingTime > 200 && TimeUtils.millis() - fallingTime < 400) {
+//                GameResources.PLAYER_JUMPING_TEXTURES[4].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+//                GameResources.PLAYER_JUMPING_TEXTURES[4].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+//                GameResources.PLAYER_JUMPING_TEXTURES[4].draw(batch);
+//            }
+//            if (TimeUtils.millis() - fallingTime > 400) {
+//                booleanFallingTime = true;
+//                if (fell && falling) {
+//                    playerState = PlayerStates.STANDING;
+//                }
+//                fell = false;
+//                falling = false;
+//                isActivated = false;
+//                isNeedActivate = false;
+//                booleanJumpingTime = true;
+//                canJump = false;
+//            }
+//
+//        }
+//    }
 
-        }
-        if (fell && falling) {
-            if (booleanFallingTime) {
-                fallingTime = TimeUtils.millis();
-                booleanFallingTime = false;
-            }
-
-            if (TimeUtils.millis() - fallingTime < 200) {
-
-                GameResources.PLAYER_JUMPING_TEXTURES[3].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-                GameResources.PLAYER_JUMPING_TEXTURES[3].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-                GameResources.PLAYER_JUMPING_TEXTURES[3].draw(batch);
-            }
-            if (TimeUtils.millis() - fallingTime > 200 && TimeUtils.millis() - fallingTime < 400) {
-                GameResources.PLAYER_JUMPING_TEXTURES[4].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-                GameResources.PLAYER_JUMPING_TEXTURES[4].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-                GameResources.PLAYER_JUMPING_TEXTURES[4].draw(batch);
-            }
-            if (TimeUtils.millis() - fallingTime > 400) {
-                booleanFallingTime = true;
-                if (fell && falling) {
-                    playerState = PlayerStates.STANDING;
-                }
-                fell = false;
-                falling = false;
-                isActivated = false;
-                isNeedActivate = false;
-                booleanJumpingTime = true;
-                canJump = false;
-            }
-
-        }
-    }
-
-    public void drawDigging(int x, int y, int playerX, int playerY) {
-        if (playerX == x && playerY > y) {
+    public void drawDigging(float x, float y) {
+        if (x == 0 && y == -1) {
             playerState = PlayerStates.DOWN_DIGGING;
-        } else if (playerX == x && playerY < y) {
+        } else if (x == 0 && y == 2) {
             playerState = PlayerStates.UP_DIGGING;
         } else {
             playerState = PlayerStates.SIDE_DIGGING;
         }
     }
-    private void drawPickaxe(PlayerStates playerState) {
+    private void drawPickaxe(PlayerStates playerState, int frame) {
         switch (playerState) {
             case SIDE_DIGGING:
-                if (timeElapsed >= frameMultiplierForWalking) {
-                    currentFrame++;
-                    if (currentFrame >= GameResources.PLAYER_SIDE_DIGGING_TEXTURES.length-1) {
-                        currentFrame = 0;
-                    }
-                    timeElapsed = 0.0f;
-                }
                 switch (pickaxe.getClass().getSimpleName()) {
 //                    case STICK:
 //                        if (frameCounter >= GameResources.RIGHT_STICK_PICKAXE.length * frameMultiplierForDigging - 1)
@@ -350,14 +426,14 @@ public class Player extends GameEntity {
 //                        GameResources.RIGHT_IRON_PICKAXE[frameCounter / frameMultiplierForDigging].draw(myGdxGame.batch);
 //                        break;
                     case "GoldPickaxe":
-                        GameResources.RIGHT_GOLD_PICKAXE[currentFrame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-                        GameResources.RIGHT_GOLD_PICKAXE[currentFrame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-                        GameResources.RIGHT_GOLD_PICKAXE[currentFrame].draw(myGdxGame.batch);
+                        GameResources.RIGHT_GOLD_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                        GameResources.RIGHT_GOLD_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                        GameResources.RIGHT_GOLD_PICKAXE[frame].draw(myGdxGame.batch);
                         break;
                     case "DiamondPickaxe":
-                        GameResources.RIGHT_DIAMOND_PICKAXE[currentFrame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-                        GameResources.RIGHT_DIAMOND_PICKAXE[currentFrame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-                        GameResources.RIGHT_DIAMOND_PICKAXE[currentFrame].draw(myGdxGame.batch);
+                        GameResources.RIGHT_DIAMOND_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                        GameResources.RIGHT_DIAMOND_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                        GameResources.RIGHT_DIAMOND_PICKAXE[frame].draw(myGdxGame.batch);
                         break;
                 }
                 break;
@@ -392,14 +468,14 @@ public class Player extends GameEntity {
 //                        GameResources.UP_IRON_PICKAXE[frameCounter / frameMultiplierForDigging].draw(myGdxGame.batch);
 //                        break;
                     case "GoldPickaxe":
-                        GameResources.UP_GOLD_PICKAXE[currentFrame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-                        GameResources.UP_GOLD_PICKAXE[currentFrame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-                        GameResources.UP_GOLD_PICKAXE[currentFrame].draw(myGdxGame.batch);
+                        GameResources.UP_GOLD_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                        GameResources.UP_GOLD_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                        GameResources.UP_GOLD_PICKAXE[frame].draw(myGdxGame.batch);
                         break;
                     case "DiamondPickaxe":
-                        GameResources.UP_DIAMOND_PICKAXE[currentFrame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-                        GameResources.UP_DIAMOND_PICKAXE[currentFrame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-                        GameResources.UP_DIAMOND_PICKAXE[currentFrame].draw(myGdxGame.batch);
+                        GameResources.UP_DIAMOND_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                        GameResources.UP_DIAMOND_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                        GameResources.UP_DIAMOND_PICKAXE[frame].draw(myGdxGame.batch);
                         break;
                 }
                 break;
@@ -434,14 +510,14 @@ public class Player extends GameEntity {
 //                        GameResources.DOWN_IRON_PICKAXE[frameCounter / frameMultiplierForDigging].draw(myGdxGame.batch);
 //                        break;
                     case "GoldPickaxe":
-                        GameResources.DOWN_GOLD_PICKAXE[currentFrame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-                        GameResources.DOWN_GOLD_PICKAXE[currentFrame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-                        GameResources.DOWN_GOLD_PICKAXE[currentFrame].draw(myGdxGame.batch);
+                        GameResources.DOWN_GOLD_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                        GameResources.DOWN_GOLD_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                        GameResources.DOWN_GOLD_PICKAXE[frame].draw(myGdxGame.batch);
                         break;
                     case "DiamondPickaxe":
-                        GameResources.DOWN_DIAMOND_PICKAXE[currentFrame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-                        GameResources.DOWN_DIAMOND_PICKAXE[currentFrame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-                        GameResources.DOWN_DIAMOND_PICKAXE[currentFrame].draw(myGdxGame.batch);
+                        GameResources.DOWN_DIAMOND_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                        GameResources.DOWN_DIAMOND_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                        GameResources.DOWN_DIAMOND_PICKAXE[frame].draw(myGdxGame.batch);
                         break;
                 }
                 break;
