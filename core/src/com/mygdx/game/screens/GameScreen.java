@@ -147,10 +147,10 @@ public class GameScreen extends ScreenAdapter {
 
         if (actionClassName == null) {
             toggleActionButton = false;
-            if (backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).item instanceof BasicBlock) {
-                actionButton.changeItem(backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).item.getTexture());
-            } else if (backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).item instanceof BasicPickaxe) {
-                actionButton.changeItem(backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).item.getTexture());
+            if (backpackUI.getCurrentItem().item instanceof BasicBlock) {
+                actionButton.changeItem(backpackUI.getCurrentItem().item.getTexture());
+            } else if (backpackUI.getCurrentItem().item instanceof BasicPickaxe) {
+                actionButton.changeItem(backpackUI.getCurrentItem().item.getTexture());
             }
         } else {
             toggleActionButton = true;
@@ -256,7 +256,7 @@ public class GameScreen extends ScreenAdapter {
                     if (buttonHandler(actionButton)) {
                         if (!needToResetActionButton) {
                             if (!toggleActionButton) {
-                                if (backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).item instanceof BasicPickaxe) {
+                                if (backpackUI.getCurrentItem().item instanceof BasicPickaxe) {
                                         if (player.getBody().getLinearVelocity().y == 0) {
                                             player.drawDigging(selectedBlock.x, selectedBlock.y);
                                         } else if (!player.isJumping && !player.falling) {
@@ -275,12 +275,12 @@ public class GameScreen extends ScreenAdapter {
                                                 blocksCollision.updateCollision(generateMap.mapArray, x, y, true);
                                             }
                                         }
-                                } else if (backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).item instanceof BasicBlock) {
+                                } else if (backpackUI.getCurrentItem().item instanceof BasicBlock) {
                                     if (!selectedBlock.isZero() &&
                                             x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT)
                                         if (generateMap.mapArray[x][y] == null)
                                             try {
-                                                generateMap.mapArray[x][y] = ( (BasicBlock)backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).item).getClass().getConstructor().newInstance();
+                                                generateMap.mapArray[x][y] = ( (BasicBlock)backpackUI.getCurrentItem().item).getClass().getConstructor().newInstance();
                                                 needToResetActionButton = backpackUI.removeItemFromInventory(generateMap.mapArray[x][y].getClass());
                                                 generateMap.mapArray[x][y].setHasCollision(true);
                                                 blocksCollision.updateCollision(generateMap.mapArray, playerBlockCordX, playerBlockCordY - 1, false);
