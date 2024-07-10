@@ -81,7 +81,7 @@ public class Button {
         this.text = text;
         this.bitmapFont = font;
         this.width = width;
-        this.height =height;
+        this.height = height;
         //MyGdxGame.bitmapFont.getData().scale(1f);
         GlyphLayout glyphLayout = new GlyphLayout(bitmapFont, text);
         textWidth = glyphLayout.width;

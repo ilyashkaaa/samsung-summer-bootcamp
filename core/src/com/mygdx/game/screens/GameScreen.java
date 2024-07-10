@@ -29,6 +29,9 @@ import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
 import com.mygdx.game.map.blocks.GenerateMap;
 import com.mygdx.game.markets.UpdateMarket;
+import com.mygdx.game.pickaxes.IronPickaxe;
+import com.mygdx.game.pickaxes.Stick;
+import com.mygdx.game.pickaxes.StonePickaxe;
 import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.CameraMovement;
 import com.mygdx.game.uis.Joystick;
@@ -76,6 +79,7 @@ public class GameScreen extends ScreenAdapter {
     boolean backpackToggle;
     boolean toggleActionButton;
     boolean needToResetActionButton;
+    boolean needToResetUpgradeButton;
     boolean needToResetExitInMarketButton;
 
 
@@ -117,7 +121,7 @@ public class GameScreen extends ScreenAdapter {
                 GameSettings.PLAYER_WIDTH * GameSettings.OBJECT_SCALE, GameSettings.PLAYER_HEIGHT * GameSettings.OBJECT_SCALE, false,
                 myGdxGame.world
         );
-        player = new Player(GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, playerBody, myGdxGame, GoldPickaxe.class);
+        player = new Player(GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, playerBody, myGdxGame, Stick.class);
         // myGdxGame.camera.position.set(0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, 0);
         mapBorder.createMapBorder(GameSettings.MAP_WIDTH * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, (GameSettings.MAP_HEIGHT + 10) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE);
 
@@ -221,7 +225,34 @@ public class GameScreen extends ScreenAdapter {
                     markets[1].inMarket = false;
                 }
             } else if (markets[2].inMarket) {
-                if (buttonHandler(markets[2].exitButton)) {
+                if (buttonHandler(((UpdateMarket) markets[2]).upgradeButton) && !needToResetUpgradeButton){
+                    needToResetUpgradeButton = true;
+                    if (player.pickaxe instanceof Stick){
+                        player.setPickaxe(StonePickaxe.class);
+                        backpackUI.setItem(0, player.pickaxe.getTexture(), player.pickaxe.getClass(), false);
+                        ((UpdateMarket) markets[2]).nowPickaxe.setItem(player.pickaxe.getTexture());
+                        ((UpdateMarket) markets[2]).wantPickaxe.setItem(GameResources.IRON_PICKAXE.getTexture());
+                    }
+                    else if (player.pickaxe instanceof StonePickaxe){
+                        player.setPickaxe(IronPickaxe.class);
+                        backpackUI.setItem(0, player.pickaxe.getTexture(), player.pickaxe.getClass(), false);
+                        ((UpdateMarket) markets[2]).nowPickaxe.setItem(player.pickaxe.getTexture());
+                        ((UpdateMarket) markets[2]).wantPickaxe.setItem(GameResources.GOLD_PICKAXE);
+                    }
+                    else if (player.pickaxe instanceof IronPickaxe){
+                        player.setPickaxe(GoldPickaxe.class);
+                        backpackUI.setItem(0, player.pickaxe.getTexture(), player.pickaxe.getClass(), false);
+                        ((UpdateMarket) markets[2]).nowPickaxe.setItem(player.pickaxe.getTexture());
+                        ((UpdateMarket) markets[2]).wantPickaxe.setItem(GameResources.DIAMOND_PICKAXE);
+                    }
+                    else if (player.pickaxe instanceof GoldPickaxe){
+                        player.setPickaxe(DiamondPickaxe.class);
+                        backpackUI.setItem(0, player.pickaxe.getTexture(), player.pickaxe.getClass(), false);
+                        ((UpdateMarket) markets[2]).nowPickaxe.setItem(player.pickaxe.getTexture());
+                        ((UpdateMarket) markets[2]).wantPickaxe.setHasItem(false);
+                    }
+                }
+                else if (buttonHandler(markets[2].exitButton)) {
                     markets[2].inMarket = false;
                 }
             } else {
@@ -329,7 +360,7 @@ public class GameScreen extends ScreenAdapter {
             }
             needToResetExitInMarketButton = isExitButtonInMarketPressed(markets);
         } else {
-
+            needToResetUpgradeButton = false;
             needToResetExitInMarketButton = false;
             needToResetActionButton = false;
             if (backpackToggle) {

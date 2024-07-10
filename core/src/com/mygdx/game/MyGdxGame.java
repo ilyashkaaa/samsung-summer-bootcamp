@@ -17,7 +17,7 @@ import com.mygdx.game.screens.SettingsScreen;
 public class MyGdxGame extends Game {
 	public World world;
 	public SpriteBatch batch;
-	public BitmapFont bitmapFont;
+	public static BitmapFont bitmapFont;
 	public OrthographicCamera camera;
 	public GameScreen gameScreen;
 	public MenuScreen menuScreen;
