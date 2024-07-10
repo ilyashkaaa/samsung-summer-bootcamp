@@ -243,6 +243,7 @@ public class GameScreen extends ScreenAdapter {
                     backpackUI.backpackOpen = !backpackUI.backpackOpen;
                 }
                 if (buttonHandler(pauseButton)) {
+                    myGdxGame.pauseScreen.returnToPause = true;
                     myGdxGame.setScreen(myGdxGame.pauseScreen);
                 }
 
