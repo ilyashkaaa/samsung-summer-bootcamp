@@ -68,7 +68,7 @@ public class GameScreen extends ScreenAdapter {
     BackpackUI backpackUI;
     CameraMovement cameraMovement;
     BasicMarket[] markets;
-    String actionClassName;
+    BasicMarket actionClassName;
 
     int playerBlockCordX;
     int playerBlockCordY;
@@ -144,7 +144,8 @@ public class GameScreen extends ScreenAdapter {
 
         actionClassName = nameOfMarketNearBy(markets);
 
-        if (nameOfMarketNearBy(markets) == null) {
+
+        if (actionClassName == null) {
             toggleActionButton = false;
             if (backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).item instanceof BasicBlock) {
                 actionButton.changeItem(backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).item.getTexture());
@@ -292,25 +293,8 @@ public class GameScreen extends ScreenAdapter {
                                 }
 
                             } else {
-                                switch (actionClassName) {
-                                    case "SellMarket":
-//                                    player.setPickaxe(DiamondPickaxe.class);
-                                        markets[0].inMarket = true;
-                                        System.out.println(0);
-//                                    System.out.println("sell");
-                                        break;
-                                    case "FoodMarket":
-//                                    player.setPickaxe(GoldPickaxe.class);
-                                        markets[1].inMarket = true;
-                                        System.out.println(1);
-//                                    System.out.println("food");
-                                        break;
-                                    case "UpdateMarket":
-//                                    player.setPickaxe(GoldPickaxe.class);
-                                        markets[2].inMarket = true;
-                                        System.out.println(2);
-//                                    System.out.println("food");
-                                        break;
+                                if (actionClassName != null) {
+                                    actionClassName.inMarket = true;
                                 }
 //                    System.out.println(generateMap.mapArray[0][0].getClass().getGenericSuperclass());
 //                    System.out.println(generateMap.mapArray[0][0].getClass().getSuperclass().getSimpleName());
@@ -456,10 +440,10 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
-    private String nameOfMarketNearBy(BasicMarket[] markets) {
+    private BasicMarket nameOfMarketNearBy(BasicMarket[] markets) {
         for (BasicMarket market : markets)
             if (market.isNearBy(player.getBody().getPosition()))
-                return market.getClass().getSimpleName();
+                return market;
         return null;
     }
 
