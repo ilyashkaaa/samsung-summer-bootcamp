@@ -52,7 +52,6 @@ public class GameScreen extends ScreenAdapter {
 
 
     MyGdxGame myGdxGame;
-    PauseScreen pauseScreen;
     Player player;
     Box2DDebugRenderer box2DDebugRenderer = new Box2DDebugRenderer();
     GenerateMap generateMap;
@@ -123,7 +122,7 @@ public class GameScreen extends ScreenAdapter {
         mapBorder.createMapBorder(GameSettings.MAP_WIDTH * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, (GameSettings.MAP_HEIGHT + 10) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE);
 
         backpackUI.addItemInInventory(player.pickaxe.getTexture(), player.pickaxe.getClass(), false);
-        pauseScreen = new PauseScreen(myGdxGame,this, myGdxGame.camera.position);
+
 
     }
 
@@ -244,7 +243,7 @@ public class GameScreen extends ScreenAdapter {
                     backpackUI.backpackOpen = !backpackUI.backpackOpen;
                 }
                 if (buttonHandler(pauseButton)) {
-                    myGdxGame.setScreen(pauseScreen);
+                    myGdxGame.setScreen(myGdxGame.pauseScreen);
                 }
 
                 if (!backpackUI.backpackOpen) {

@@ -23,7 +23,7 @@ public class PauseScreen extends ScreenAdapter {
 
     Vector3 cameraPos;
     GameScreen gameScreen;
-    SettingsScreen settingsScreen;
+
 
     public PauseScreen(MyGdxGame myGdxGame, GameScreen gameScreen, Vector3 cameraPos) {
         this.myGdxGame = myGdxGame;
@@ -33,7 +33,7 @@ public class PauseScreen extends ScreenAdapter {
 
 
 
-        settingsScreen = new SettingsScreen(myGdxGame, gameScreen);
+
         pauseText = new TextView(myGdxGame.bitmapFont, 0, 400, "PAUSE");
         menuButton = new Button(GameResources.BUTTON_IN_PAUSE_AND_SETTINGS,
                 0,
@@ -83,7 +83,7 @@ public class PauseScreen extends ScreenAdapter {
                 myGdxGame.setScreen(gameScreen);
             }
             if (gameScreen.buttonHandler(settingsButton)) {
-                myGdxGame.setScreen(settingsScreen);
+                myGdxGame.setScreen(myGdxGame.settingsScreen);
             }
             if (gameScreen.buttonHandler(menuButton)) {
                 //TODO MENU
