@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.screens.GameScreen;
+import com.mygdx.game.screens.MenuScreen;
 
 public class MyGdxGame extends Game {
 	public World world;
@@ -17,6 +18,7 @@ public class MyGdxGame extends Game {
 	public BitmapFont bitmapFont;
 	public OrthographicCamera camera;
 	public GameScreen gameScreen;
+	public MenuScreen menuScreen;
 	float accumulator = 0;
 	
 	@Override
@@ -38,7 +40,9 @@ public class MyGdxGame extends Game {
 		camera.setToOrtho(false, GameSettings.SCR_WIDTH*GameSettings.SCALE,GameSettings.SCR_HEIGHT*GameSettings.SCALE);
 		batch = new SpriteBatch();
 		gameScreen = new GameScreen(this);
-		setScreen(gameScreen);
+		menuScreen = new MenuScreen(this);
+		setScreen(menuScreen);
+		//setScreen(gameScreen);
 	}
 	@Override
 	public void dispose () {
