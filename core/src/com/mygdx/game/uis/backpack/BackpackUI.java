@@ -5,8 +5,10 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
+import com.mygdx.game.InInventory;
 import com.mygdx.game.MyGdxGame;
 
+import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.screens.GameScreen;
 import com.mygdx.game.uis.Button;
 
@@ -119,31 +121,31 @@ public class BackpackUI {
 //        }
 //    }
 
-    public void addItemInInventory(Texture texture, Class<?> type, boolean showCount){
-        if (!uniqueItem.contains(texture)){
-            uniqueItem.add(texture);
-            slotsInventoryItem.add(new BackpackSlot(texture, type, showCount));
+    public void addItemInInventory(InInventory item){
+        if (!uniqueItem.contains(item.getTexture())){
+            uniqueItem.add(item.getTexture());
+            slotsInventoryItem.add(new BackpackSlot(item));
             backpackSlots[slotsInventoryItem.size() - 1].setHasItem(true);
-            backpackSlots[slotsInventoryItem.size() - 1].changeItem(texture, 160 * GameSettings.SCALE, 160 * GameSettings.SCALE);
+            backpackSlots[slotsInventoryItem.size() - 1].changeItem(item.getTexture(), 160 * GameSettings.SCALE, 160 * GameSettings.SCALE);
         }
         else {
             for (BackpackSlot backpackSlot : slotsInventoryItem)
-                if (backpackSlot.texture == texture) {
+                if (backpackSlot.item.getTexture() == item.getTexture()) {
                     backpackSlot.counterOfBlock++;
                     break;
                 }
         }
     }
-    public boolean removeItemFromInventory(Class<?> type){
+    public boolean removeItemFromInventory(Class<? extends BasicBlock> typeS){
         boolean ret = false;
         for (BackpackSlot backpackSlot : slotsInventoryItem)
-            if (backpackSlot.block == type) {
+            if (typeS.isInstance(backpackSlot.item)) {
                 backpackSlot.counterOfBlock--;
                 if (backpackSlot.counterOfBlock <= 0) {
                     ret = true;
                     backpackSlots[slotsInventoryItem.size() - 1].setHasItem(false);
                     slotsInventoryItem.remove(backpackSlot);
-                    uniqueItem.remove(backpackSlot.texture);
+                    uniqueItem.remove(backpackSlot.item.getTexture());
                     selectionIndex = 0;
                     cancelSelection();
                     backpackSlots[uniqueItem.size()].setHasItem(false);
@@ -157,9 +159,9 @@ public class BackpackUI {
         return ret;
     }
 
-    public void setItem(int index, Texture texture, Class<?> type, boolean showCount){
-        uniqueItem.set(index, texture);
-        backpackSlots[index].changeItem(texture);
-        slotsInventoryItem.set(0, new BackpackSlot(texture, type, showCount));
+    public void setItem(int index, InInventory item){
+        uniqueItem.set(index, item.getTexture());
+        backpackSlots[index].changeItem(item.getTexture());
+        slotsInventoryItem.set(0, new BackpackSlot(item));
     }
 }
