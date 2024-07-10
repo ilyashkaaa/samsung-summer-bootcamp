@@ -6,10 +6,11 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
 
-public class Button {
+public class Button implements Disposable {
     boolean isCircle;
     boolean hasItem;
     Texture buttonTexture;
@@ -146,5 +147,11 @@ public class Button {
         itemTexture = texture;
         this.itemWidth = itemWidth;
         this.itemHeight = itemHeight;
+    }
+    @Override
+    public void dispose() {
+        buttonTexture.dispose();
+        itemTexture.dispose();
+        bitmapFont.dispose();
     }
 }

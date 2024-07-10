@@ -19,4 +19,8 @@ public class Emerald extends BasicBlock{
     public void setDurability(int durability) {
         this.durability = durability;
     }
+    @Override
+    public void dispose() {
+        texture.dispose();
+    }
 }

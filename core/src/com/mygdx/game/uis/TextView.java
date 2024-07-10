@@ -7,9 +7,10 @@ import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.GameSettings;
 
-public class TextView {
+public class TextView implements Disposable {
     private BitmapFont bitmapFont;
     private String text;
 
@@ -37,6 +38,11 @@ public class TextView {
 
     public void draw(SpriteBatch batch, Vector3 cameraPos) {
         bitmapFont.draw(batch, text, x*GameSettings.SCALE+cameraPos.x-width/2, y*GameSettings.SCALE+cameraPos.y+height*GameSettings.SCALE);
+    }
+
+    @Override
+    public void dispose() {
+        bitmapFont.dispose();
     }
 
 

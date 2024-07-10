@@ -5,11 +5,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MemoryManager;
 
-public class Slider {
+public class Slider implements Disposable {
     Texture sliderTexture = GameResources.SLIDER_TEXTURE;
     Texture toggleTexture = GameResources.TOGGLE_SLIDER_TEXTURE;
     float y;
@@ -51,6 +52,11 @@ public class Slider {
     }
     public int getValue(Vector3 cameraPos) {
         return map((int) (cameraPos.x - width / 2f), (int) (cameraPos.x + width / 2f), 4, 105, cameraPos.x + getValueToggle());
+    }
+    @Override
+    public void dispose() {
+        toggleTexture.dispose();
+        sliderTexture.dispose();
     }
 
 }

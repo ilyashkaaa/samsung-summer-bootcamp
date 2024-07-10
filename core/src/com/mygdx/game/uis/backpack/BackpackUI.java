@@ -3,6 +3,7 @@ package com.mygdx.game.uis.backpack;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.InInventory;
@@ -15,7 +16,7 @@ import com.mygdx.game.uis.Button;
 import java.util.ArrayList;
 
 
-public class BackpackUI {
+public class BackpackUI implements Disposable {
     public Button backpackButton;
     public Button[] backpackSlots;
     public int selectionIndex;
@@ -163,5 +164,10 @@ public class BackpackUI {
         uniqueItem.set(index, item.getTexture());
         backpackSlots[index].changeItem(item.getTexture());
         slotsInventoryItem.set(0, new BackpackSlot(item));
+    }
+    @Override
+    public void dispose() {
+        backpackBackground.dispose();
+        backpackChooseButton.dispose();
     }
 }

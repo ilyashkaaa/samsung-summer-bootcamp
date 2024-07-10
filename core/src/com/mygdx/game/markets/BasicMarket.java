@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
@@ -12,7 +13,7 @@ import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.Mossy;
 import com.mygdx.game.uis.Button;
 
-public class BasicMarket {
+public class BasicMarket implements Disposable {
     protected float x;
     protected float y;
     protected int width;
@@ -62,4 +63,10 @@ public class BasicMarket {
         exitButton.draw(myGdxGame.batch, cameraPos);
     }
     public void setState(int state){}
+
+    @Override
+    public void dispose() {
+        marketTexture.dispose();
+        backpackBackground.dispose();
+    }
 }

@@ -1,9 +1,10 @@
 package com.mygdx.game.pickaxes;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.InInventory;
 
-public class BasicPickaxe implements InInventory {
+public class BasicPickaxe implements InInventory, Disposable {
     protected int damage;
     Texture texture;
 
@@ -16,5 +17,10 @@ public class BasicPickaxe implements InInventory {
     }
     public int getDamage(){
         return damage;
+    }
+
+    @Override
+    public void dispose() {
+        texture.dispose();
     }
 }

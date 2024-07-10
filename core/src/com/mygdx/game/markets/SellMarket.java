@@ -20,6 +20,8 @@ public class SellMarket extends BasicMarket{
     public boolean inMenu = true;
     public boolean inSell = false;
     public boolean inBuy = false;
+    private final Texture bodyTexture = new Texture("textures/npc/market_seller_body.png");
+    private  final Texture headTexture = new Texture("textures/npc/market_seller_head.png");
     NPC marketSeller;
 
     public SellMarket(float x){
@@ -32,7 +34,7 @@ public class SellMarket extends BasicMarket{
                 500, 0, (int) (250 * GameSettings.SCALE), (int) (250 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE));
         goldPickaxe = new Button(GameResources.BUTTON_BACKGROUND, GameResources.GOLD_PICKAXE,
                 -500, 0, (int) (250 * GameSettings.SCALE), (int) (250 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE));
-        marketSeller = new NPC((int) (x*GameSettings.SCALE*GameSettings.BLOCK_SIDE), (int) (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE), (int) (15/GameSettings.SCALE/2.5), (int) (32/GameSettings.SCALE/2.5), new Texture("textures/npc/market_seller_body.png"), new Texture("textures/npc/market_seller_head.png"));
+        marketSeller = new NPC((int) (x*GameSettings.SCALE*GameSettings.BLOCK_SIDE), (int) (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE), (int) (15/GameSettings.SCALE/2.5), (int) (32/GameSettings.SCALE/2.5), bodyTexture, headTexture);
 
     }
 
@@ -76,5 +78,10 @@ public class SellMarket extends BasicMarket{
     public void draw(SpriteBatch batch){
         super.draw(batch);
         marketSeller.draw(batch);
+    }
+    @Override
+    public void dispose() {
+        bodyTexture.dispose();
+        headTexture.dispose();
     }
 }

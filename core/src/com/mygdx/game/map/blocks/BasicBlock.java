@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.InInventory;
@@ -20,7 +21,7 @@ import java.util.function.DoubleUnaryOperator;
 
 import javax.swing.Spring;
 
-public abstract class BasicBlock implements InInventory {
+public abstract class BasicBlock implements InInventory, Disposable {
     protected int durability;
     protected int hp;
     protected static float width = GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE;
@@ -95,5 +96,9 @@ public abstract class BasicBlock implements InInventory {
                 batch.draw(breaking[i], x, y, width, height);
                 }
         }
+    }
+    @Override
+    public void dispose() {
+        texture.dispose();
     }
 }
