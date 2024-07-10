@@ -84,7 +84,7 @@ public class UpdateMarket extends BasicMarket {
         if (buttonHandle.buttonHandler(exitButton)) {
             inMarket = false;
         } else if (inMarket) {
-            if (buttonHandle.buttonHandler(upgradeButton) && !needToReset/* && MoneyManager.getCountOfMoney() >= player.pickaxe.getNext().getCost()*/) {
+            if (buttonHandle.buttonHandler(upgradeButton) && !needToReset && MoneyManager.getCountOfMoney() >= player.pickaxe.getNext().getCost()) {
                 needToReset = true;
                 player.setPickaxe(player.pickaxe.getNext());
                 wantPickaxe.setItem(player.pickaxe.getNext());
