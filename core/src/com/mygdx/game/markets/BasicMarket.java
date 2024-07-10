@@ -6,12 +6,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Disposable;
+import com.mygdx.game.ButtonHandlerInterface;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
+import com.mygdx.game.entities.Player;
 import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.Mossy;
 import com.mygdx.game.uis.Button;
+import com.mygdx.game.uis.backpack.BackpackUI;
 
 public class BasicMarket implements Disposable {
     protected float x;
@@ -22,12 +25,15 @@ public class BasicMarket implements Disposable {
     Texture marketTexture;
     Texture backpackBackground;
     public Button exitButton;
+    protected ButtonHandlerInterface buttonHandle;
 
-    public BasicMarket (String texturePath, float x){
+    public boolean needToReset;
+
+    public BasicMarket (String texturePath, float x, ButtonHandlerInterface buttonHandlerInterface){
         this.x = x;
-
+        this.buttonHandle = buttonHandlerInterface;
         exitButton = new Button(GameResources.EXIT_BUTTON,
-                0, -200, (int) (100 * GameSettings.SCALE));
+                635, 250, (int) (75 * GameSettings.SCALE));
 
         y = GameSettings.MAP_HEIGHT * GameSettings.OBJECT_SCALE * GameSettings.BLOCK_SIDE;
 
@@ -63,6 +69,12 @@ public class BasicMarket implements Disposable {
         exitButton.draw(myGdxGame.batch, cameraPos);
     }
     public void setState(int state){}
+
+    public void doThing(Player player, BackpackUI backpackUI) {
+        if (buttonHandle.buttonHandler(exitButton)) {
+            inMarket = false;
+        }
+    }
 
     @Override
     public void dispose() {

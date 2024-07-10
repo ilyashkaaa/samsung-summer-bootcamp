@@ -12,7 +12,7 @@ import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.TextView;
-import com.sun.org.apache.xpath.internal.operations.Bool;
+
 
 public class PauseScreen extends ScreenAdapter {
     MyGdxGame myGdxGame;
@@ -77,15 +77,15 @@ public class PauseScreen extends ScreenAdapter {
         if (Gdx.input.isTouched()) {
             if (!myGdxGame.isStillTouching) {
                 myGdxGame.isStillTouching = true;
-                if (gameScreen.buttonHandler(continueButton)) {
+                if (gameScreen.buttonHandle.buttonHandler(continueButton)) {
                     myGdxGame.setScreen(gameScreen);
                 }
-                if (gameScreen.buttonHandler(settingsButton)) {
+                if (gameScreen.buttonHandle.buttonHandler(settingsButton)) {
                     myGdxGame.returnToPause = true;
                     myGdxGame.setScreen(myGdxGame.settingsScreen);
                     System.out.println("lol");
                 }
-                if (gameScreen.buttonHandler(menuButton)) {
+                if (gameScreen.buttonHandle.buttonHandler(menuButton)) {
                     myGdxGame.returnToPause = false;
                     myGdxGame.setScreen(myGdxGame.menuScreen);
                 }

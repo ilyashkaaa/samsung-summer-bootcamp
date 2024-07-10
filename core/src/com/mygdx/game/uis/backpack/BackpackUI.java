@@ -53,6 +53,10 @@ public class BackpackUI implements Disposable {
         backpackSlots[0].changeButtonTexture(GameResources.SELECTED_BLOCK);
     }
 
+    public BackpackSlot getCurrentItem() {
+        return slotsInventoryItem.get(selectionIndex);
+    }
+
     public void cancelSelection(){
         for (Button button : backpackSlots)
             button.changeButtonTexture(backpackChooseButton);
