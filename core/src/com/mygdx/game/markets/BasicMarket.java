@@ -30,7 +30,7 @@ public class BasicMarket {
         this.x = x;
         this.buttonHandle = buttonHandlerInterface;
         exitButton = new Button(GameResources.EXIT_BUTTON,
-                0, -200, (int) (100 * GameSettings.SCALE));
+                635, 250, (int) (75 * GameSettings.SCALE));
 
         y = GameSettings.MAP_HEIGHT * GameSettings.OBJECT_SCALE * GameSettings.BLOCK_SIDE;
 

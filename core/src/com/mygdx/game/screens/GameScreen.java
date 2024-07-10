@@ -30,6 +30,9 @@ import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
 import com.mygdx.game.map.blocks.GenerateMap;
 import com.mygdx.game.markets.UpdateMarket;
+import com.mygdx.game.pickaxes.IronPickaxe;
+import com.mygdx.game.pickaxes.Stick;
+import com.mygdx.game.pickaxes.StonePickaxe;
 import com.mygdx.game.pickaxes.BasicPickaxe;
 import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.CameraMovement;
@@ -78,6 +81,7 @@ public class GameScreen extends ScreenAdapter {
     boolean backpackToggle;
     boolean toggleActionButton;
     boolean needToResetActionButton;
+    boolean needToResetUpgradeButton;
     boolean needToResetExitInMarketButton;
 
     ButtonHandlerInterface buttonHandle = button -> {
@@ -126,7 +130,7 @@ public class GameScreen extends ScreenAdapter {
                 GameSettings.PLAYER_WIDTH * GameSettings.OBJECT_SCALE, GameSettings.PLAYER_HEIGHT * GameSettings.OBJECT_SCALE, false,
                 myGdxGame.world
         );
-        player = new Player(GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, playerBody, myGdxGame, GoldPickaxe.class);
+        player = new Player(GameSettings.PLAYER_WIDTH, GameSettings.PLAYER_HEIGHT, playerBody, myGdxGame, Stick.class);
         // myGdxGame.camera.position.set(0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, 0);
         mapBorder.createMapBorder(GameSettings.MAP_WIDTH * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, (GameSettings.MAP_HEIGHT + 10) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE);
 
@@ -200,6 +204,7 @@ public class GameScreen extends ScreenAdapter {
                     market.doThing(needToResetExitInMarketButton, player, backpackUI);
                 }
             }
+
 
 
             if (backpackUI.backpackOpen) {
@@ -288,7 +293,7 @@ public class GameScreen extends ScreenAdapter {
 
             needToResetExitInMarketButton = isExitButtonInMarketPressed(markets);
         } else {
-
+            needToResetUpgradeButton = false;
             needToResetExitInMarketButton = false;
             needToResetActionButton = false;
             if (backpackToggle) {
