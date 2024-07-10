@@ -69,7 +69,11 @@ public class SettingsScreen extends ScreenAdapter {
     private void handleInput() {
         if (Gdx.input.isTouched()) {
             if (gameScreen.buttonHandler(backButton)) {
-                myGdxGame.setScreen(myGdxGame.pauseScreen);
+                if (myGdxGame.returnToPause) {
+                    myGdxGame.setScreen(myGdxGame.pauseScreen);
+                } else {
+                    myGdxGame.setScreen(myGdxGame.menuScreen);
+                }
             }
         }
     }
