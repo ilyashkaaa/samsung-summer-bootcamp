@@ -31,9 +31,17 @@ public class UpdateMarket extends BasicMarket {
     public UpdateMarket(float x, ButtonHandlerInterface buttonHandlerInterface) {
         super(texturePath, x, buttonHandlerInterface);
 
-        upgradeButton = new Button(GameResources.BUTTON_BACKGROUND, 300, -150,
-                (int) (600 * GameSettings.SCALE), (int) (200 * GameSettings.SCALE), MyGdxGame.bitmapFont, "upgrade");
-        nowPickaxe = new ItemFrame(-400, 0, GameResources.BUTTON_BACKGROUND, GameResources.STICK_PICKAXE.getTexture(),
+        upgradeButton = new Button(
+                GameResources.BUTTON_BACKGROUND,
+                300, -150,
+                (int) (600 * GameSettings.SCALE),
+                (int) (200 * GameSettings.SCALE),
+                MyGdxGame.bitmapFont, "upgrade"
+        );
+        nowPickaxe = new ItemFrame(
+                -400, 0,
+                GameResources.BUTTON_BACKGROUND,
+                GameResources.STICK_PICKAXE.getTexture(),
                 (int) (350 * GameSettings.SCALE), (int) (350 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE));
         wantPickaxe = new ItemFrame(300, 130, GameResources.BUTTON_BACKGROUND, GameResources.STONE_PICKAXE.getTexture(),
                 (int) (250 * GameSettings.SCALE), (int) (250 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE));

@@ -10,14 +10,11 @@ public class MovingBackground {
     float texture2X;
     double speed = 0.8;
     float height;
-    float attitude;
 
     public MovingBackground(String pathToTexture) {
         texture1X = 0;
         texture2X = 0;
         texture = new Texture(pathToTexture);
-
-        attitude = texture.getWidth() / texture.getHeight();
     }
 
     public void move() {

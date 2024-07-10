@@ -251,24 +251,18 @@ public class GameScreen extends ScreenAdapter {
     private void drawBlocks() {
         for (int i = 0; i < viewBlocksX; i++) {
             for (int k = 0; k < viewBlocksY; k++) {
-                if (playerBlockCordX - viewBlocksX / 2 + i >= 0 && playerBlockCordX - viewBlocksX / 2 + i < GameSettings.MAP_WIDTH
-                        && playerBlockCordY - viewBlocksY / 2 + k >= 0 && playerBlockCordY - viewBlocksY / 2 + k < GameSettings.MAP_HEIGHT) {
+                float size = GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE;
+                int x = playerBlockCordX - viewBlocksX / 2 + i;
+                int y = playerBlockCordY - viewBlocksY / 2 + k;
 
-                    //drawing blocks
-                    if (generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k] != null) {
-                        generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k].draw(myGdxGame.batch,
-                                (playerBlockCordX - viewBlocksX / 2f + i) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
-                                (playerBlockCordY - viewBlocksY / 2f + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE
-                        );
-                        if (generateMap.mapArray[playerBlockCordX - viewBlocksX / 2 + i][playerBlockCordY - viewBlocksY / 2 + k].getHasCollision()) {
-                            blocksCollision.bodyArray.add(BasicBlock.createStaticBody(playerBlockCordX - viewBlocksX / 2 + i, playerBlockCordY - viewBlocksY / 2 + k, myGdxGame));
+                if (x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT) {
+                    if (generateMap.mapArray[x][y] != null) {
+                        generateMap.mapArray[x][y].draw(myGdxGame.batch, x * size, y * size);
+                        if (generateMap.mapArray[x][y].getHasCollision()) {
+                            blocksCollision.bodyArray.add(BasicBlock.createStaticBody(x, y, myGdxGame));
                         }
                     } else {
-                        myGdxGame.batch.draw(GameResources.STONE_BLOCK_BACKGROUND,
-                                (playerBlockCordX - viewBlocksX / 2f + i) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
-                                (playerBlockCordY - viewBlocksY / 2f + k) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
-                                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
-                                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE);
+                        myGdxGame.batch.draw(GameResources.STONE_BLOCK_BACKGROUND, x * size, y * size, size, size);
                     }
 
 
