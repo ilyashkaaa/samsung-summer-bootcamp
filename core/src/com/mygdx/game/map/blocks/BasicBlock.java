@@ -28,6 +28,7 @@ public abstract class BasicBlock implements InInventory, Disposable {
     protected static float height = GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE;
     protected static Sprite[] breaking = GameResources.BREAKING_BLOCKS;
     private boolean hasCollision;
+    private boolean isDestroyed;
     protected static Texture texture;
 
     protected BasicBlock() {
@@ -53,6 +54,14 @@ public abstract class BasicBlock implements InInventory, Disposable {
 
     public boolean getHasCollision() {
         return hasCollision;
+    }
+
+    public boolean isDestroyed() {
+        return isDestroyed;
+    }
+
+    public void setDestroyed(boolean destroyed) {
+        isDestroyed = destroyed;
     }
 
     public static Body createStaticBody(int i, int k, MyGdxGame myGdxGame) {
@@ -92,7 +101,7 @@ public abstract class BasicBlock implements InInventory, Disposable {
 
         float slice = getDurability() / 9f;
         for (int i = 0; i < 8; i++) {
-            if (getHp() >= getDurability() - slice * (i + 2) && getHp() < getDurability() - slice * (i + 1)){
+            if (getHp() >= getDurability() - slice * (i + 2) && getHp() < getDurability() - slice * (i + 1) && !isDestroyed){
                 batch.draw(breaking[i], x, y, width, height);
                 }
         }

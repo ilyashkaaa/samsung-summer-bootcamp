@@ -19,8 +19,14 @@ public class BasicPickaxe implements InInventory, Disposable {
         return damage;
     }
 
+    public BasicPickaxe getNext() {
+        return new Stick();
+    }
+
     @Override
     public void dispose() {
         texture.dispose();
     }
+
+
 }
