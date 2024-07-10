@@ -62,7 +62,6 @@ public class GameScreen extends ScreenAdapter {
     Joystick joystick;
     BlocksCollision blocksCollision;
     MovingBackground movingBackgroundSky;
-    Vector2 selectedBlock;
     Texture selectionBlock = new Texture("textures/blocks/selected_block.png");
     Button pauseButton;
     Button jumpButton;
@@ -81,7 +80,7 @@ public class GameScreen extends ScreenAdapter {
     Boolean needToResetActionButton;
 
     ButtonHandlerInterface buttonHandle = button -> {
-        for (int i = 0; i <= countOfTouching(); i++) {
+        for (int i = 0; i <= joystick.countOfTouching(); i++) {
             if (button.isPressed(new Vector2(Gdx.input.getX(i), Gdx.input.getY(i))))
                 return true;
         }
@@ -116,7 +115,6 @@ public class GameScreen extends ScreenAdapter {
 
         backpackUI = new BackpackUI(myGdxGame);
 
-        selectedBlock = new Vector2();
 
         lastHit = TimeUtils.millis();
 
@@ -168,7 +166,9 @@ public class GameScreen extends ScreenAdapter {
         playerBlockCordX = (int) (player.getBody().getPosition().x / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE);
         playerBlockCordY = (int) ((player.getBody().getPosition().y - 5) / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE);
 
-        joystickUpdate();
+        if (!backpackUI.backpackOpen && !isOneInMarket(markets)) {
+            joystick.joystickUpdate(player);
+        }
 //        player.updateCamera();
         player.playerBreak();
 
@@ -211,10 +211,10 @@ public class GameScreen extends ScreenAdapter {
         }
 
         player.draw(myGdxGame.batch, delta);
-        if (!selectedBlock.isZero())
+        if (!joystick.selectedBlock.isZero())
             myGdxGame.batch.draw(selectionBlock,
-                    (selectedBlock.x + playerBlockCordX) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
-                    (selectedBlock.y + playerBlockCordY) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
+                    (joystick.selectedBlock.x + playerBlockCordX) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
+                    (joystick.selectedBlock.y + playerBlockCordY) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE,
                     GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE);
 
         jumpButton.draw(myGdxGame.batch, cameraPos);
@@ -223,8 +223,8 @@ public class GameScreen extends ScreenAdapter {
         pauseButton.draw(myGdxGame.batch, cameraPos);
 
         if (keepTouching) {
-            Vector2 touch = new Vector2(Gdx.input.getX(indexJoystick(countOfTouching())),
-                    Gdx.input.getY(indexJoystick(countOfTouching()))
+            Vector2 touch = new Vector2(Gdx.input.getX(joystick.indexJoystick()),
+                    Gdx.input.getY(joystick.indexJoystick())
             );
             joystick.draw(myGdxGame.batch, cameraPos, touch);
         }
@@ -287,16 +287,7 @@ public class GameScreen extends ScreenAdapter {
         return null;
     }
 
-    private int indexJoystick(int countOfTouching) {
-        int returned = 0;
-        for (int i = 0; i < countOfTouching + 1; i++) {
-            if (Gdx.input.getX(i) <= GameSettings.SCR_WIDTH / 2) {
-                returned = i;
-                break;
-            }
-        }
-        return returned;
-    }
+
 
     private boolean isExitButtonInMarketPressed(BasicMarket[] markets) {
         for (BasicMarket market : markets) {
@@ -314,22 +305,9 @@ public class GameScreen extends ScreenAdapter {
         return false;
     }
 
-    private int countOfTouching() {
-        int i = 0;
-        while (i < Gdx.input.getMaxPointers()) {
-            i++;
-            if (Gdx.input.getPressure(i) == 0) break;
-        }
-        return i - 1;
-    }
 
-    public boolean buttonHandler(Button button) {
-        for (int i = 0; i <= countOfTouching(); i++) {
-            if (button.isPressed(new Vector2(Gdx.input.getX(i), Gdx.input.getY(i))))
-                return true;
-        }
-        return false;
-    }
+
+
 
     @Override
     public void dispose() {
@@ -337,32 +315,11 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
-    private void joystickUpdate(){
-        Vector2 touch = new Vector2(Gdx.input.getX(indexJoystick(countOfTouching())),
-                Gdx.input.getY(indexJoystick(countOfTouching()))
-        );
-        if (!backpackUI.backpackOpen && !isOneInMarket(markets)) {
-            if (Gdx.input.isTouched(indexJoystick(countOfTouching())) && touch.x <= GameSettings.SCR_WIDTH / 2f) {
-                if (!keepTouching)
-                    joystick.changeCords(touch);
-                selectedBlock = player.setMoveVector(joystick.getDirection(touch));
-                keepTouching = true;
-                if (player.playerState == PlayerStates.STANDING && !player.isJumping) {
-                    player.playerState = PlayerStates.WALKING;
-                }
-            } else {
-                if (player.playerState == PlayerStates.WALKING && !player.isJumping) {
-                    player.playerState = PlayerStates.STANDING;
-                }
-//            selectedBlock.setZero();
-                keepTouching = false;
-            }
-        }
-    }
+
 
     private void isTouchUpdate() {
-        int x = (int) (playerBlockCordX + selectedBlock.x);
-        int y = (int) (playerBlockCordY + selectedBlock.y);
+        int x = (int) (playerBlockCordX + joystick.selectedBlock.x);
+        int y = (int) (playerBlockCordY + joystick.selectedBlock.y);
 
         for (BasicMarket market : markets) {
             if (market.inMarket) {
@@ -381,8 +338,7 @@ public class GameScreen extends ScreenAdapter {
                 }
         }
 
-        if (buttonHandle.buttonHandler(backpackUI.backpackButton))
-            backpackToggle = true;
+        if (buttonHandle.buttonHandler(backpackUI.backpackButton)) backpackToggle = true;
         if (!buttonHandle.buttonHandler(backpackUI.backpackButton) && backpackToggle) {
             backpackToggle = false;
             backpackUI.backpackOpen = !backpackUI.backpackOpen;
@@ -401,7 +357,7 @@ public class GameScreen extends ScreenAdapter {
                     if (!toggleActionButton) {
                         if (backpackUI.getCurrentItem().item instanceof BasicPickaxe) {
                             if (player.getBody().getLinearVelocity().y == 0) {
-                                player.drawDigging(selectedBlock.x, selectedBlock.y);
+                                player.drawDigging(joystick.selectedBlock.x, joystick.selectedBlock.y);
                             } else if (!player.isJumping && !player.falling) {
 //                                            player.playerState = PlayerStates.STANDING;
                             }
@@ -419,7 +375,7 @@ public class GameScreen extends ScreenAdapter {
                                 }
                             }
                         } else if (backpackUI.getCurrentItem().item instanceof BasicBlock) {
-                            if (!selectedBlock.isZero() &&
+                            if (!joystick.selectedBlock.isZero() &&
                                     x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT)
                                 if (generateMap.mapArray[x][y] == null)
                                     try {
