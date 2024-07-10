@@ -9,4 +9,8 @@ public class StonePickaxe extends BasicPickaxe{
     public BasicPickaxe getNext() {
         return new IronPickaxe();
     }
+    @Override
+    public int getCost(){
+        return 25; /*50 100 500 1000*/
+    }
 }

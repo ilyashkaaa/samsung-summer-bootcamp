@@ -65,6 +65,10 @@ public abstract class BasicBlock implements InInventory, Disposable {
         isDestroyed = destroyed;
     }
 
+    public int getCost(){
+        return 0;
+    }
+
     public static Body createStaticBody(int i, int k, MyGdxGame myGdxGame) {
 
         // Create our body definition

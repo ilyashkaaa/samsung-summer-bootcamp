@@ -2,12 +2,14 @@ package com.mygdx.game.uis;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameSettings;
+import com.mygdx.game.InInventory;
 
 public class ItemFrame {
     Texture frameTexture;
-    Texture itemTexture;
+    InInventory item;
 
     int x;
     int y;
@@ -21,14 +23,14 @@ public class ItemFrame {
             int x,
             int y,
             Texture frameTexture,
-            Texture itemTexture,
+            InInventory item,
             float width,
             float height,
             float itemWidth,
             float itemHeight
     ) {
         this.frameTexture = frameTexture;
-        this.itemTexture = itemTexture;
+        this.item = item;
         this.x = x;
         this.y = y;
         this.width = width;
@@ -37,23 +39,27 @@ public class ItemFrame {
         this.itemHeight = itemHeight;
     }
 
+    public InInventory getItem() {
+        return item;
+    }
+
     public void draw(SpriteBatch batch, Vector3 cameraPos){
         batch.draw(frameTexture,
                 x * GameSettings.OBJECT_SCALE - width / 2f + cameraPos.x,
                 y * GameSettings.OBJECT_SCALE - height / 2f + cameraPos.y,
                 width, height);
         if (hasItem)
-            batch.draw(itemTexture,
+            batch.draw(item.getTexture(),
                     x * GameSettings.OBJECT_SCALE - itemWidth / 2f + cameraPos.x,
                     y * GameSettings.OBJECT_SCALE - itemHeight / 2f + cameraPos.y,
                     itemWidth, itemHeight);
     }
 
-    public void setItem(Texture texture){
-        itemTexture = texture;
+    public void setItem(InInventory item){
+        this.item = item;
     }
     public void setHasItem(boolean hasItem) {
         this.hasItem = hasItem;
     }
-
+    public Vector2 getPos(){return new Vector2(x, y);}
 }
