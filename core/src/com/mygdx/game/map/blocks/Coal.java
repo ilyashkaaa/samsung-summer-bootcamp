@@ -7,6 +7,8 @@ public class Coal extends BasicBlock{
     private int durability = 15;
     private static final Texture texture = new Texture(GameResources.COAL_BLOCK_TEXTURE);
     private int hp = durability;
+    private int cost = 5;
+    public int getCost(){return cost;}
     public int getHp(){return hp;}
     public int getDurability() {
         return durability;

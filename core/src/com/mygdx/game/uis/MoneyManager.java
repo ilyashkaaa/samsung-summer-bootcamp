@@ -11,12 +11,14 @@ import com.mygdx.game.MyGdxGame;
 
 public class MoneyManager {
     private static int countOfMoney;
+    private static int points;
     private int x, y;
     private int width, height;
     private String text;
 
     BitmapFont bitmapFont;
     Texture moneyTexture;
+    Texture pointsTexture;
 
     public MoneyManager (int x, int y, int width, int height){
         this.x = x;
@@ -27,6 +29,7 @@ public class MoneyManager {
 
         countOfMoney = 0;
         moneyTexture = GameResources.MONEY;
+        pointsTexture = GameResources.POINTS;
     }
 
     public void draw(SpriteBatch batch, Vector3 cameraPos){
@@ -38,15 +41,29 @@ public class MoneyManager {
             bitmapFont.draw(
                     batch, countOfMoney + "",
                     x * GameSettings.OBJECT_SCALE - textWidth + cameraPos.x - width / 2f - 10,
-                    y * GameSettings.OBJECT_SCALE + textHeight / 2 + cameraPos.y
+                    y * GameSettings.OBJECT_SCALE + textHeight / 2f + cameraPos.y + height / 2f
+            );
+            bitmapFont.draw(
+                    batch, points + "",
+                    x * GameSettings.OBJECT_SCALE - textWidth + cameraPos.x - width / 2f - 10,
+                    y * GameSettings.OBJECT_SCALE + textHeight / 2f + cameraPos.y - height / 2f
             );
         }
         batch.draw(moneyTexture,
                 x * GameSettings.OBJECT_SCALE - width / 2f + cameraPos.x,
-                y * GameSettings.OBJECT_SCALE - height / 2f + cameraPos.y,
+                y * GameSettings.OBJECT_SCALE + cameraPos.y,
+                width, height);
+        batch.draw(pointsTexture,
+                x * GameSettings.OBJECT_SCALE - width / 2f + cameraPos.x,
+                y * GameSettings.OBJECT_SCALE - height + cameraPos.y,
                 width, height);
     }
 
+    public static void addMoney(int countOfMoney){
+        setCountOfMoney(getCountOfMoney() + countOfMoney);
+        if (countOfMoney > 0)
+            points += countOfMoney;
+    }
     public static int getCountOfMoney() {
         return countOfMoney;
     }

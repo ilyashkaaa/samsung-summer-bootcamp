@@ -7,6 +7,8 @@ public class Lazurite extends BasicBlock{
     private int durability = 50;
     private static final Texture texture = new Texture(GameResources.LAZURITE_BLOCK_TEXTURE);
     private int hp = durability;
+    private int cost = 15;
+    public int getCost(){return cost;}
     public int getHp(){return hp;}
     public int getDurability() {
         return durability;

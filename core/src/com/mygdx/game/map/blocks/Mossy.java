@@ -7,6 +7,8 @@ public class Mossy extends BasicBlock{
     private int durability = 10;
     private static final Texture texture = new Texture(GameResources.MOSSY_BLOCK_TEXTURE);
     private int hp = durability;
+    private int cost = 2;
+    public int getCost(){return cost;}
     public int getHp(){return hp;}
     public int getDurability() {
         return durability;

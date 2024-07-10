@@ -8,7 +8,8 @@ public class Dirt extends BasicBlock {
     private int durability = 5;
     private int hp = durability;
     private static final Texture texture = new Texture(GameResources.DIRT_BLOCK_TEXTURE);
-
+    private int cost = 1;
+    public int getCost(){return cost;}
     public int getDurability() {
         return durability;
     }

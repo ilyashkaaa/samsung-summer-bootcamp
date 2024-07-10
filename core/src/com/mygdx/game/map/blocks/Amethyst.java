@@ -9,7 +9,8 @@ public class Amethyst extends BasicBlock {
     private static final Texture texture = new Texture(GameResources.AMETHYST_BLOCK_TEXTURE);
     private int hp = durability;
     public int getHp(){return hp;}
-
+    private int cost = 100;
+    public int getCost(){return cost;}
     public int getDurability() {
         return durability;
     }

@@ -7,6 +7,8 @@ public class Ruby extends BasicBlock {
     private int durability = 300;
     private static final Texture texture = new Texture(GameResources.RUBY_BLOCK_TEXTURE);
     private int hp = durability;
+    private int cost = 150;
+    public int getCost(){return cost;}
     public int getHp(){return hp;}
     public int getDurability() {
         return durability;

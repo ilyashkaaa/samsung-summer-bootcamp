@@ -1,5 +1,6 @@
 package com.mygdx.game.markets;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -80,19 +81,20 @@ public class UpdateMarket extends BasicMarket {
 
     @Override
     public void doThing(Player player, BackpackUI backpackUI) {
-
-        if (buttonHandle.buttonHandler(exitButton)) {
-            inMarket = false;
-        } else if (inMarket) {
-            if (buttonHandle.buttonHandler(upgradeButton) && !needToReset && MoneyManager.getCountOfMoney() >= player.pickaxe.getNext().getCost()) {
-                needToReset = true;
-                player.setPickaxe(player.pickaxe.getNext());
-                wantPickaxe.setItem(player.pickaxe.getNext());
-                backpackUI.setItem(0, player.pickaxe);
-                nowPickaxe.setItem(player.pickaxe);
-                MoneyManager.setCountOfMoney(MoneyManager.getCountOfMoney() - player.pickaxe.getCost());
-            } else if (buttonHandle.buttonHandler(exitButton)) {
+        if (Gdx.input.isTouched()) {
+            if (buttonHandle.buttonHandler(exitButton)) {
                 inMarket = false;
+            } else if (inMarket) {
+                if (buttonHandle.buttonHandler(upgradeButton) && !needToReset && MoneyManager.getCountOfMoney() >= player.pickaxe.getNext().getCost()) {
+                    needToReset = true;
+                    player.setPickaxe(player.pickaxe.getNext());
+                    wantPickaxe.setItem(player.pickaxe.getNext());
+                    backpackUI.setItem(0, player.pickaxe);
+                    nowPickaxe.setItem(player.pickaxe);
+                    MoneyManager.addMoney(-player.pickaxe.getCost());;
+                } else if (buttonHandle.buttonHandler(exitButton)) {
+                    inMarket = false;
+                }
             }
         }
     }

@@ -20,7 +20,7 @@ public class Joystick {
     private final float fixedYTrigger = (GameSettings.SCR_HEIGHT - GameSettings.JOYSTICK_TRIGGER_SIDE) / 2f;
     private final float joystickSideDevOn2 = GameSettings.JOYSTICK_SIDE / 2f;
 
-    public  boolean keepTouching;
+    public boolean keepTouching;
     public Joystick(){
         cords = new Vector2();
     }
@@ -55,7 +55,7 @@ public class Joystick {
     }
 
 
-    public void joystickUpdate(Player player){
+    public boolean joystickUpdate(Player player){
         Vector2 touch = new Vector2(Gdx.input.getX(indexJoystick()),
                 Gdx.input.getY(indexJoystick())
         );
@@ -76,6 +76,7 @@ public class Joystick {
             keepTouching = false;
         }
 //        return selectedBlock;
+        return keepTouching;
     }
 
     public int countOfTouching() {

@@ -24,6 +24,7 @@ import javax.swing.Spring;
 public abstract class BasicBlock implements InInventory, Disposable {
     protected int durability;
     protected int hp;
+    protected int cost;
     protected static float width = GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE;
     protected static float height = GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE;
     protected static Sprite[] breaking = GameResources.BREAKING_BLOCKS;
@@ -65,7 +66,7 @@ public abstract class BasicBlock implements InInventory, Disposable {
     }
 
     public int getCost(){
-        return 0;
+        return 1;
     }
 
     public static Body createStaticBody(int i, int k, MyGdxGame myGdxGame) {

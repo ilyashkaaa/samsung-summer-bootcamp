@@ -7,6 +7,8 @@ public class Gold extends BasicBlock{
     private int durability = 75;
     private static final Texture texture = new Texture(GameResources.GOLD_BLOCK_TEXTURE);
     private int hp = durability;
+    private int cost = 25;
+    public int getCost(){return cost;}
     public int getHp(){return hp;}
     public int getDurability() {
         return durability;

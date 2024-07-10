@@ -4,7 +4,6 @@ import static com.mygdx.game.GameSettings.viewBlocksX;
 import static com.mygdx.game.GameSettings.viewBlocksY;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
@@ -30,9 +29,7 @@ import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
 import com.mygdx.game.map.blocks.GenerateMap;
 import com.mygdx.game.markets.UpdateMarket;
-import com.mygdx.game.pickaxes.IronPickaxe;
 import com.mygdx.game.pickaxes.Stick;
-import com.mygdx.game.pickaxes.StonePickaxe;
 import com.mygdx.game.pickaxes.BasicPickaxe;
 import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.CameraMovement;
@@ -43,8 +40,6 @@ import com.mygdx.game.uis.backpack.BackpackUI;
 import java.lang.reflect.InvocationTargetException;
 
 import com.mygdx.game.markets.*;
-import com.mygdx.game.pickaxes.DiamondPickaxe;
-import com.mygdx.game.pickaxes.GoldPickaxe;
 
 
 public class GameScreen extends ScreenAdapter {
@@ -118,7 +113,6 @@ public class GameScreen extends ScreenAdapter {
 
         backpackUI = new BackpackUI(myGdxGame);
 
-
         lastHit = TimeUtils.millis();
 
         blocksCollision.generateCollision(generateMap.mapArray);
@@ -132,8 +126,6 @@ public class GameScreen extends ScreenAdapter {
         mapBorder.createMapBorder(GameSettings.MAP_WIDTH * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, (GameSettings.MAP_HEIGHT + 10) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE);
 
         backpackUI.addItemInInventory(player.pickaxe);
-
-
     }
 
     @Override
@@ -153,7 +145,6 @@ public class GameScreen extends ScreenAdapter {
 
         actionClassName = nameOfMarketNearBy(markets);
 
-
         if (actionClassName == null) {
             toggleActionButton = false;
             if (backpackUI.getCurrentItem().item instanceof BasicBlock) {
@@ -170,10 +161,16 @@ public class GameScreen extends ScreenAdapter {
         playerBlockCordY = (int) ((player.getBody().getPosition().y - 5) / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE);
 
         if (!backpackUI.backpackOpen && !isOneInMarket(markets)) {
-            joystick.joystickUpdate(player);
+            keepTouching = joystick.joystickUpdate(player);
         }
 //        player.updateCamera();
         player.playerBreak();
+
+        for (BasicMarket market : markets) {
+            if (market.inMarket) {
+                market.doThing(player, backpackUI);
+            }
+        }
 
         if (Gdx.input.isTouched()) {
             isTouchUpdate();
@@ -204,7 +201,9 @@ public class GameScreen extends ScreenAdapter {
         myGdxGame.camera.update();
         myGdxGame.batch.setProjectionMatrix(myGdxGame.camera.combined);
         ScreenUtils.clear(Color.CLEAR);
+
         blocksCollision.deleteBlocks();
+
         myGdxGame.batch.begin();
         movingBackgroundSky.draw(myGdxGame.batch, myGdxGame);
         drawBlocks();
@@ -223,7 +222,8 @@ public class GameScreen extends ScreenAdapter {
         jumpButton.draw(myGdxGame.batch, cameraPos);
         actionButton.draw(myGdxGame.batch, cameraPos);
 //        placeButton.draw(myGdxGame.batch, cameraPos);
-        money.draw(myGdxGame.batch, cameraPos);
+        if (isOneInMarket(markets))
+            money.draw(myGdxGame.batch, cameraPos);
         pauseButton.draw(myGdxGame.batch, cameraPos);
 
         if (keepTouching) {
@@ -291,8 +291,6 @@ public class GameScreen extends ScreenAdapter {
         return null;
     }
 
-
-
     private boolean isExitButtonInMarketPressed(BasicMarket[] markets) {
         for (BasicMarket market : markets) {
             if (buttonHandle.buttonHandler(market.exitButton))
@@ -309,28 +307,15 @@ public class GameScreen extends ScreenAdapter {
         return false;
     }
 
-
-
-
-
     @Override
     public void dispose() {
         selectionBlock.dispose();
 
     }
 
-
-
     private void isTouchUpdate() {
         int x = (int) (playerBlockCordX + joystick.selectedBlock.x);
         int y = (int) (playerBlockCordY + joystick.selectedBlock.y);
-
-        for (BasicMarket market : markets) {
-            if (market.inMarket) {
-                market.doThing(player, backpackUI);
-            }
-        }
-
 
         if (backpackUI.backpackOpen) {
             for (int i = 0; i < backpackUI.backpackSlots.length; i++)

@@ -10,6 +10,8 @@ public class Stone extends BasicBlock{
         return durability;
     }
     private int hp = durability;
+    private int cost = 2;
+    public int getCost(){return cost;}
     public int getHp(){return hp;}
     public Texture getTexture() {
         return texture;

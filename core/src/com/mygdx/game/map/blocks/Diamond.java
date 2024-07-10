@@ -7,6 +7,8 @@ public class Diamond extends BasicBlock {
     private int durability = 100;
     private static final Texture texture = new Texture(GameResources.DIAMOND_BLOCK_TEXTURE);
     private int hp = durability;
+    private int cost = 50;
+    public int getCost(){return cost;}
     public int getHp(){return hp;}
     public int getDurability() {
         return durability;

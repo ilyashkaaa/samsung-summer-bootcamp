@@ -7,6 +7,8 @@ public class Emerald extends BasicBlock{
     private int durability = 150;
     private static final Texture texture = new Texture(GameResources.EMERALD_BLOCK_TEXTURE);
     private int hp = durability;
+    private int cost = 75;
+    public int getCost(){return cost;}
     public int getHp(){return hp;}
     public int getDurability() {
         return durability;

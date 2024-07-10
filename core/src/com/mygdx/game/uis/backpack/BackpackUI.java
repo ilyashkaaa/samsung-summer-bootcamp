@@ -62,69 +62,24 @@ public class BackpackUI implements Disposable {
             button.changeButtonTexture(backpackChooseButton);
     }
 
+    public void drawInterface(SpriteBatch batch, Vector3 cameraPos){
+        float scale = 1.3f;
+        batch.draw(backpackBackground,
+                cameraPos.x - backpackBackground.getWidth() * scale / 2 * GameSettings.SCALE,
+                cameraPos.y - backpackBackground.getHeight() * scale / 2 * GameSettings.SCALE,
+                backpackBackground.getWidth() * GameSettings.SCALE * scale,
+                backpackBackground.getHeight() * GameSettings.SCALE * scale);
+        for (Button button : backpackSlots)
+            button.draw(batch, cameraPos);
+
+    }
+
     public void draw(SpriteBatch batch, Vector3 cameraPos) {
         backpackButton.draw(batch, cameraPos);
         if (backpackOpen) {
-            float scale = 1.3f;
-            batch.draw(backpackBackground,
-                    cameraPos.x - backpackBackground.getWidth() * scale / 2 * GameSettings.SCALE,
-                    cameraPos.y - backpackBackground.getHeight() * scale / 2 * GameSettings.SCALE,
-                    backpackBackground.getWidth() * GameSettings.SCALE * scale,
-                    backpackBackground.getHeight() * GameSettings.SCALE * scale);
-
-//            for (int i = 0; i < 5; i++) {
-//                for (int j = 0; j < 3; j++) {
-//                    batch.draw(backpackChooseButton,
-//                            cameraPos.x - myGdxGame.camera.viewportWidth / 2 + i * 250 * GameSettings.SCALE + 350 * GameSettings.SCALE,
-//                            cameraPos.y - myGdxGame.camera.viewportHeight / 2 + j * 180 * GameSettings.SCALE + 250 * GameSettings.SCALE,
-//                            backpackChooseButton.getWidth() * GameSettings.SCALE,
-//                            backpackChooseButton.getHeight() * GameSettings.SCALE);
-//                }
-//            }
-
-            for (Button button : backpackSlots)
-                button.draw(batch, cameraPos);
-
-//            for (int k = 0; k < slotsInventoryItem.size(); k++) {
-//                batch.draw(slotsInventoryItem.get(k).texture,
-//                        cameraPos.x - myGdxGame.camera.viewportWidth / 2 + k % 5 * 250 * GameSettings.SCALE + 350 * GameSettings.SCALE,
-//                        cameraPos.y - myGdxGame.camera.viewportHeight / 2 - (k / 5) * 180 * GameSettings.SCALE + 250 * GameSettings.SCALE + 2 * 180 * GameSettings.SCALE,
-//                        backpackChooseButton.getWidth() * GameSettings.SCALE,
-//                        backpackChooseButton.getHeight() * GameSettings.SCALE);
-//                if (slotsInventoryItem.get(k).showCount)
-//                    GameScreen.font.draw(batch, slotsInventoryItem.get(k).counterOfBlock + "",
-//                            cameraPos.x - myGdxGame.camera.viewportWidth / 2 + k % 5 * 250 * GameSettings.SCALE + 250 * GameSettings.SCALE,
-//                            cameraPos.y - myGdxGame.camera.viewportHeight / 2 + 140 * GameSettings.SCALE - (k / 5) * 180 * GameSettings.SCALE + 250 * GameSettings.SCALE + 2 * 180 * GameSettings.SCALE);
-//            }
+            drawInterface(batch, cameraPos);
         }
     }
-
-//    public void handleInput(Vector2 touchPos) {
-//
-//        if (backpackButton.isPressed()) {
-//            backpackOpen = !backpackOpen;
-//        }
-//    }
-
-//    public void addItemInInventory() {
-//        for (int i = 0; i < blocksInventory.size(); i++) {
-//            System.out.println(i);
-//            if (!uniqueItem.contains(blocksInventory.get(i))) {
-//                uniqueItem.add(blocksInventory.get(i));
-//                slotsInventory.add(new BackpackSlot(blocksInventory.get(i)));
-//                blocksInventory.remove(i);
-//            }
-//            else {
-//                for (int j = 0; j < slotsInventory.size(); j++) {
-//                    if (slotsInventory.get(j).texture == blocksInventory.get(i)) {
-//                        slotsInventory.get(j).counterOfBlock++;
-//                        blocksInventory.remove(i);
-//                        break;
-//                    }
-//                }
-//            }
-//        }
-//    }
 
     public void addItemInInventory(InInventory item){
         if (!uniqueItem.contains(item.getTexture())){

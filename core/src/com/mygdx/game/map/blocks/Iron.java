@@ -7,6 +7,8 @@ public class Iron extends BasicBlock{
     private int durability = 25;
     private static final Texture texture = new Texture(GameResources.IRON_BLOCK_TEXTURE);
     private int hp = durability;
+    private int cost = 10;
+    public int getCost(){return cost;}
     public int getHp(){return hp;}
     public int getDurability() {
         return durability;
