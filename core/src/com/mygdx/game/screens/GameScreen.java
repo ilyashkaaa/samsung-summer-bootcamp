@@ -185,20 +185,6 @@ public class GameScreen extends ScreenAdapter {
 
         }
 
-
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            int x = (int) (playerBlockCordX + selectedBlock.x);
-            int y = (int) (playerBlockCordY + selectedBlock.y);
-            if (x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT &&
-                    generateMap.mapArray[x][y] != null && TimeUtils.millis() - lastHit >= 200) {
-                lastHit = TimeUtils.millis();
-                if (!generateMap.mapArray[x][y].hit(1)) {
-                    generateMap.mapArray[x][y] = null;
-                    blocksCollision.updateCollision(generateMap.mapArray, x, y, true);
-                }
-            }
-        }
-
         if (playerBlockCordX >= 0 && playerBlockCordX < GameSettings.MAP_WIDTH &&
                 playerBlockCordY >= 1 && playerBlockCordY <= GameSettings.MAP_HEIGHT) {
             if (generateMap.mapArray[playerBlockCordX][playerBlockCordY - 1] != null && player.getBody().getLinearVelocity().y == 0) {
