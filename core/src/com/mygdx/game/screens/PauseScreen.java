@@ -12,6 +12,7 @@ import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.TextView;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 public class PauseScreen extends ScreenAdapter {
     MyGdxGame myGdxGame;
@@ -19,7 +20,7 @@ public class PauseScreen extends ScreenAdapter {
     Button settingsButton;
     Button menuButton;
     TextView pauseText;
-    BitmapFont font;
+    Boolean returnToPause;
 
     Vector3 cameraPos;
     GameScreen gameScreen;
@@ -29,11 +30,6 @@ public class PauseScreen extends ScreenAdapter {
         this.myGdxGame = myGdxGame;
         this.gameScreen = gameScreen;
         this.cameraPos = cameraPos;
-
-
-
-
-
         pauseText = new TextView(myGdxGame.bitmapFont, 0, 400, "PAUSE");
         menuButton = new Button(GameResources.BUTTON_IN_PAUSE_AND_SETTINGS,
                 0,
@@ -83,11 +79,12 @@ public class PauseScreen extends ScreenAdapter {
                 myGdxGame.setScreen(gameScreen);
             }
             if (gameScreen.buttonHandler(settingsButton)) {
+                myGdxGame.returnToPause = true;
                 myGdxGame.setScreen(myGdxGame.settingsScreen);
             }
             if (gameScreen.buttonHandler(menuButton)) {
-                //TODO MENU
-                System.out.println("menu");
+                myGdxGame.returnToPause = false;
+                myGdxGame.setScreen(myGdxGame.menuScreen);
             }
         }
     }

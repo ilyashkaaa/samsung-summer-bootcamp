@@ -18,20 +18,22 @@ public class MenuScreen extends ScreenAdapter {
     Button settingsButton;
     Button exitButton;
     MovingBackground movingBackground;
+
     // jumpButton = new Button(GameResources.JUMP_BUTTON, 700, -300, (int) (200 * GameSettings.OBJECT_SCALE));
-    public MenuScreen (MyGdxGame myGdxGame){
+    public MenuScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
-        playButton = new Button(GameResources.MENU_BUTTON, 0, 0, 600*GameSettings.OBJECT_SCALE, 85*GameSettings.OBJECT_SCALE, myGdxGame.bitmapFont, "play");
-        settingsButton = new Button(GameResources.MENU_BUTTON, 0, -100, 600*GameSettings.OBJECT_SCALE, 85*GameSettings.OBJECT_SCALE, myGdxGame.bitmapFont, "settings");
-        exitButton = new Button(GameResources.MENU_BUTTON, 0, -200, 600*GameSettings.OBJECT_SCALE, 85*GameSettings.OBJECT_SCALE,myGdxGame.bitmapFont, "exit");
+        myGdxGame.returnToPause = false;
+        playButton = new Button(GameResources.MENU_BUTTON, 0, 0, 600 * GameSettings.OBJECT_SCALE, 85 * GameSettings.OBJECT_SCALE, myGdxGame.bitmapFont, "play");
+        settingsButton = new Button(GameResources.MENU_BUTTON, 0, -100, 600 * GameSettings.OBJECT_SCALE, 85 * GameSettings.OBJECT_SCALE, myGdxGame.bitmapFont, "settings");
+        exitButton = new Button(GameResources.MENU_BUTTON, 0, -200, 600 * GameSettings.OBJECT_SCALE, 85 * GameSettings.OBJECT_SCALE, myGdxGame.bitmapFont, "exit");
 
         movingBackground = new MovingBackground(GameResources.SKY);
 
 
-
     }
+
     @Override
-    public void render(float delta){
+    public void render(float delta) {
         myGdxGame.camera.update();
         myGdxGame.batch.setProjectionMatrix(myGdxGame.camera.combined);
         ScreenUtils.clear(Color.CLEAR);
@@ -46,13 +48,11 @@ public class MenuScreen extends ScreenAdapter {
         movingBackground.move();
 
         if (Gdx.input.isTouched()) {
-            if(myGdxGame.gameScreen.buttonHandler(playButton)){
+            if (myGdxGame.gameScreen.buttonHandler(playButton)) {
                 myGdxGame.setScreen(myGdxGame.gameScreen);
-            }
-            else if(myGdxGame.gameScreen.buttonHandler(settingsButton)){
-                //myGdxGame.setScreen(myGdxGame.settingsScreen);
-            }
-            else if(myGdxGame.gameScreen.buttonHandler(exitButton)){
+            } else if (myGdxGame.gameScreen.buttonHandler(settingsButton)) {
+                myGdxGame.setScreen(myGdxGame.settingsScreen);
+            } else if (myGdxGame.gameScreen.buttonHandler(exitButton)) {
 
             }
         }
