@@ -38,6 +38,8 @@ import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.CameraMovement;
 import com.mygdx.game.uis.Joystick;
 import com.mygdx.game.uis.MoneyManager;
+import com.mygdx.game.uis.TextEdit;
+import com.mygdx.game.uis.TextView;
 import com.mygdx.game.uis.backpack.BackpackUI;
 
 import java.lang.reflect.InvocationTargetException;
@@ -70,6 +72,7 @@ public class GameScreen extends ScreenAdapter {
     BasicMarket[] markets;
     BasicMarket actionClassName;
     MoneyManager money;
+    TextEdit textEdit;
 
     int playerBlockCordX;
     int playerBlockCordY;
@@ -91,6 +94,7 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
+        textEdit = new TextEdit();
         money = new MoneyManager(500, 400, (int) (80*GameSettings.SCALE), (int) (80*GameSettings.SCALE));
         cameraMovement = new CameraMovement(myGdxGame);
         movingBackgroundSky = new MovingBackground(GameResources.SKY);
@@ -138,11 +142,16 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void show() {
+
         player.updateCamera();
+        if (MyGdxGame.name == null || MyGdxGame.name.equals("")){
+            Gdx.input.getTextInput(textEdit, "Enter your name", "", "Please, enter your name");
+        }
     }
 
     @Override
     public void render(float delta) {
+        System.out.println(MyGdxGame.name);
         myGdxGame.stepWorld();
         draw(delta);
         player.playSounds();
@@ -254,6 +263,8 @@ public class GameScreen extends ScreenAdapter {
 //****************** FOR FPS *******************************
 //      font.draw(myGdxGame.batch, (1 / delta) + "", myGdxGame.camera.position.x, myGdxGame.camera.position.y);
 //**********************************************************
+//        if (MyGdxGame.name != null)
+            font.draw(myGdxGame.batch, MyGdxGame.name /*(1 / delta) + ""*/, myGdxGame.camera.position.x, myGdxGame.camera.position.y);
 
 
         myGdxGame.batch.end();

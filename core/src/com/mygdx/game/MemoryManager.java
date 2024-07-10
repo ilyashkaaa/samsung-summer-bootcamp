@@ -20,6 +20,13 @@ public class MemoryManager {
         return preferences.getInteger("musicVolume", 100);
     }
 
+    public static void saveName(String name){
+        preferences.putString("name", name);
+        preferences.flush();
+    }
+
+    public static String loadName(){return preferences.getString("name");}
+
     public static void saveSoundSettings(int soundVolume) {
         preferences.putInteger("soundVolume", soundVolume);
         preferences.flush();

@@ -22,6 +22,7 @@ public class MyGdxGame extends Game {
 	public GameScreen gameScreen;
 	public MenuScreen menuScreen;
 	public AudioManager audioManager;
+	public static String name;
 	float accumulator = 0;
 	public SettingsScreen settingsScreen;
 	public PauseScreen pauseScreen;
@@ -34,6 +35,7 @@ public class MyGdxGame extends Game {
 		Gdx.graphics.setVSync(true);
 		Gdx.graphics.setForegroundFPS(60);
 		Box2D.init();
+		name = MemoryManager.loadName();
 		world = new World(new Vector2(0, -150), true);
 		bitmapFont = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 		bitmapFont.setColor(Color.WHITE);
