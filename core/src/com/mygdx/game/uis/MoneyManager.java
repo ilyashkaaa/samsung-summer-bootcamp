@@ -10,7 +10,7 @@ import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
 
 public class MoneyManager {
-    private int countOfMoney;
+    private static int countOfMoney;
     private int x, y;
     private int width, height;
     private String text;
@@ -47,10 +47,10 @@ public class MoneyManager {
                 width, height);
     }
 
-    public int getCountOfMoney() {
+    public static int getCountOfMoney() {
         return countOfMoney;
     }
-    public void setCountOfMoney(int countOfMoney){
-        this.countOfMoney = countOfMoney;
+    public static void setCountOfMoney(int countOfMoneySet){
+        countOfMoney = countOfMoneySet;
     }
 }

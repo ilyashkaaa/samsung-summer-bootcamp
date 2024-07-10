@@ -11,4 +11,5 @@ public class Stick extends BasicPickaxe{
     public BasicPickaxe getNext() {
         return new StonePickaxe();
     }
+
 }

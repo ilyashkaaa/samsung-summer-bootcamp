@@ -11,4 +11,8 @@ public class GoldPickaxe extends BasicPickaxe{
     public BasicPickaxe getNext() {
         return new DiamondPickaxe();
     }
+    @Override
+    public int getCost(){
+        return 500; /*50 100 500 1000*/
+    }
 }
