@@ -136,7 +136,7 @@ public class Player extends GameEntity {
                 GameResources.PLAYER_STANDING_TEXTURE.draw(batch);
                 break;
             case WALKING:
-                frame = (int) (TimeUtils.millis() / 75) % 8;
+                frame = (int) (TimeUtils.millis() / 75) % 5;
                 GameResources.PLAYER_WALKING_TEXTURES[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
                 GameResources.PLAYER_WALKING_TEXTURES[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
                 GameResources.PLAYER_WALKING_TEXTURES[frame].draw(batch);

@@ -32,6 +32,7 @@ import com.mygdx.game.markets.UpdateMarket;
 import com.mygdx.game.pickaxes.IronPickaxe;
 import com.mygdx.game.pickaxes.Stick;
 import com.mygdx.game.pickaxes.StonePickaxe;
+import com.mygdx.game.pickaxes.BasicPickaxe;
 import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.CameraMovement;
 import com.mygdx.game.uis.Joystick;
@@ -70,7 +71,7 @@ public class GameScreen extends ScreenAdapter {
     BackpackUI backpackUI;
     CameraMovement cameraMovement;
     BasicMarket[] markets;
-    String actionClassName;
+    BasicMarket actionClassName;
 
     int playerBlockCordX;
     int playerBlockCordY;
@@ -101,7 +102,7 @@ public class GameScreen extends ScreenAdapter {
                 700, -50, (int) (200 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
 //        placeButton = new Button("textures/joystick/joystick.png", "textures/blocks/stone/mossyblock.png",
 //                700, 200, (int) (200 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
-        pauseButton = new Button(GameResources.PAUSE_BUTTON, 900, 470, GameResources.PAUSE_BUTTON.getWidth()*GameSettings.SCALE, GameResources.PAUSE_BUTTON.getHeight()*GameSettings.SCALE);
+        pauseButton = new Button(GameResources.PAUSE_BUTTON, (int) (-GameSettings.SCR_WIDTH/2+GameResources.PAUSE_BUTTON.getWidth()/2), (int) (GameSettings.SCR_HEIGHT/2-GameResources.PAUSE_BUTTON.getHeight()/2), GameResources.PAUSE_BUTTON.getWidth()*GameSettings.SCALE, GameResources.PAUSE_BUTTON.getHeight()*GameSettings.SCALE);
 
         joystick = new Joystick();
 
@@ -125,7 +126,7 @@ public class GameScreen extends ScreenAdapter {
         // myGdxGame.camera.position.set(0, GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, 0);
         mapBorder.createMapBorder(GameSettings.MAP_WIDTH * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, (GameSettings.MAP_HEIGHT + 10) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE);
 
-        backpackUI.addItemInInventory(player.pickaxe.getTexture(), player.pickaxe.getClass(), false);
+        backpackUI.addItemInInventory(player.pickaxe);
 
 
     }
@@ -147,12 +148,13 @@ public class GameScreen extends ScreenAdapter {
 
         actionClassName = nameOfMarketNearBy(markets);
 
-        if (nameOfMarketNearBy(markets) == null) {
+
+        if (actionClassName == null) {
             toggleActionButton = false;
-            if (backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).type.equals("BasicBlock")) {
-                actionButton.changeItem(backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).texture);
-            } else if (backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).type.equals("BasicPickaxe")) {
-                actionButton.changeItem(player.pickaxe.getTexture());
+            if (backpackUI.getCurrentItem().item instanceof BasicBlock) {
+                actionButton.changeItem(backpackUI.getCurrentItem().item.getTexture());
+            } else if (backpackUI.getCurrentItem().item instanceof BasicPickaxe) {
+                actionButton.changeItem(backpackUI.getCurrentItem().item.getTexture());
             }
         } else {
             toggleActionButton = true;
@@ -206,10 +208,10 @@ public class GameScreen extends ScreenAdapter {
                 } else if (((SellMarket) markets[0]).inBuy) {
                     if (buttonHandler(((SellMarket) markets[0]).diamondPickaxe)) {
                         player.setPickaxe(DiamondPickaxe.class);
-                        backpackUI.setItem(0, player.pickaxe.getTexture(), player.pickaxe.getClass(), false);
+                        backpackUI.setItem(0, player.pickaxe);
                     } else if (buttonHandler(((SellMarket) markets[0]).goldPickaxe)) {
                         player.setPickaxe(GoldPickaxe.class);
-                        backpackUI.setItem(0, player.pickaxe.getTexture(), player.pickaxe.getClass(), false);
+                        backpackUI.setItem(0, player.pickaxe);
                     } else if (buttonHandler(markets[0].exitButton) && !needToResetExitInMarketButton) {
                         ((SellMarket) markets[0]).inBuy = false;
                         ((SellMarket) markets[0]).inMenu = true;
@@ -274,6 +276,7 @@ public class GameScreen extends ScreenAdapter {
                     backpackUI.backpackOpen = !backpackUI.backpackOpen;
                 }
                 if (buttonHandler(pauseButton)) {
+                    myGdxGame.pauseScreen.returnToPause = true;
                     myGdxGame.setScreen(myGdxGame.pauseScreen);
                 }
 
@@ -284,8 +287,7 @@ public class GameScreen extends ScreenAdapter {
                     if (buttonHandler(actionButton)) {
                         if (!needToResetActionButton) {
                             if (!toggleActionButton) {
-                                switch (backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).type) {
-                                    case "BasicPickaxe":
+                                if (backpackUI.getCurrentItem().item instanceof BasicPickaxe) {
                                         if (player.getBody().getLinearVelocity().y == 0) {
                                             player.drawDigging(selectedBlock.x, selectedBlock.y);
                                         } else if (!player.isJumping && !player.falling) {
@@ -298,49 +300,32 @@ public class GameScreen extends ScreenAdapter {
                                             if (!generateMap.mapArray[x][y].hit(player.pickaxe.getDamage())) {
 //                            backpackUI.blocksInventory.add(generateMap.mapArray[x][y].getTexture());
 
-                                                backpackUI.addItemInInventory(generateMap.mapArray[x][y].getTexture(),
-                                                        generateMap.mapArray[x][y].getClass(), true);
+                                                backpackUI.addItemInInventory(generateMap.mapArray[x][y]);
 
                                                 generateMap.mapArray[x][y] = null;
                                                 blocksCollision.updateCollision(generateMap.mapArray, x, y, true);
                                             }
                                         }
-                                        break;
-                                    case "BasicBlock":
-                                        if (!selectedBlock.isZero() &&
-                                                x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT)
-                                            if (generateMap.mapArray[x][y] == null)
-                                                try {
-                                                    generateMap.mapArray[x][y] = backpackUI.slotsInventoryItem.get(backpackUI.selectionIndex).block.getConstructor().newInstance();
-                                                    needToResetActionButton = backpackUI.removeItemFromInventory(generateMap.mapArray[x][y].getClass());
-                                                    generateMap.mapArray[x][y].setHasCollision(true);
-                                                    blocksCollision.updateCollision(generateMap.mapArray, playerBlockCordX, playerBlockCordY - 1, false);
-                                                } catch (InstantiationException |
-                                                         IllegalAccessException |
-                                                         InvocationTargetException |
-                                                         NoSuchMethodException e) {
-                                                    e.printStackTrace();
-                                                }
-                                        break;
+                                } else if (backpackUI.getCurrentItem().item instanceof BasicBlock) {
+                                    if (!selectedBlock.isZero() &&
+                                            x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT)
+                                        if (generateMap.mapArray[x][y] == null)
+                                            try {
+                                                generateMap.mapArray[x][y] = ( (BasicBlock)backpackUI.getCurrentItem().item).getClass().getConstructor().newInstance();
+                                                needToResetActionButton = backpackUI.removeItemFromInventory(generateMap.mapArray[x][y].getClass());
+                                                generateMap.mapArray[x][y].setHasCollision(true);
+                                                blocksCollision.updateCollision(generateMap.mapArray, playerBlockCordX, playerBlockCordY - 1, false);
+                                            } catch (InstantiationException |
+                                                     IllegalAccessException |
+                                                     InvocationTargetException |
+                                                     NoSuchMethodException e) {
+                                                e.printStackTrace();
+                                            }
                                 }
 
                             } else {
-                                switch (actionClassName) {
-                                    case "SellMarket":
-//                                    player.setPickaxe(DiamondPickaxe.class);
-                                        markets[0].inMarket = true;
-//                                    System.out.println("sell");
-                                        break;
-                                    case "FoodMarket":
-//                                    player.setPickaxe(GoldPickaxe.class);
-                                        markets[1].inMarket = true;
-//                                    System.out.println("food");
-                                        break;
-                                    case "UpdateMarket":
-//                                    player.setPickaxe(GoldPickaxe.class);
-                                        markets[2].inMarket = true;
-//                                    System.out.println("food");
-                                        break;
+                                if (actionClassName != null) {
+                                    actionClassName.inMarket = true;
                                 }
 //                    System.out.println(generateMap.mapArray[0][0].getClass().getGenericSuperclass());
 //                    System.out.println(generateMap.mapArray[0][0].getClass().getSuperclass().getSimpleName());
@@ -486,10 +471,10 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
-    private String nameOfMarketNearBy(BasicMarket[] markets) {
+    private BasicMarket nameOfMarketNearBy(BasicMarket[] markets) {
         for (BasicMarket market : markets)
             if (market.isNearBy(player.getBody().getPosition()))
-                return market.getClass().getSimpleName();
+                return market;
         return null;
     }
 

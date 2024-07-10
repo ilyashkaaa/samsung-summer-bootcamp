@@ -1,8 +1,9 @@
 package com.mygdx.game.pickaxes;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.mygdx.game.InInventory;
 
-public class BasicPickaxe {
+public class BasicPickaxe implements InInventory {
     protected int damage;
     Texture texture;
 

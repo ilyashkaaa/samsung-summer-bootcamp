@@ -24,6 +24,8 @@ public class MyGdxGame extends Game {
 	float accumulator = 0;
 	public SettingsScreen settingsScreen;
 	public PauseScreen pauseScreen;
+	public boolean returnToPause;
+	public boolean isStillTouching;
 
 	
 	@Override
@@ -48,6 +50,7 @@ public class MyGdxGame extends Game {
 		menuScreen = new MenuScreen(this);
 		settingsScreen = new SettingsScreen(this, gameScreen);
 		pauseScreen = new PauseScreen(this,gameScreen, camera.position);
+		returnToPause = false;
 		setScreen(menuScreen);
 
 	}
