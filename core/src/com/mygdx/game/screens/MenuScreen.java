@@ -54,14 +54,14 @@ public class MenuScreen extends ScreenAdapter {
         if (Gdx.input.isTouched()) {
             if (!myGdxGame.isStillTouching) {
                 myGdxGame.isStillTouching = true;
-                if (myGdxGame.gameScreen.buttonHandler(playButton)) {
+                if (myGdxGame.gameScreen.buttonHandle.buttonHandler(playButton)) {
                     myGdxGame.setScreen(myGdxGame.gameScreen);
-                } else if (myGdxGame.gameScreen.buttonHandler(leaderButton)) {
+                } else if (myGdxGame.gameScreen.buttonHandle.buttonHandler(leaderButton)) {
                     //myGdxGame.setScreen(myGdxGame.);
-                } else if (myGdxGame.gameScreen.buttonHandler(settingsButton)) {
+                } else if (myGdxGame.gameScreen.buttonHandle.buttonHandler(settingsButton)) {
                     myGdxGame.setScreen(myGdxGame.settingsScreen);
 
-                } else if (myGdxGame.gameScreen.buttonHandler(exitButton)) {
+                } else if (myGdxGame.gameScreen.buttonHandle.buttonHandler(exitButton)) {
                     Gdx.app.exit();
                 }
             }
