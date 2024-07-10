@@ -61,12 +61,8 @@ public class Player extends GameEntity {
 
     }
 
-    public void setPickaxe (Class<? extends BasicPickaxe> pickaxe){
-        try {
-            this.pickaxe = pickaxe.getConstructor().newInstance();
-        } catch (InstantiationException | IllegalAccessException | InvocationTargetException | NoSuchMethodException e){
-            e.printStackTrace();
-        }
+    public void setPickaxe (BasicPickaxe pickaxe){
+        this.pickaxe = pickaxe;
     }
 
     public void playerBreak(){

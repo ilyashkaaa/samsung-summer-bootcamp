@@ -6,4 +6,9 @@ public class IronPickaxe extends BasicPickaxe{
     public IronPickaxe (){
         super(GameResources.IRON_PICKAXE_TEXTURE, 5);
     }
+
+    @Override
+    public BasicPickaxe getNext() {
+        return new GoldPickaxe();
+    }
 }

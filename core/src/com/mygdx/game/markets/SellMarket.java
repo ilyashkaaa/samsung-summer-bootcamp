@@ -103,10 +103,10 @@ public class SellMarket extends BasicMarket{
             }
         } else if (inBuy) {
             if (buttonHandle.buttonHandler(diamondPickaxe)) {
-                player.setPickaxe(DiamondPickaxe.class);
+                player.setPickaxe(new DiamondPickaxe());
                 backpackUI.setItem(0, player.pickaxe);
             } else if (buttonHandle.buttonHandler(goldPickaxe)) {
-                player.setPickaxe(GoldPickaxe.class);
+                player.setPickaxe(new GoldPickaxe());
                 backpackUI.setItem(0, player.pickaxe);
             } else if (buttonHandle.buttonHandler(exitButton) && !needToReset) {
                 inBuy = false;
