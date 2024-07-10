@@ -41,9 +41,7 @@ import com.mygdx.game.uis.backpack.BackpackUI;
 
 import java.lang.reflect.InvocationTargetException;
 
-import com.mygdx.game.markets.BasicMarket;
-import com.mygdx.game.markets.FoodMarket;
-import com.mygdx.game.markets.SellMarket;
+import com.mygdx.game.markets.*;
 import com.mygdx.game.pickaxes.DiamondPickaxe;
 import com.mygdx.game.pickaxes.GoldPickaxe;
 
@@ -80,9 +78,7 @@ public class GameScreen extends ScreenAdapter {
     boolean keepTouching;
     boolean backpackToggle;
     boolean toggleActionButton;
-    boolean needToResetActionButton;
-    boolean needToResetUpgradeButton;
-    boolean needToResetExitInMarketButton;
+    Boolean needToResetActionButton;
 
     ButtonHandlerInterface buttonHandle = button -> {
         for (int i = 0; i <= countOfTouching(); i++) {
@@ -201,7 +197,7 @@ public class GameScreen extends ScreenAdapter {
 
             for (BasicMarket market : markets) {
                 if (market.inMarket) {
-                    market.doThing(needToResetExitInMarketButton, player, backpackUI);
+                    market.doThing(player, backpackUI);
                 }
             }
 
@@ -291,11 +287,10 @@ public class GameScreen extends ScreenAdapter {
 //            }
             }
 
-            needToResetExitInMarketButton = isExitButtonInMarketPressed(markets);
         } else {
-            needToResetUpgradeButton = false;
-            needToResetExitInMarketButton = false;
-            needToResetActionButton = false;
+            for (BasicMarket market: markets) {
+                market.needToReset = false;
+            }
             if (backpackToggle) {
                 backpackToggle = false;
                 backpackUI.backpackOpen = !backpackUI.backpackOpen;

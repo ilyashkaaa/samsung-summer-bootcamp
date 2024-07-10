@@ -84,7 +84,8 @@ public class SellMarket extends BasicMarket{
         marketSeller.draw(batch);
     }
 
-    public void doThing(boolean needToResetExitInMarketButton, Player player, BackpackUI backpackUI) {
+    @Override
+    public void doThing(Player player, BackpackUI backpackUI) {
         if (inMenu) {
             if (buttonHandle.buttonHandler(buyButton)) {
                 inMenu = false;
@@ -92,7 +93,7 @@ public class SellMarket extends BasicMarket{
             } else if (buttonHandle.buttonHandler(sellButton)) {
                 inMenu = false;
                 inSell = true;
-            } else if (buttonHandle.buttonHandler(exitButton) && !needToResetExitInMarketButton) {
+            } else if (buttonHandle.buttonHandler(exitButton) && !needToReset) {
                 inMarket = false;
                 inMenu = true;
                 inBuy = false;
@@ -105,12 +106,12 @@ public class SellMarket extends BasicMarket{
             } else if (buttonHandle.buttonHandler(goldPickaxe)) {
                 player.setPickaxe(GoldPickaxe.class);
                 backpackUI.setItem(0, player.pickaxe);
-            } else if (buttonHandle.buttonHandler(exitButton) && !needToResetExitInMarketButton) {
+            } else if (buttonHandle.buttonHandler(exitButton) && !needToReset) {
                 inBuy = false;
                 inMenu = true;
             }
         } else if (inSell) {
-            if (buttonHandle.buttonHandler(exitButton) && !needToResetExitInMarketButton) {
+            if (buttonHandle.buttonHandler(exitButton) && !needToReset) {
                 inSell = false;
                 inMenu = true;
             }

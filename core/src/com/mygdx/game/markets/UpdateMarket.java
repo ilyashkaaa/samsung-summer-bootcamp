@@ -8,8 +8,15 @@ import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.NPC;
+import com.mygdx.game.entities.Player;
+import com.mygdx.game.pickaxes.DiamondPickaxe;
+import com.mygdx.game.pickaxes.GoldPickaxe;
+import com.mygdx.game.pickaxes.IronPickaxe;
+import com.mygdx.game.pickaxes.Stick;
+import com.mygdx.game.pickaxes.StonePickaxe;
 import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.ItemFrame;
+import com.mygdx.game.uis.backpack.BackpackUI;
 
 public class UpdateMarket extends BasicMarket{
     NPC updateSeller;
@@ -39,5 +46,44 @@ public class UpdateMarket extends BasicMarket{
     public void draw(SpriteBatch batch){
         super.draw(batch);
         updateSeller.draw(batch);
+    }
+
+    @Override
+    public void doThing(Player player, BackpackUI backpackUI) {
+
+            if (buttonHandle.buttonHandler(exitButton)) {
+                inMarket = false;
+            } else if (inMarket) {
+            if (buttonHandle.buttonHandler(upgradeButton) && !needToReset){
+                needToReset = true;
+                if (player.pickaxe instanceof Stick){
+                    player.setPickaxe(StonePickaxe.class);
+                    backpackUI.setItem(0, player.pickaxe);
+                    nowPickaxe.setItem(player.pickaxe.getTexture());
+                    wantPickaxe.setItem(GameResources.IRON_PICKAXE.getTexture());
+                }
+                else if (player.pickaxe instanceof StonePickaxe){
+                    player.setPickaxe(IronPickaxe.class);
+                    backpackUI.setItem(0, player.pickaxe);
+                    nowPickaxe.setItem(player.pickaxe.getTexture());
+                    wantPickaxe.setItem(GameResources.GOLD_PICKAXE);
+                }
+                else if (player.pickaxe instanceof IronPickaxe){
+                    player.setPickaxe(GoldPickaxe.class);
+                    backpackUI.setItem(0, player.pickaxe);
+                    nowPickaxe.setItem(player.pickaxe.getTexture());
+                    wantPickaxe.setItem(GameResources.DIAMOND_PICKAXE);
+                }
+                else if (player.pickaxe instanceof GoldPickaxe){
+                    player.setPickaxe(DiamondPickaxe.class);
+                    backpackUI.setItem(0, player.pickaxe);
+                    nowPickaxe.setItem(player.pickaxe.getTexture());
+                    wantPickaxe.setHasItem(false);
+                }
+            }
+            else if (buttonHandle.buttonHandler(exitButton)) {
+                inMarket = false;
+            }
+        }
     }
 }

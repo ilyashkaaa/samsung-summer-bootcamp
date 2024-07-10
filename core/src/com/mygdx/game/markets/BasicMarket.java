@@ -26,6 +26,8 @@ public class BasicMarket {
     public Button exitButton;
     protected ButtonHandlerInterface buttonHandle;
 
+    public boolean needToReset;
+
     public BasicMarket (String texturePath, float x, ButtonHandlerInterface buttonHandlerInterface){
         this.x = x;
         this.buttonHandle = buttonHandlerInterface;
@@ -67,7 +69,7 @@ public class BasicMarket {
     }
     public void setState(int state){}
 
-    public void doThing(boolean needToResetExitInMarketButton, Player player, BackpackUI backpackUI) {
+    public void doThing(Player player, BackpackUI backpackUI) {
         if (buttonHandle.buttonHandler(exitButton)) {
             inMarket = false;
         }
