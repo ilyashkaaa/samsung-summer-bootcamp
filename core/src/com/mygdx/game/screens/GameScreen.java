@@ -219,7 +219,6 @@ public class GameScreen extends ScreenAdapter {
 
         jumpButton.draw(myGdxGame.batch, cameraPos);
         actionButton.draw(myGdxGame.batch, cameraPos);
-//        placeButton.draw(myGdxGame.batch, cameraPos);
         pauseButton.draw(myGdxGame.batch, cameraPos);
 
         if (keepTouching) {
@@ -256,8 +255,8 @@ public class GameScreen extends ScreenAdapter {
                 int y = playerBlockCordY - viewBlocksY / 2 + k;
 
                 if (x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT) {
-                    if (generateMap.mapArray[x][y] != null) {
-                        generateMap.mapArray[x][y].draw(myGdxGame.batch, x * size, y * size);
+                    generateMap.mapArray[x][y].draw(myGdxGame.batch, x * size, y * size);
+                    if (!generateMap.mapArray[x][y].isDestroyed()) {
                         if (generateMap.mapArray[x][y].getHasCollision()) {
                             blocksCollision.bodyArray.add(BasicBlock.createStaticBody(x, y, myGdxGame));
                         }
@@ -406,7 +405,7 @@ public class GameScreen extends ScreenAdapter {
 //                                            player.playerState = PlayerStates.STANDING;
                             }
                             if (x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT
-                                    && generateMap.mapArray[x][y] != null && TimeUtils.millis() - lastHit >= 200
+                                    && !generateMap.mapArray[x][y].isDestroyed() && TimeUtils.millis() - lastHit >= 200
                                     && player.playerState != PlayerStates.JUMPING && player.playerState != PlayerStates.FALLING) {
                                 lastHit = TimeUtils.millis();
                                 if (!generateMap.mapArray[x][y].hit(player.pickaxe.getDamage())) {
@@ -414,14 +413,14 @@ public class GameScreen extends ScreenAdapter {
 
                                     backpackUI.addItemInInventory(generateMap.mapArray[x][y]);
 
-                                    generateMap.mapArray[x][y] = null;
+                                    generateMap.mapArray[x][y].setDestroyed(true);
                                     blocksCollision.updateCollision(generateMap.mapArray, x, y, true);
                                 }
                             }
                         } else if (backpackUI.getCurrentItem().item instanceof BasicBlock) {
                             if (!selectedBlock.isZero() &&
                                     x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT)
-                                if (generateMap.mapArray[x][y] == null)
+                                if (generateMap.mapArray[x][y].isDestroyed())
                                     try {
                                         generateMap.mapArray[x][y] = ((BasicBlock) backpackUI.getCurrentItem().item).getClass().getConstructor().newInstance();
                                         needToResetActionButton = backpackUI.removeItemFromInventory(generateMap.mapArray[x][y].getClass());

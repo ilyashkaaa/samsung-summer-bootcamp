@@ -49,12 +49,15 @@ public class GenerateMap {
         }
 
         for (int i = 0; i < MAP_WIDTH; i++)
-            for (int j = 0; j < MAP_HEIGHT; j++)
-                if (mapArray[i][j] == null)
+            for (int j = 0; j < MAP_HEIGHT; j++) {
+                if (mapArray[i][j] == null) {
                     if (MAP_HEIGHT - j <= 10)
                         mapArray[i][j] = new Dirt();
                     else
                         mapArray[i][j] = new Stone();
+                }
+                mapArray[i][j].setDestroyed(false);
+            }
     }
 
     private static void generateCluster(int x, int y,/* BasicBlock block,*/ Class<? extends BasicBlock> block, BasicBlock[][] map, int maxAmountOfBLocks) {

@@ -221,7 +221,6 @@ public class GameResources {
     public static final String STONE_PICKAXE_TEXTURE = "textures/items/pickaxes/stone_pickaxe.png";
 
     //UI
-   // public static final BitmapFont PIXEL_FONT = new BitmapFont("fonts/font.fnt");
     public static final Texture JOYSTICK_BACKGROUND_TEXTURE = new Texture("textures/joystick/joystick.png");
     public static final Sprite JOYSTICK_TRIGGER_TEXTURE = new Sprite(new Texture("textures/joystick/joystickTrigger.png"));
     public static final Texture BACKPACK_BUTTON_IMG = new Texture("textures/buttons/main_screen/bag_button_off.png");
@@ -236,7 +235,7 @@ public class GameResources {
 
 
 
-    public static final Texture STONE_BLOCK_BACKGROUND = new Texture("textures/backscreens/stone_block_backscreen.png");
+    public static final Texture STONE_BLOCK_BACKGROUND = new Texture("textures/blocks/blocks_blackout.png");
     public static final Texture SELECTED_BLOCK = new Texture("textures/blocks/selected_block.png");
     public static final String SKY = "textures/backscreens/sky.png";
     public static final Texture JUMP_BUTTON = new Texture("textures/buttons/main_screen/jump_button_off.png");
