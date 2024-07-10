@@ -98,7 +98,7 @@ public class GameScreen extends ScreenAdapter {
                 700, -50, (int) (200 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
 //        placeButton = new Button("textures/joystick/joystick.png", "textures/blocks/stone/mossyblock.png",
 //                700, 200, (int) (200 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE), (int) (100 * GameSettings.OBJECT_SCALE));
-        pauseButton = new Button(GameResources.PAUSE_BUTTON, 900, 470, GameResources.PAUSE_BUTTON.getWidth()*GameSettings.SCALE, GameResources.PAUSE_BUTTON.getHeight()*GameSettings.SCALE);
+        pauseButton = new Button(GameResources.PAUSE_BUTTON, (int) (-GameSettings.SCR_WIDTH/2+GameResources.PAUSE_BUTTON.getWidth()/2), (int) (GameSettings.SCR_HEIGHT/2-GameResources.PAUSE_BUTTON.getHeight()/2), GameResources.PAUSE_BUTTON.getWidth()*GameSettings.SCALE, GameResources.PAUSE_BUTTON.getHeight()*GameSettings.SCALE);
 
         joystick = new Joystick();
 

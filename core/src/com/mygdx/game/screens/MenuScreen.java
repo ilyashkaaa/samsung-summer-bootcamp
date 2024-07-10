@@ -3,6 +3,7 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -47,25 +48,25 @@ public class MenuScreen extends ScreenAdapter {
         leaderButton.draw(myGdxGame.batch, myGdxGame.camera.position);
         settingsButton.draw(myGdxGame.batch, myGdxGame.camera.position);
         exitButton.draw(myGdxGame.batch, myGdxGame.camera.position);
-
         myGdxGame.batch.end();
         movingBackground.move();
 
         if (Gdx.input.isTouched()) {
-            if (myGdxGame.gameScreen.buttonHandler(playButton)) {
-                myGdxGame.setScreen(myGdxGame.gameScreen);
+            if (!myGdxGame.isStillTouching) {
+                myGdxGame.isStillTouching = true;
+                if (myGdxGame.gameScreen.buttonHandler(playButton)) {
+                    myGdxGame.setScreen(myGdxGame.gameScreen);
+                } else if (myGdxGame.gameScreen.buttonHandler(leaderButton)) {
+                    //myGdxGame.setScreen(myGdxGame.);
+                } else if (myGdxGame.gameScreen.buttonHandler(settingsButton)) {
+                    myGdxGame.setScreen(myGdxGame.settingsScreen);
+
+                } else if (myGdxGame.gameScreen.buttonHandler(exitButton)) {
+                    Gdx.app.exit();
+                }
             }
-            else if(myGdxGame.gameScreen.buttonHandler(leaderButton)){
-                //myGdxGame.setScreen(myGdxGame.);
-            }
-            else if(myGdxGame.gameScreen.buttonHandler(settingsButton)){
-                myGdxGame.setScreen(myGdxGame.settingsScreen);
-            }
-            else if(myGdxGame.gameScreen.buttonHandler(exitButton)){
-                Gdx.app.exit();
-            }
+        } else {
+            myGdxGame.isStillTouching = false;
         }
     }
-
-
 }

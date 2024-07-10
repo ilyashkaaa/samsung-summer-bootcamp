@@ -10,11 +10,14 @@ public class MovingBackground {
     float texture2X;
     double speed = 0.8;
     float height;
+    float attitude;
 
     public MovingBackground(String pathToTexture) {
         texture1X = 0;
         texture2X = 0;
         texture = new Texture(pathToTexture);
+
+        attitude = texture.getWidth() / texture.getHeight();
     }
 
     public void move() {
@@ -22,13 +25,13 @@ public class MovingBackground {
             texture1X = (float) (-3.2 * height);
             texture2X = 0;
         }
-        texture1X -= speed * GameSettings.SCALE;
-        texture2X -= speed * GameSettings.SCALE;
+        texture1X -= (float) (speed * GameSettings.SCALE);
+        texture2X -= (float) (speed * GameSettings.SCALE);
         if (texture1X <= -4.8 * height) {
-            texture1X = (float) (1.6 * height - 1);
+            texture1X = (float) (1.6 * height - 1 * GameSettings.SCALE);
         }
         if (texture2X <= -4.8 * height) {
-            texture2X = (float) (1.6 * height - 1);
+            texture2X = (float) (1.6 * height - 1 * GameSettings.SCALE);
         }
 
     }
