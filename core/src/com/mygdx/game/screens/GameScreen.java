@@ -168,125 +168,12 @@ public class GameScreen extends ScreenAdapter {
         playerBlockCordX = (int) (player.getBody().getPosition().x / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE);
         playerBlockCordY = (int) ((player.getBody().getPosition().y - 5) / GameSettings.BLOCK_SIDE / GameSettings.OBJECT_SCALE);
 
-        Vector3 touch = new Vector3(Gdx.input.getX(indexJoystick(countOfTouching())),
-                Gdx.input.getY(indexJoystick(countOfTouching())), 0
-        );
-        if (!backpackUI.backpackOpen && !isOneInMarket(markets)) {
-            if (Gdx.input.isTouched(indexJoystick(countOfTouching())) && touch.x <= GameSettings.SCR_WIDTH / 2f) {
-                if (!keepTouching)
-                    joystick.changeCords(new Vector2(touch.x, touch.y));
-                selectedBlock = player.setMoveVector(joystick.getDirection(new Vector2(touch.x, touch.y)));
-                keepTouching = true;
-                if (player.playerState == PlayerStates.STANDING && !player.isJumping) {
-                    player.playerState = PlayerStates.WALKING;
-                }
-            } else {
-                if (player.playerState == PlayerStates.WALKING && !player.isJumping) {
-                    player.playerState = PlayerStates.STANDING;
-                }
-//            selectedBlock.setZero();
-                keepTouching = false;
-            }
-        }
+        joystickUpdate();
 //        player.updateCamera();
         player.playerBreak();
 
         if (Gdx.input.isTouched()) {
-            int x = (int) (playerBlockCordX + selectedBlock.x);
-            int y = (int) (playerBlockCordY + selectedBlock.y);
-
-            for (BasicMarket market : markets) {
-                if (market.inMarket) {
-                    market.doThing(player, backpackUI);
-                }
-            }
-
-
-
-            if (backpackUI.backpackOpen) {
-                for (int i = 0; i < backpackUI.backpackSlots.length; i++)
-                    if (buttonHandle.buttonHandler(backpackUI.backpackSlots[i]) && i < backpackUI.slotsInventoryItem.size()) {
-                        backpackUI.cancelSelection();
-                        backpackUI.backpackSlots[i].changeButtonTexture(GameResources.SELECTED_BLOCK);
-                        backpackUI.selectionIndex = i;
-                        break;
-                    }
-            }
-
-            if (buttonHandle.buttonHandler(backpackUI.backpackButton))
-                backpackToggle = true;
-            if (!buttonHandle.buttonHandler(backpackUI.backpackButton) && backpackToggle) {
-                backpackToggle = false;
-                backpackUI.backpackOpen = !backpackUI.backpackOpen;
-            }
-            if (buttonHandle.buttonHandler(pauseButton)) {
-                myGdxGame.pauseScreen.returnToPause = true;
-                myGdxGame.setScreen(myGdxGame.pauseScreen);
-            }
-
-            if (!backpackUI.backpackOpen) {
-                if (buttonHandle.buttonHandler(jumpButton))
-                    player.jump();
-
-                if (buttonHandle.buttonHandler(actionButton)) {
-                    if (!needToResetActionButton) {
-                        if (!toggleActionButton) {
-                            if (backpackUI.getCurrentItem().item instanceof BasicPickaxe) {
-                                if (player.getBody().getLinearVelocity().y == 0) {
-                                    player.drawDigging(selectedBlock.x, selectedBlock.y);
-                                } else if (!player.isJumping && !player.falling) {
-//                                            player.playerState = PlayerStates.STANDING;
-                                }
-                                if (x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT
-                                        && generateMap.mapArray[x][y] != null && TimeUtils.millis() - lastHit >= 200
-                                        && player.playerState != PlayerStates.JUMPING && player.playerState != PlayerStates.FALLING) {
-                                    lastHit = TimeUtils.millis();
-                                    if (!generateMap.mapArray[x][y].hit(player.pickaxe.getDamage())) {
-//                            backpackUI.blocksInventory.add(generateMap.mapArray[x][y].getTexture());
-
-                                        backpackUI.addItemInInventory(generateMap.mapArray[x][y]);
-
-                                        generateMap.mapArray[x][y] = null;
-                                        blocksCollision.updateCollision(generateMap.mapArray, x, y, true);
-                                    }
-                                }
-                            } else if (backpackUI.getCurrentItem().item instanceof BasicBlock) {
-                                if (!selectedBlock.isZero() &&
-                                        x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT)
-                                    if (generateMap.mapArray[x][y] == null)
-                                        try {
-                                            generateMap.mapArray[x][y] = ((BasicBlock) backpackUI.getCurrentItem().item).getClass().getConstructor().newInstance();
-                                            needToResetActionButton = backpackUI.removeItemFromInventory(generateMap.mapArray[x][y].getClass());
-                                            generateMap.mapArray[x][y].setHasCollision(true);
-                                            blocksCollision.updateCollision(generateMap.mapArray, playerBlockCordX, playerBlockCordY - 1, false);
-                                        } catch (InstantiationException |
-                                                 IllegalAccessException |
-                                                 InvocationTargetException |
-                                                 NoSuchMethodException e) {
-                                            e.printStackTrace();
-                                        }
-                            }
-
-                        } else {
-                            if (actionClassName != null) {
-                                actionClassName.inMarket = true;
-                            }
-//                    System.out.println(generateMap.mapArray[0][0].getClass().getGenericSuperclass());
-//                    System.out.println(generateMap.mapArray[0][0].getClass().getSuperclass().getSimpleName());
-
-                        }
-                    }
-                } else
-                    needToResetActionButton = false;
-
-//            if (buttonHandler(placeButton) && !selectedBlock.isZero() &&
-//                    x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT) {
-//                generateMap.mapArray[x][y] = new Mossy();
-//                generateMap.mapArray[x][y].setHasCollision(true);
-//                blocksCollision.updateCollision(generateMap.mapArray, playerBlockCordX, playerBlockCordY - 1, false);
-//            }
-            }
-
+            isTouchUpdate();
         } else {
             for (BasicMarket market: markets) {
                 market.needToReset = false;
@@ -470,5 +357,122 @@ public class GameScreen extends ScreenAdapter {
 
     }
 
+    private void joystickUpdate(){
+        Vector2 touch = new Vector2(Gdx.input.getX(indexJoystick(countOfTouching())),
+                Gdx.input.getY(indexJoystick(countOfTouching()))
+        );
+        if (!backpackUI.backpackOpen && !isOneInMarket(markets)) {
+            if (Gdx.input.isTouched(indexJoystick(countOfTouching())) && touch.x <= GameSettings.SCR_WIDTH / 2f) {
+                if (!keepTouching)
+                    joystick.changeCords(touch);
+                selectedBlock = player.setMoveVector(joystick.getDirection(touch));
+                keepTouching = true;
+                if (player.playerState == PlayerStates.STANDING && !player.isJumping) {
+                    player.playerState = PlayerStates.WALKING;
+                }
+            } else {
+                if (player.playerState == PlayerStates.WALKING && !player.isJumping) {
+                    player.playerState = PlayerStates.STANDING;
+                }
+//            selectedBlock.setZero();
+                keepTouching = false;
+            }
+        }
+    }
 
+    private void isTouchUpdate() {
+        int x = (int) (playerBlockCordX + selectedBlock.x);
+        int y = (int) (playerBlockCordY + selectedBlock.y);
+
+        for (BasicMarket market : markets) {
+            if (market.inMarket) {
+                market.doThing(player, backpackUI);
+            }
+        }
+
+
+        if (backpackUI.backpackOpen) {
+            for (int i = 0; i < backpackUI.backpackSlots.length; i++)
+                if (buttonHandle.buttonHandler(backpackUI.backpackSlots[i]) && i < backpackUI.slotsInventoryItem.size()) {
+                    backpackUI.cancelSelection();
+                    backpackUI.backpackSlots[i].changeButtonTexture(GameResources.SELECTED_BLOCK);
+                    backpackUI.selectionIndex = i;
+                    break;
+                }
+        }
+
+        if (buttonHandle.buttonHandler(backpackUI.backpackButton))
+            backpackToggle = true;
+        if (!buttonHandle.buttonHandler(backpackUI.backpackButton) && backpackToggle) {
+            backpackToggle = false;
+            backpackUI.backpackOpen = !backpackUI.backpackOpen;
+        }
+        if (buttonHandle.buttonHandler(pauseButton)) {
+            myGdxGame.pauseScreen.returnToPause = true;
+            myGdxGame.setScreen(myGdxGame.pauseScreen);
+        }
+
+        if (!backpackUI.backpackOpen) {
+            if (buttonHandle.buttonHandler(jumpButton))
+                player.jump();
+
+            if (buttonHandle.buttonHandler(actionButton)) {
+                if (!needToResetActionButton) {
+                    if (!toggleActionButton) {
+                        if (backpackUI.getCurrentItem().item instanceof BasicPickaxe) {
+                            if (player.getBody().getLinearVelocity().y == 0) {
+                                player.drawDigging(selectedBlock.x, selectedBlock.y);
+                            } else if (!player.isJumping && !player.falling) {
+//                                            player.playerState = PlayerStates.STANDING;
+                            }
+                            if (x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT
+                                    && generateMap.mapArray[x][y] != null && TimeUtils.millis() - lastHit >= 200
+                                    && player.playerState != PlayerStates.JUMPING && player.playerState != PlayerStates.FALLING) {
+                                lastHit = TimeUtils.millis();
+                                if (!generateMap.mapArray[x][y].hit(player.pickaxe.getDamage())) {
+//                            backpackUI.blocksInventory.add(generateMap.mapArray[x][y].getTexture());
+
+                                    backpackUI.addItemInInventory(generateMap.mapArray[x][y]);
+
+                                    generateMap.mapArray[x][y] = null;
+                                    blocksCollision.updateCollision(generateMap.mapArray, x, y, true);
+                                }
+                            }
+                        } else if (backpackUI.getCurrentItem().item instanceof BasicBlock) {
+                            if (!selectedBlock.isZero() &&
+                                    x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT)
+                                if (generateMap.mapArray[x][y] == null)
+                                    try {
+                                        generateMap.mapArray[x][y] = ((BasicBlock) backpackUI.getCurrentItem().item).getClass().getConstructor().newInstance();
+                                        needToResetActionButton = backpackUI.removeItemFromInventory(generateMap.mapArray[x][y].getClass());
+                                        generateMap.mapArray[x][y].setHasCollision(true);
+                                        blocksCollision.updateCollision(generateMap.mapArray, playerBlockCordX, playerBlockCordY - 1, false);
+                                    } catch (InstantiationException |
+                                             IllegalAccessException |
+                                             InvocationTargetException |
+                                             NoSuchMethodException e) {
+                                        e.printStackTrace();
+                                    }
+                        }
+
+                    } else {
+                        if (actionClassName != null) {
+                            actionClassName.inMarket = true;
+                        }
+//                    System.out.println(generateMap.mapArray[0][0].getClass().getGenericSuperclass());
+//                    System.out.println(generateMap.mapArray[0][0].getClass().getSuperclass().getSimpleName());
+
+                    }
+                }
+            } else
+                needToResetActionButton = false;
+
+//            if (buttonHandler(placeButton) && !selectedBlock.isZero() &&
+//                    x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT) {
+//                generateMap.mapArray[x][y] = new Mossy();
+//                generateMap.mapArray[x][y].setHasCollision(true);
+//                blocksCollision.updateCollision(generateMap.mapArray, playerBlockCordX, playerBlockCordY - 1, false);
+//            }
+        }
+    }
 }
