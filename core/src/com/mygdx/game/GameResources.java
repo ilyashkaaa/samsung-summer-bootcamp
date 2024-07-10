@@ -241,5 +241,9 @@ public class GameResources {
     //npc
     public static final Sprite FOODSELLER_HEAD_TEXTURE = new Sprite(new Texture("textures/npc/food_seller_head.png"));
 
+    public static final Texture MENU_BUTTON = new Texture("textures/buttons/pause_menu_settings_screen/button.png");
+    public static final String MENU_SCREEN = "textures/backscreens/menu_screen.png";
+
+
 
 }
