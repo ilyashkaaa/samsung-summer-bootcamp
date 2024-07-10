@@ -42,7 +42,7 @@ public class MyGdxGame extends Game {
 		gameScreen = new GameScreen(this);
 		menuScreen = new MenuScreen(this);
 		setScreen(menuScreen);
-		//setScreen(gameScreen);
+
 	}
 	@Override
 	public void dispose () {
