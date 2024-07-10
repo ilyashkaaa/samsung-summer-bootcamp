@@ -49,7 +49,7 @@ public class MyGdxGame extends Game {
 		settingsScreen = new SettingsScreen(this, gameScreen);
 		pauseScreen = new PauseScreen(this,gameScreen, camera.position);
 		setScreen(menuScreen);
-		//setScreen(gameScreen);
+
 	}
 	@Override
 	public void dispose () {
