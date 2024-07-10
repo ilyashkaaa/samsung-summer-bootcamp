@@ -232,7 +232,7 @@ public class GameResources {
     public static final Texture EXIT_BUTTON = new Texture("textures/buttons/exit_button.png");
     public static final Texture MONEY = new Texture("textures/items/money.png");
     public static final Texture BUTTON_IN_PAUSE_AND_SETTINGS = new Texture("textures/buttons/pause_and_settings_screen/button.png");
-    public static final Texture PAUSE_BUTTON = new Texture("textures/buttons/exit_button.png");
+    public static final Texture PAUSE_BUTTON = new Texture("textures/buttons/pause_and_settings_screen/pause_button.png");
     public static final Texture SLIDER_TEXTURE = new Texture("textures/buttons/pause_and_settings_screen/Line.png");
     public static final Texture TOGGLE_SLIDER_TEXTURE = new Texture("textures/buttons/pause_and_settings_screen/settings_trigger.png");
 

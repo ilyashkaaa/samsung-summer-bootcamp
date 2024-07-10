@@ -32,7 +32,7 @@ public class SellMarket extends BasicMarket{
                 500, 0, (int) (250 * GameSettings.SCALE), (int) (250 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE));
         goldPickaxe = new Button(GameResources.BUTTON_BACKGROUND, GameResources.GOLD_PICKAXE,
                 -500, 0, (int) (250 * GameSettings.SCALE), (int) (250 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE), (int) (100 * GameSettings.SCALE));
-        marketSeller = new NPC(45, (int) (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE), 7, 15, new Texture("textures/npc/market_seller_body.png"), new Texture("textures/npc/market_seller_head.png"));
+        marketSeller = new NPC((int) (x*GameSettings.SCALE*GameSettings.BLOCK_SIDE), (int) (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE), (int) (15/GameSettings.SCALE/2.5), (int) (32/GameSettings.SCALE/2.5), new Texture("textures/npc/market_seller_body.png"), new Texture("textures/npc/market_seller_head.png"));
 
     }
 

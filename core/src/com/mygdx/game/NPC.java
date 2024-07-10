@@ -21,8 +21,8 @@ public class NPC {
         frameCounter++;
         if (frameCounter == 2 * frameMultiplierForHead - 1) frameCounter = 0;
         batch.draw(headTexture,
-                x - width * GameSettings.OBJECT_SCALE / 2,
-                y - height * GameSettings.OBJECT_SCALE / 2 - frameCounter / frameMultiplierForHead * GameSettings.OBJECT_SCALE * 3,
+                x,
+                y - frameCounter / frameMultiplierForHead * GameSettings.OBJECT_SCALE * 3,
                 width,
                 height
         );

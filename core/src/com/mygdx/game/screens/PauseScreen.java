@@ -56,6 +56,12 @@ public class PauseScreen extends ScreenAdapter {
                 myGdxGame.bitmapFont, "continue");
 
     }
+
+    @Override
+    public void show(){
+        myGdxGame.camera.position.set(0, 0, 0);
+    }
+
     @Override
     public void render(float delta) {
 

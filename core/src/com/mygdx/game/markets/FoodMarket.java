@@ -1,5 +1,6 @@
 package com.mygdx.game.markets;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.GameResources;
@@ -12,7 +13,7 @@ public class FoodMarket extends BasicMarket{
 
     public FoodMarket(float x){
         super(texturePath, x);
-        foodSeller = new NPC(115, (int) (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE), 5, 11, new Texture("textures/npc/food_seller_body.png"), new Texture("textures/npc/food_seller_head.png"));
+        foodSeller = new NPC((int) (x*GameSettings.SCALE*GameSettings.BLOCK_SIDE), (int) (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE), (int) (12/GameSettings.SCALE/2.5), (int) (28/GameSettings.SCALE/2.5), new Texture("textures/npc/food_seller_body.png"), new Texture("textures/npc/food_seller_head.png"));
     }
 
     @Override
