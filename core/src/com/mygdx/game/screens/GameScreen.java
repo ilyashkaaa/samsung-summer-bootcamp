@@ -37,6 +37,7 @@ import com.mygdx.game.pickaxes.BasicPickaxe;
 import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.CameraMovement;
 import com.mygdx.game.uis.Joystick;
+import com.mygdx.game.uis.MoneyManager;
 import com.mygdx.game.uis.backpack.BackpackUI;
 
 import java.lang.reflect.InvocationTargetException;
@@ -71,6 +72,7 @@ public class GameScreen extends ScreenAdapter {
     CameraMovement cameraMovement;
     BasicMarket[] markets;
     BasicMarket actionClassName;
+    MoneyManager money;
 
     int playerBlockCordX;
     int playerBlockCordY;
@@ -91,6 +93,7 @@ public class GameScreen extends ScreenAdapter {
 
     public GameScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
+        money = new MoneyManager(500, 400, (int) (80*GameSettings.SCALE), (int) (80*GameSettings.SCALE));
         cameraMovement = new CameraMovement(myGdxGame);
         movingBackgroundSky = new MovingBackground(GameResources.SKY);
 
@@ -220,6 +223,7 @@ public class GameScreen extends ScreenAdapter {
         jumpButton.draw(myGdxGame.batch, cameraPos);
         actionButton.draw(myGdxGame.batch, cameraPos);
 //        placeButton.draw(myGdxGame.batch, cameraPos);
+        money.draw(myGdxGame.batch, cameraPos);
         pauseButton.draw(myGdxGame.batch, cameraPos);
 
         if (keepTouching) {

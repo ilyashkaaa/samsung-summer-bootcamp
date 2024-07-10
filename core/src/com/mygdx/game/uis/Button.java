@@ -91,7 +91,7 @@ public class Button implements Disposable {
     }
 
     public void draw(SpriteBatch batch, Vector3 cameraPos) {
-        if (text!= null) {
+        if (text != null) {
             GlyphLayout glyphLayout = new GlyphLayout(bitmapFont, text);
             textWidth = glyphLayout.width;
             textHeight = glyphLayout.height;
