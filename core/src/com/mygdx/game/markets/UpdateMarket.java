@@ -11,7 +11,7 @@ public class UpdateMarket extends BasicMarket{
     private static String texturePath = GameResources.UPDATE_MARKET_TEXTURE;
     public UpdateMarket(float x) {
         super(texturePath, x);
-        updateSeller = new NPC(147, (int) (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE), 5, 13, new Texture("textures/npc/update_seller_body.png"), new Texture("textures/npc/update_seller_head.png"));
+        updateSeller = new NPC((int) (x*GameSettings.SCALE*GameSettings.BLOCK_SIDE), (int) (GameSettings.MAP_HEIGHT * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE), (int) (13/GameSettings.SCALE/2.5), (int) (30/GameSettings.SCALE/2.5), new Texture("textures/npc/update_seller_body.png"), new Texture("textures/npc/update_seller_head.png"));
     }
     @Override
     public void draw(SpriteBatch batch){

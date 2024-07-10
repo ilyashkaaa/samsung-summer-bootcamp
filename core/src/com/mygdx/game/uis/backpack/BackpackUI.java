@@ -146,7 +146,11 @@ public class BackpackUI {
                     uniqueItem.remove(backpackSlot.texture);
                     selectionIndex = 0;
                     cancelSelection();
+                    backpackSlots[uniqueItem.size()].setHasItem(false);
                     backpackSlots[0].changeButtonTexture(GameResources.SELECTED_BLOCK);
+                    for (int i = 0; i < uniqueItem.size(); i++) {
+                        backpackSlots[i].changeItem(uniqueItem.get(i));
+                    }
                 }
                 break;
             }

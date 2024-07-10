@@ -123,9 +123,13 @@ public class GameScreen extends ScreenAdapter {
         mapBorder.createMapBorder(GameSettings.MAP_WIDTH * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE, (GameSettings.MAP_HEIGHT + 10) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE);
 
         backpackUI.addItemInInventory(player.pickaxe.getTexture(), player.pickaxe.getClass(), false);
-        player.updateCamera();
         pauseScreen = new PauseScreen(myGdxGame,this, myGdxGame.camera.position);
 
+    }
+
+    @Override
+    public void show(){
+        player.updateCamera();
     }
 
     @Override

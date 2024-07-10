@@ -37,6 +37,12 @@ public class SettingsScreen extends ScreenAdapter {
          backButton = new Button(GameResources.BUTTON_IN_PAUSE_AND_SETTINGS, 0, -400, GameResources.BUTTON_IN_PAUSE_AND_SETTINGS.getWidth()*2*GameSettings.SCALE,
                  GameResources.BUTTON_IN_PAUSE_AND_SETTINGS.getHeight()*2*GameSettings.SCALE, myGdxGame.bitmapFont, "return");
     }
+
+    @Override
+    public void show(){
+        myGdxGame.camera.position.set(0, 0, 0);
+    }
+
     @Override
     public void render(float delta) {
         handleInput();
