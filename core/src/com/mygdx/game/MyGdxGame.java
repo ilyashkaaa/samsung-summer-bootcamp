@@ -25,6 +25,7 @@ public class MyGdxGame extends Game {
 	public SettingsScreen settingsScreen;
 	public PauseScreen pauseScreen;
 	public boolean returnToPause;
+	public boolean isStillTouching;
 
 	
 	@Override

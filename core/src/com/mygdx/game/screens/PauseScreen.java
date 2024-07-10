@@ -75,17 +75,23 @@ public class PauseScreen extends ScreenAdapter {
     }
     private void handleInput() {
         if (Gdx.input.isTouched()) {
-            if (gameScreen.buttonHandler(continueButton)) {
-                myGdxGame.setScreen(gameScreen);
+            if (!myGdxGame.isStillTouching) {
+                myGdxGame.isStillTouching = true;
+                if (gameScreen.buttonHandler(continueButton)) {
+                    myGdxGame.setScreen(gameScreen);
+                }
+                if (gameScreen.buttonHandler(settingsButton)) {
+                    myGdxGame.returnToPause = true;
+                    myGdxGame.setScreen(myGdxGame.settingsScreen);
+                    System.out.println("lol");
+                }
+                if (gameScreen.buttonHandler(menuButton)) {
+                    myGdxGame.returnToPause = false;
+                    myGdxGame.setScreen(myGdxGame.menuScreen);
+                }
             }
-            if (gameScreen.buttonHandler(settingsButton)) {
-                myGdxGame.returnToPause = true;
-                myGdxGame.setScreen(myGdxGame.settingsScreen);
-            }
-            if (gameScreen.buttonHandler(menuButton)) {
-                myGdxGame.returnToPause = false;
-                myGdxGame.setScreen(myGdxGame.menuScreen);
-            }
+        } else {
+            myGdxGame.isStillTouching = false;
         }
     }
 
