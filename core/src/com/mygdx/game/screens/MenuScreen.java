@@ -30,6 +30,7 @@ public class MenuScreen extends ScreenAdapter {
         movingBackground = new MovingBackground(GameResources.SKY);
 
 
+
     }
 
     @Override
@@ -50,10 +51,12 @@ public class MenuScreen extends ScreenAdapter {
         if (Gdx.input.isTouched()) {
             if (myGdxGame.gameScreen.buttonHandler(playButton)) {
                 myGdxGame.setScreen(myGdxGame.gameScreen);
-            } else if (myGdxGame.gameScreen.buttonHandler(settingsButton)) {
+            }
+            else if(myGdxGame.gameScreen.buttonHandler(settingsButton)){
                 myGdxGame.setScreen(myGdxGame.settingsScreen);
-            } else if (myGdxGame.gameScreen.buttonHandler(exitButton)) {
-
+            }
+            else if(myGdxGame.gameScreen.buttonHandler(exitButton)){
+                Gdx.app.exit();
             }
         }
     }
