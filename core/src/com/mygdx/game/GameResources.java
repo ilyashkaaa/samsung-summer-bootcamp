@@ -1,6 +1,7 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class GameResources {
@@ -223,18 +224,25 @@ public class GameResources {
     public static final String STONE_PICKAXE_TEXTURE = "textures/items/pickaxes/stone_pickaxe.png";
 
     //UI
+   // public static final BitmapFont PIXEL_FONT = new BitmapFont("fonts/font.fnt");
     public static final Texture JOYSTICK_BACKGROUND_TEXTURE = new Texture("textures/joystick/joystick.png");
     public static final Sprite JOYSTICK_TRIGGER_TEXTURE = new Sprite(new Texture("textures/joystick/joystickTrigger.png"));
     public static final Texture BACKPACK_BUTTON_IMG = new Texture("textures/buttons/main_screen/bag_button_off.png");
     public static final Texture BUTTON_BACKGROUND = new Texture("textures/buttons/bag_screen/block_button.png");
     public static final Texture EXIT_BUTTON = new Texture("textures/buttons/exit_button.png");
     public static final Texture MONEY = new Texture("textures/items/money.png");
+    public static final Texture BUTTON_IN_PAUSE_AND_SETTINGS = new Texture("textures/buttons/pause_and_settings_screen/button.png");
+    public static final Texture PAUSE_BUTTON = new Texture("textures/buttons/exit_button.png");
+    public static final Texture SLIDER_TEXTURE = new Texture("textures/buttons/pause_and_settings_screen/Line.png");
+    public static final Texture TOGGLE_SLIDER_TEXTURE = new Texture("textures/buttons/pause_and_settings_screen/settings_trigger.png");
+
+
+
+
     public static final Texture STONE_BLOCK_BACKGROUND = new Texture("textures/backscreens/stone_block_backscreen.png");
     public static final Texture SELECTED_BLOCK = new Texture("textures/blocks/selected_block.png");
-
     public static final String SKY = "textures/backscreens/sky.png";
     public static final Texture JUMP_BUTTON = new Texture("textures/buttons/main_screen/jump_button_off.png");
-
     public static final Texture  ACTION_BUTTON =  new Texture("textures/buttons/main_screen/action_button.png");
 
 

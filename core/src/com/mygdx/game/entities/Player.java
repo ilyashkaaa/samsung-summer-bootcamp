@@ -17,7 +17,7 @@ import java.lang.reflect.InvocationTargetException;
 import com.mygdx.game.pickaxes.BasicPickaxe;
 
 public class Player extends GameEntity {
-    private static final int PLAYER_SPEED_X = 25;
+    private static final int PLAYER_SPEED_X = 75;
     private boolean canJump;
     public PlayerStates playerState;
     public BasicPickaxe pickaxe;
@@ -172,7 +172,7 @@ public class Player extends GameEntity {
                 GameResources.PLAYER_JUMPING_TEXTURES[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
                 GameResources.PLAYER_JUMPING_TEXTURES[frame].draw(batch);
                 if (frame == 2 && body.getLinearVelocity().y == 0) {
-                    body.applyForceToCenter(0, 27000, true);
+                    body.applyForceToCenter(0, 5000000, true);
                     isJumping = false;
                 }
                 break;
