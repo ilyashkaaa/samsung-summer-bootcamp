@@ -3,6 +3,8 @@ package com.mygdx.game.map.blocks;
 import static com.mygdx.game.GameSettings.MAP_HEIGHT;
 import static com.mygdx.game.GameSettings.MAP_WIDTH;
 
+import com.mygdx.game.MemoryManager;
+
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -12,52 +14,56 @@ public class GenerateMap {
 
     public BasicBlock[][] mapArray;
 
-    public GenerateMap(){
-        mapArray = new BasicBlock[MAP_WIDTH][MAP_HEIGHT];
+    public GenerateMap() {
+        if (MemoryManager.getMap() == null) {
+            mapArray = new BasicBlock[MAP_WIDTH][MAP_HEIGHT];
 
-        for (int i = 0; i < MAP_HEIGHT; i++)
-            for (int j = 0; j < MAP_WIDTH; j++) {
-                if (random.nextInt(map(0, MAP_HEIGHT - 1, 175, 600, i)) == 0 && i <= MAP_HEIGHT - 100)
-                    generateCluster(j, i, Ruby.class, mapArray, 10);
-                if (random.nextInt(map(0, MAP_HEIGHT - 1, 165, 550, i)) == 0 && i <= MAP_HEIGHT - 85)
-                    generateCluster(j, i, Amethyst.class, mapArray, 15);
-                if (random.nextInt(map(0, MAP_HEIGHT - 1, 150, 500, i)) == 0 && i <= MAP_HEIGHT - 65)
-                    generateCluster(j, i, Emerald.class, mapArray, 20);
-                if (random.nextInt(map(0, MAP_HEIGHT - 1, 140, 450, i)) == 0 && i <= MAP_HEIGHT - 50)
-                    generateCluster(j, i, Diamond.class, mapArray, 25);
-                if (random.nextInt(map(0, MAP_HEIGHT - 1, 125, 400, i)) == 0 && i <= MAP_HEIGHT - 40)
-                    generateCluster(j, i, Gold.class, mapArray, 30);
-                if (random.nextInt(map(0, MAP_HEIGHT - 1, 115, 350, i)) == 0 && i <= MAP_HEIGHT - 30)
-                    generateCluster(j, i, Lazurite.class, mapArray, 35);
-                if (random.nextInt(map(0, MAP_HEIGHT - 1, 100, 300, i)) == 0 && i <= MAP_HEIGHT - 20)
-                    generateCluster(j, i, Iron.class, mapArray, 40);
-                if (random.nextInt(map(0, MAP_HEIGHT - 1, 250, 250, i)) == 0)
-                    generateCluster(j, i, Coal.class, mapArray, 50);
-            }
-
-        for (int i = 0; i < MAP_WIDTH; i++) {
-            mapArray[i][MAP_HEIGHT - 1] = new Grass();
-        }
-
-        for (int i = 1; i < 3; i++) {
-            for (int j = 0; j < MAP_WIDTH; j++) {
-                if (random.nextInt(i + 1) == 0 && mapArray[j][MAP_HEIGHT - 11 + i] == null)
-                    mapArray[j][MAP_HEIGHT - 11 + i] = new Stone();
-                if (random.nextInt(i + 1) == 0 && mapArray[j][MAP_HEIGHT - 10 - i] == null)
-                    mapArray[j][MAP_HEIGHT - 10 - i] = new Dirt();
-            }
-        }
-
-        for (int i = 0; i < MAP_WIDTH; i++)
-            for (int j = 0; j < MAP_HEIGHT; j++) {
-                if (mapArray[i][j] == null) {
-                    if (MAP_HEIGHT - j <= 10)
-                        mapArray[i][j] = new Dirt();
-                    else
-                        mapArray[i][j] = new Stone();
+            for (int i = 0; i < MAP_HEIGHT; i++)
+                for (int j = 0; j < MAP_WIDTH; j++) {
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 175, 600, i)) == 0 && i <= MAP_HEIGHT - 100)
+                        generateCluster(j, i, Ruby.class, mapArray, 10);
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 165, 550, i)) == 0 && i <= MAP_HEIGHT - 85)
+                        generateCluster(j, i, Amethyst.class, mapArray, 15);
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 150, 500, i)) == 0 && i <= MAP_HEIGHT - 65)
+                        generateCluster(j, i, Emerald.class, mapArray, 20);
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 140, 450, i)) == 0 && i <= MAP_HEIGHT - 50)
+                        generateCluster(j, i, Diamond.class, mapArray, 25);
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 125, 400, i)) == 0 && i <= MAP_HEIGHT - 40)
+                        generateCluster(j, i, Gold.class, mapArray, 30);
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 115, 350, i)) == 0 && i <= MAP_HEIGHT - 30)
+                        generateCluster(j, i, Lazurite.class, mapArray, 35);
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 100, 300, i)) == 0 && i <= MAP_HEIGHT - 20)
+                        generateCluster(j, i, Iron.class, mapArray, 40);
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 250, 250, i)) == 0)
+                        generateCluster(j, i, Coal.class, mapArray, 50);
                 }
-                mapArray[i][j].setDestroyed(false);
+
+            for (int i = 0; i < MAP_WIDTH; i++) {
+                mapArray[i][MAP_HEIGHT - 1] = new Grass();
             }
+
+            for (int i = 1; i < 3; i++) {
+                for (int j = 0; j < MAP_WIDTH; j++) {
+                    if (random.nextInt(i + 1) == 0 && mapArray[j][MAP_HEIGHT - 11 + i] == null)
+                        mapArray[j][MAP_HEIGHT - 11 + i] = new Stone();
+                    if (random.nextInt(i + 1) == 0 && mapArray[j][MAP_HEIGHT - 10 - i] == null)
+                        mapArray[j][MAP_HEIGHT - 10 - i] = new Dirt();
+                }
+            }
+
+            for (int i = 0; i < MAP_WIDTH; i++)
+                for (int j = 0; j < MAP_HEIGHT; j++) {
+                    if (mapArray[i][j] == null) {
+                        if (MAP_HEIGHT - j <= 10)
+                            mapArray[i][j] = new Dirt();
+                        else
+                            mapArray[i][j] = new Stone();
+                    }
+                    mapArray[i][j].setDestroyed(false);
+                }
+        } else {
+            mapArray = MemoryManager.getMap();
+        }
     }
 
     private static void generateCluster(int x, int y,/* BasicBlock block,*/ Class<? extends BasicBlock> block, BasicBlock[][] map, int maxAmountOfBLocks) {

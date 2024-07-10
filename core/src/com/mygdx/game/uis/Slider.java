@@ -51,7 +51,7 @@ public class Slider implements Disposable {
         return togglePos;
     }
     public int getValue(Vector3 cameraPos) {
-        return map((int) (cameraPos.x - width / 2f), (int) (cameraPos.x + width / 2f), 4, 105, cameraPos.x + getValueToggle());
+        return map((int) (cameraPos.x - width / 2f), (int) (cameraPos.x + width / 2f), 2, 102, cameraPos.x + getValueToggle());
     }
     @Override
     public void dispose() {

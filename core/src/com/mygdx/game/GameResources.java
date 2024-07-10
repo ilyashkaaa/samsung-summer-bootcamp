@@ -1,7 +1,6 @@
 package com.mygdx.game;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
 public class GameResources {
@@ -248,6 +247,11 @@ public class GameResources {
 
     public static final Texture MENU_BUTTON = new Texture("textures/buttons/pause_menu_settings_screen/button_long.png");
     public static final String MENU_SCREEN = "textures/backscreens/menu_screen.png";
+
+    //MUSIC
+
+    public static final String JUMP_AND_FALL_SOUND = "music/JumpAndFall.mp3";
+    public static final String WALK_ON_GRASS_SOUND = "music/WalkOnGrass.mp3";
 
 
 

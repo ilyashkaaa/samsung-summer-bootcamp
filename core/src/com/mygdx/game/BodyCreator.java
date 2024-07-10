@@ -36,7 +36,11 @@ public class BodyCreator {
         body.createFixture(fixtureDef);
 
         shape.dispose();
-        body.setTransform(x, y, 0);
+        if (MemoryManager.getPlayerPos() == null) {
+            body.setTransform(x, y, 0);
+        } else {
+            body.setTransform(MemoryManager.getPlayerPos().x, MemoryManager.getPlayerPos().y, 0);
+        }
         return body;
 
 
