@@ -10,6 +10,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
+import com.mygdx.game.InInventory;
 import com.mygdx.game.MyGdxGame;
 
 import java.lang.reflect.Type;
@@ -19,7 +20,7 @@ import java.util.function.DoubleUnaryOperator;
 
 import javax.swing.Spring;
 
-public abstract class BasicBlock {
+public abstract class BasicBlock implements InInventory {
     protected int durability;
     protected int hp;
     protected static float width = GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE;
