@@ -231,10 +231,10 @@ public class GameResources {
     public static final Texture BUTTON_BACKGROUND = new Texture("textures/buttons/bag_screen/block_button.png");
     public static final Texture EXIT_BUTTON = new Texture("textures/buttons/exit_button.png");
     public static final Texture MONEY = new Texture("textures/items/money.png");
-    public static final Texture BUTTON_IN_PAUSE_AND_SETTINGS = new Texture("textures/buttons/pause_and_settings_screen/button.png");
-    public static final Texture PAUSE_BUTTON = new Texture("textures/buttons/pause_and_settings_screen/pause_button.png");
-    public static final Texture SLIDER_TEXTURE = new Texture("textures/buttons/pause_and_settings_screen/Line.png");
-    public static final Texture TOGGLE_SLIDER_TEXTURE = new Texture("textures/buttons/pause_and_settings_screen/settings_trigger.png");
+    public static final Texture BUTTON_IN_PAUSE_AND_SETTINGS = new Texture("textures/buttons/pause_menu_settings_screen/button.png");
+    public static final Texture PAUSE_BUTTON = new Texture("textures/buttons/exit_button.png");
+    public static final Texture SLIDER_TEXTURE = new Texture("textures/buttons/pause_menu_settings_screen/Line.png");
+    public static final Texture TOGGLE_SLIDER_TEXTURE = new Texture("textures/buttons/pause_menu_settings_screen/settings_trigger.png");
 
 
 
@@ -249,7 +249,7 @@ public class GameResources {
     //npc
     public static final Sprite FOODSELLER_HEAD_TEXTURE = new Sprite(new Texture("textures/npc/food_seller_head.png"));
 
-    public static final Texture MENU_BUTTON = new Texture("textures/buttons/pause_menu_settings_screen/button.png");
+    public static final Texture MENU_BUTTON = new Texture("textures/buttons/pause_menu_settings_screen/button_long.png");
     public static final String MENU_SCREEN = "textures/backscreens/menu_screen.png";
 
 

@@ -3,6 +3,7 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.GameResources;
@@ -20,9 +21,9 @@ public class MenuScreen extends ScreenAdapter {
     // jumpButton = new Button(GameResources.JUMP_BUTTON, 700, -300, (int) (200 * GameSettings.OBJECT_SCALE));
     public MenuScreen (MyGdxGame myGdxGame){
         this.myGdxGame = myGdxGame;
-        playButton = new Button(GameResources.MENU_BUTTON, 0, 0, 260*GameSettings.OBJECT_SCALE, 85*GameSettings.OBJECT_SCALE);
-        settingsButton = new Button(GameResources.MENU_BUTTON, 0, -100, 260*GameSettings.OBJECT_SCALE, 85*GameSettings.OBJECT_SCALE);
-        exitButton = new Button(GameResources.MENU_BUTTON, 0, -200, 260*GameSettings.OBJECT_SCALE, 85*GameSettings.OBJECT_SCALE);
+        playButton = new Button(GameResources.MENU_BUTTON, 0, 0, 600*GameSettings.OBJECT_SCALE, 85*GameSettings.OBJECT_SCALE, myGdxGame.bitmapFont, "play");
+        settingsButton = new Button(GameResources.MENU_BUTTON, 0, -100, 600*GameSettings.OBJECT_SCALE, 85*GameSettings.OBJECT_SCALE, myGdxGame.bitmapFont, "settings");
+        exitButton = new Button(GameResources.MENU_BUTTON, 0, -200, 600*GameSettings.OBJECT_SCALE, 85*GameSettings.OBJECT_SCALE,myGdxGame.bitmapFont, "exit");
 
         movingBackground = new MovingBackground(GameResources.SKY);
 
@@ -43,9 +44,19 @@ public class MenuScreen extends ScreenAdapter {
 
         myGdxGame.batch.end();
         movingBackground.move();
+
+        if (Gdx.input.isTouched()) {
+            if(myGdxGame.gameScreen.buttonHandler(playButton)){
+                myGdxGame.setScreen(myGdxGame.gameScreen);
+            }
+            else if(myGdxGame.gameScreen.buttonHandler(settingsButton)){
+                //myGdxGame.setScreen(myGdxGame.settingsScreen);
+            }
+            else if(myGdxGame.gameScreen.buttonHandler(exitButton)){
+
+            }
+        }
     }
 
 
-
-    private void handleInput() {}
 }
