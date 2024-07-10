@@ -20,6 +20,7 @@ public class SettingsScreen extends ScreenAdapter {
     TextView musicVolumeInt;
     TextView soundVolumeInt;
     TextView overallVolumeInt;
+
     MyGdxGame myGdxGame;
     GameScreen gameScreen;
     Button backButton;
@@ -27,13 +28,13 @@ public class SettingsScreen extends ScreenAdapter {
     public SettingsScreen(MyGdxGame myGdxGame, GameScreen gameScreen) {
         this.myGdxGame = myGdxGame;
         this.gameScreen = gameScreen;
-         musicVolume = new Slider(0, 0, 270*GameSettings.SCALE, 10*GameSettings.SCALE);
-         soundVolume = new Slider(0, -100, 270*GameSettings.SCALE, 10*GameSettings.SCALE);
-         overallVolume = new Slider(0, 100, 270*GameSettings.SCALE, 10*GameSettings.SCALE);
-         settingsText = new TextView(myGdxGame.bitmapFont, 0, 400, "SETTINGS");
-         musicVolumeInt = new TextView(myGdxGame.bitmapFont, -GameResources.SLIDER_TEXTURE.getWidth()*GameSettings.SCALE/2f-250, 0, MemoryManager.loadMusicVolume() + "");
-         soundVolumeInt = new TextView(myGdxGame.bitmapFont, -GameResources.SLIDER_TEXTURE.getWidth()*GameSettings.SCALE/2f-250, -100, MemoryManager.loadSoundVolume() + "");
-         overallVolumeInt = new TextView(myGdxGame.bitmapFont, -GameResources.SLIDER_TEXTURE.getWidth()*GameSettings.SCALE/2f-250, 100, MemoryManager.loadOverallVolume() + "");
+         musicVolume = new Slider(0, 0, 270*GameSettings.SCALE*2, 10*GameSettings.SCALE*2);
+         soundVolume = new Slider(0, -250, 270*GameSettings.SCALE*2, 10*GameSettings.SCALE*2);
+         overallVolume = new Slider(0, 250, 270*GameSettings.SCALE*2, 10*GameSettings.SCALE*2);
+         settingsText = new TextView(myGdxGame.bitmapFont, 0, 500, "SETTINGS");
+         musicVolumeInt = new TextView(myGdxGame.bitmapFont, 0, 125, "Music volume: " + MemoryManager.loadMusicVolume());
+         soundVolumeInt = new TextView(myGdxGame.bitmapFont, 0, -125, "Sound volume: " + MemoryManager.loadSoundVolume());
+         overallVolumeInt = new TextView(myGdxGame.bitmapFont, 0, 375, "OVERALL MUSIC: " + MemoryManager.loadOverallVolume());
          backButton = new Button(GameResources.BUTTON_IN_PAUSE_AND_SETTINGS, 0, -400, GameResources.BUTTON_IN_PAUSE_AND_SETTINGS.getWidth()*2*GameSettings.SCALE,
                  GameResources.BUTTON_IN_PAUSE_AND_SETTINGS.getHeight()*2*GameSettings.SCALE, myGdxGame.bitmapFont, "return");
     }
@@ -46,6 +47,7 @@ public class SettingsScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         handleInput();
+        myGdxGame.audioManager.updateVolume();
         myGdxGame.camera.update();
         myGdxGame.batch.setProjectionMatrix(myGdxGame.camera.combined);
         ScreenUtils.clear(Color.CLEAR);
@@ -53,9 +55,9 @@ public class SettingsScreen extends ScreenAdapter {
         MemoryManager.saveMusicSettings(musicVolume.getValue(myGdxGame.camera.position));
         MemoryManager.saveSoundSettings(soundVolume.getValue(myGdxGame.camera.position));
         MemoryManager.saveOverallVolumeSettings(overallVolume.getValue(myGdxGame.camera.position));
-        musicVolumeInt.setText(MemoryManager.loadMusicVolume()+"");
-        soundVolumeInt.setText(MemoryManager.loadSoundVolume()+"");
-        overallVolumeInt.setText(MemoryManager.loadOverallVolume()+"");
+        musicVolumeInt.setText("Music volume: " + MemoryManager.loadMusicVolume());
+        soundVolumeInt.setText("Sound volume: " + MemoryManager.loadSoundVolume());
+        overallVolumeInt.setText("Overall volume: " + MemoryManager.loadOverallVolume());
         musicVolume.draw(myGdxGame.batch, myGdxGame.camera.position);
         soundVolume.draw(myGdxGame.batch, myGdxGame.camera.position);
         overallVolume.draw(myGdxGame.batch, myGdxGame.camera.position);

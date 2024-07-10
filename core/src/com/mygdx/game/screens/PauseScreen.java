@@ -9,6 +9,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
+import com.mygdx.game.MemoryManager;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.TextView;
@@ -83,10 +84,11 @@ public class PauseScreen extends ScreenAdapter {
                 if (gameScreen.buttonHandle.buttonHandler(settingsButton)) {
                     myGdxGame.returnToPause = true;
                     myGdxGame.setScreen(myGdxGame.settingsScreen);
-                    System.out.println("lol");
                 }
                 if (gameScreen.buttonHandle.buttonHandler(menuButton)) {
                     myGdxGame.returnToPause = false;
+                    MemoryManager.saveMap(gameScreen.generateMap.mapArray);
+                    MemoryManager.savePlayerPos(gameScreen.player.getBody().getPosition());
                     myGdxGame.setScreen(myGdxGame.menuScreen);
                 }
             }

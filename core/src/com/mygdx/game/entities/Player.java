@@ -3,6 +3,7 @@ package com.mygdx.game.entities;
 import static com.mygdx.game.GameSettings.PLAYER_HEIGHT;
 import static com.mygdx.game.GameSettings.PLAYER_WIDTH;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -31,14 +32,11 @@ public class Player extends GameEntity {
     boolean booleanFallingTime = true;
     boolean booleanJumpingTime = true;
     long jumpTime;
-    long fallingTime;
     long millis = 0;
     long forceActivatedTime;
 
     float timeElapsed = 0.0f;
     int currentFrame = 0;
-
-    int frameCounter = 0;
     float frameMultiplierForHead = 0.5f;
     float frameMultiplierForWalking = 0.1f;
     float frameMultiplierForDigging = 0.1f;
@@ -163,6 +161,7 @@ public class Player extends GameEntity {
                 if (!isJumping && body.getLinearVelocity().y == 0) {
                     millis = TimeUtils.millis();
                     isJumping = true;
+                    Gdx.input.vibrate(15);
                 }
                 frame = (int) ((TimeUtils.millis() - millis) / 200) % 3;
                 GameResources.PLAYER_JUMPING_TEXTURES[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
@@ -521,5 +520,13 @@ public class Player extends GameEntity {
         }
 
 
+    }
+    public void playSounds() {
+        if (playerState == PlayerStates.WALKING) {
+            myGdxGame.audioManager.walkingOnGrassSound.setVolume(myGdxGame.audioManager.soundVolume*myGdxGame.audioManager.overallVolume);
+            myGdxGame.audioManager.walkingOnGrassSound.play();
+        } else {
+            myGdxGame.audioManager.walkingOnGrassSound.stop();
+        }
     }
 }

@@ -15,11 +15,13 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.mygdx.game.AudioManager;
 import com.mygdx.game.BodyCreator;
 
 import com.mygdx.game.ButtonHandlerInterface;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
+import com.mygdx.game.MemoryManager;
 import com.mygdx.game.map.blocks.MapBorder;
 import com.mygdx.game.MovingBackground;
 import com.mygdx.game.MyGdxGame;
@@ -81,8 +83,9 @@ public class GameScreen extends ScreenAdapter {
 
     ButtonHandlerInterface buttonHandle = button -> {
         for (int i = 0; i <= joystick.countOfTouching(); i++) {
-            if (button.isPressed(new Vector2(Gdx.input.getX(i), Gdx.input.getY(i))))
+            if (button.isPressed(new Vector2(Gdx.input.getX(i), Gdx.input.getY(i)))) {
                 return true;
+            }
         }
         return false;
     };
@@ -130,6 +133,8 @@ public class GameScreen extends ScreenAdapter {
 
         backpackUI.addItemInInventory(player.pickaxe);
 
+        MemoryManager.saveMap(generateMap.mapArray);
+
 
     }
 
@@ -142,6 +147,7 @@ public class GameScreen extends ScreenAdapter {
     public void render(float delta) {
         myGdxGame.stepWorld();
         draw(delta);
+        player.playSounds();
 
         if (!player.isJumping && !player.falling && !player.fell)
             player.playerState = PlayerStates.STANDING;
@@ -370,6 +376,7 @@ public class GameScreen extends ScreenAdapter {
                                     backpackUI.addItemInInventory(generateMap.mapArray[x][y]);
 
                                     generateMap.mapArray[x][y].setDestroyed(true);
+                                    Gdx.input.vibrate(30);
                                     blocksCollision.updateCollision(generateMap.mapArray, x, y, true);
                                 }
                             }

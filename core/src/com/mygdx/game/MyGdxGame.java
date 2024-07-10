@@ -21,6 +21,7 @@ public class MyGdxGame extends Game {
 	public OrthographicCamera camera;
 	public GameScreen gameScreen;
 	public MenuScreen menuScreen;
+	public AudioManager audioManager;
 	float accumulator = 0;
 	public SettingsScreen settingsScreen;
 	public PauseScreen pauseScreen;
@@ -37,12 +38,7 @@ public class MyGdxGame extends Game {
 		bitmapFont = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 		bitmapFont.setColor(Color.WHITE);
 		bitmapFont.getData().scale(0.0000005f);
-
-
-
-
-
-
+		audioManager = new AudioManager();
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, GameSettings.SCR_WIDTH*GameSettings.SCALE,GameSettings.SCR_HEIGHT*GameSettings.SCALE);
 		batch = new SpriteBatch();
