@@ -400,27 +400,21 @@ public class Player extends GameEntity {
         switch (playerState) {
             case SIDE_DIGGING:
                 switch (pickaxe.getClass().getSimpleName()) {
-//                    case STICK:
-//                        if (frameCounter >= GameResources.RIGHT_STICK_PICKAXE.length * frameMultiplierForDigging - 1)
-//                            frameCounter = 0;
-//                        GameResources.RIGHT_STICK_PICKAXE[frameCounter / frameMultiplierForDigging].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-//                        GameResources.RIGHT_STICK_PICKAXE[frameCounter / frameMultiplierForDigging].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-//                        GameResources.RIGHT_STICK_PICKAXE[frameCounter / frameMultiplierForDigging].draw(myGdxGame.batch);
-//                        break;
-//                    case STONE:
-//                        if (frameCounter >= GameResources.RIGHT_STONE_PICKAXE.length * frameMultiplierForDigging - 1)
-//                            frameCounter = 0;
-//                        GameResources.RIGHT_STONE_PICKAXE[frameCounter / frameMultiplierForDigging].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-//                        GameResources.RIGHT_STONE_PICKAXE[frameCounter / frameMultiplierForDigging].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-//                        GameResources.RIGHT_STONE_PICKAXE[frameCounter / frameMultiplierForDigging].draw(myGdxGame.batch);
-//                        break;
-//                    case IRON:
-//                        if (frameCounter >= GameResources.RIGHT_IRON_PICKAXE.length * frameMultiplierForDigging - 1)
-//                            frameCounter = 0;
-//                        GameResources.RIGHT_IRON_PICKAXE[frameCounter / frameMultiplierForDigging].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-//                        GameResources.RIGHT_IRON_PICKAXE[frameCounter / frameMultiplierForDigging].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-//                        GameResources.RIGHT_IRON_PICKAXE[frameCounter / frameMultiplierForDigging].draw(myGdxGame.batch);
-//                        break;
+                    case "Stick":
+                        GameResources.RIGHT_STICK_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                        GameResources.RIGHT_STICK_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                        GameResources.RIGHT_STICK_PICKAXE[frame].draw(myGdxGame.batch);
+                        break;
+                    case "StonePickaxe":
+                        GameResources.RIGHT_STONE_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                        GameResources.RIGHT_STONE_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                        GameResources.RIGHT_STONE_PICKAXE[frame].draw(myGdxGame.batch);
+                        break;
+                    case "IronPickaxe":
+                        GameResources.RIGHT_IRON_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                        GameResources.RIGHT_IRON_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                        GameResources.RIGHT_IRON_PICKAXE[frame].draw(myGdxGame.batch);
+                        break;
                     case "GoldPickaxe":
                         GameResources.RIGHT_GOLD_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
                         GameResources.RIGHT_GOLD_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
@@ -442,27 +436,21 @@ public class Player extends GameEntity {
                     timeElapsed = 0.0f;
                 }
                 switch (pickaxe.getClass().getSimpleName()) {
-//                    case STICK:
-//                        if (frameCounter >= GameResources.UP_STICK_PICKAXE.length * frameMultiplierForDigging - 1)
-//                            frameCounter = 0;
-//                        GameResources.UP_STICK_PICKAXE[frameCounter / frameMultiplierForDigging].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-//                        GameResources.UP_STICK_PICKAXE[frameCounter / frameMultiplierForDigging].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-//                        GameResources.UP_STICK_PICKAXE[frameCounter / frameMultiplierForDigging].draw(myGdxGame.batch);
-//                        break;
-//                    case STONE:
-//                        if (frameCounter >= GameResources.UP_STONE_PICKAXE.length * frameMultiplierForDigging - 1)
-//                            frameCounter = 0;
-//                        GameResources.UP_STONE_PICKAXE[frameCounter / frameMultiplierForDigging].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-//                        GameResources.UP_STONE_PICKAXE[frameCounter / frameMultiplierForDigging].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-//                        GameResources.UP_STONE_PICKAXE[frameCounter / frameMultiplierForDigging].draw(myGdxGame.batch);
-//                        break;
-//                    case IRON:
-//                        if (frameCounter >= GameResources.UP_IRON_PICKAXE.length * frameMultiplierForDigging - 1)
-//                            frameCounter = 0;
-//                        GameResources.UP_IRON_PICKAXE[frameCounter / frameMultiplierForDigging].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-//                        GameResources.UP_IRON_PICKAXE[frameCounter / frameMultiplierForDigging].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-//                        GameResources.UP_IRON_PICKAXE[frameCounter / frameMultiplierForDigging].draw(myGdxGame.batch);
-//                        break;
+                    case "Stick":
+                        GameResources.UP_STICK_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                        GameResources.UP_STICK_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                        GameResources.UP_STICK_PICKAXE[frame].draw(myGdxGame.batch);
+                        break;
+                    case "StonePickaxe":
+                        GameResources.UP_STONE_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                        GameResources.UP_STONE_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                        GameResources.UP_STONE_PICKAXE[frame].draw(myGdxGame.batch);
+                        break;
+                    case "IronPickaxe":
+                        GameResources.UP_IRON_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                        GameResources.UP_IRON_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                        GameResources.UP_IRON_PICKAXE[frame].draw(myGdxGame.batch);
+                        break;
                     case "GoldPickaxe":
                         GameResources.UP_GOLD_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
                         GameResources.UP_GOLD_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
@@ -484,27 +472,21 @@ public class Player extends GameEntity {
                     timeElapsed = 0.0f;
                 }
                 switch (pickaxe.getClass().getSimpleName()) {
-//                    case STICK:
-//                        if (frameCounter >= GameResources.DOWN_STICK_PICKAXE.length * frameMultiplierForDigging - 1)
-//                            frameCounter = 0;
-//                        GameResources.DOWN_STICK_PICKAXE[frameCounter / frameMultiplierForDigging].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-//                        GameResources.DOWN_STICK_PICKAXE[frameCounter / frameMultiplierForDigging].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-//                        GameResources.DOWN_STICK_PICKAXE[frameCounter / frameMultiplierForDigging].draw(myGdxGame.batch);
-//                        break;
-//                    case STONE:
-//                        if (frameCounter >= GameResources.DOWN_STONE_PICKAXE.length * frameMultiplierForDigging - 1)
-//                            frameCounter = 0;
-//                        GameResources.DOWN_STONE_PICKAXE[frameCounter / frameMultiplierForDigging].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-//                        GameResources.DOWN_STONE_PICKAXE[frameCounter / frameMultiplierForDigging].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-//                        GameResources.DOWN_STONE_PICKAXE[frameCounter / frameMultiplierForDigging].draw(myGdxGame.batch);
-//                        break;
-//                    case IRON:
-//                        if (frameCounter >= GameResources.DOWN_IRON_PICKAXE.length * frameMultiplierForDigging - 1)
-//                            frameCounter = 0;
-//                        GameResources.DOWN_IRON_PICKAXE[frameCounter / frameMultiplierForDigging].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
-//                        GameResources.DOWN_IRON_PICKAXE[frameCounter / frameMultiplierForDigging].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
-//                        GameResources.DOWN_IRON_PICKAXE[frameCounter / frameMultiplierForDigging].draw(myGdxGame.batch);
-//                        break;
+                    case "Stick":
+                        GameResources.DOWN_STICK_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                        GameResources.DOWN_STICK_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                        GameResources.DOWN_STICK_PICKAXE[frame].draw(myGdxGame.batch);
+                        break;
+                    case "StonePickaxe":
+                        GameResources.DOWN_STONE_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                        GameResources.DOWN_STONE_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                        GameResources.DOWN_STONE_PICKAXE[frame].draw(myGdxGame.batch);
+                        break;
+                    case "IronPickaxe":
+                        GameResources.DOWN_IRON_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
+                        GameResources.DOWN_IRON_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
+                        GameResources.DOWN_IRON_PICKAXE[frame].draw(myGdxGame.batch);
+                        break;
                     case "GoldPickaxe":
                         GameResources.DOWN_GOLD_PICKAXE[frame].setSize(PLAYER_WIDTH * GameSettings.OBJECT_SCALE, PLAYER_HEIGHT * GameSettings.OBJECT_SCALE);
                         GameResources.DOWN_GOLD_PICKAXE[frame].setPosition(body.getPosition().x - PLAYER_WIDTH * GameSettings.OBJECT_SCALE / 2, body.getPosition().y - PLAYER_HEIGHT * GameSettings.OBJECT_SCALE / 2);
