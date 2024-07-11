@@ -10,8 +10,10 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.mygdx.game.AudioManager;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
+import com.mygdx.game.MemoryManager;
 import com.mygdx.game.MyGdxGame;
 
 import java.lang.reflect.InvocationTargetException;
@@ -77,6 +79,7 @@ public class Player extends GameEntity {
     }
 
     public void jump() {
+        System.out.println(MemoryManager.loadMusicVolume() + " " + MemoryManager.loadSoundVolume() + " " + MemoryManager.loadOverallVolume());
         if (canJump && body.getLinearVelocity().y == 0) {
             playerState = PlayerStates.JUMPING;
             canJump = false;
@@ -160,6 +163,7 @@ public class Player extends GameEntity {
             case JUMPING:
                 if (!isJumping && body.getLinearVelocity().y == 0) {
                     millis = TimeUtils.millis();
+                    myGdxGame.audioManager.jumpSound.play(myGdxGame.audioManager.soundVolume*myGdxGame.audioManager.overallVolume);
                     isJumping = true;
                     Gdx.input.vibrate(15);
                 }
@@ -175,6 +179,7 @@ public class Player extends GameEntity {
             case LANDING:
                 if (!fell) {
                     millis = TimeUtils.millis();
+                    myGdxGame.audioManager.fallSound.play(myGdxGame.audioManager.soundVolume*myGdxGame.audioManager.overallVolume);
                     fell = true;
                 }
                 frame = (int) ((TimeUtils.millis() - millis) / 200) % 3 + 3;
@@ -507,6 +512,8 @@ public class Player extends GameEntity {
 
     }
     public void playSounds() {
+        myGdxGame.audioManager.backgroundMusic.setVolume(myGdxGame.audioManager.musicVolume*myGdxGame.audioManager.overallVolume);
+        myGdxGame.audioManager.backgroundMusic.play();
         if (playerState == PlayerStates.WALKING && body.getLinearVelocity().y == 0) {
             myGdxGame.audioManager.walkingOnGrassSound.setVolume(myGdxGame.audioManager.soundVolume*myGdxGame.audioManager.overallVolume);
             myGdxGame.audioManager.walkingOnGrassSound.play();

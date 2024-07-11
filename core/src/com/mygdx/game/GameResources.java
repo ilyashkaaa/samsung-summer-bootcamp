@@ -254,6 +254,9 @@ public class GameResources {
 
     public static final String JUMP_AND_FALL_SOUND = "music/JumpAndFall.mp3";
     public static final String WALK_ON_GRASS_SOUND = "music/WalkOnGrass.mp3";
+    public static final String BACKGROUND_MUSIC = "music/MusicOfWorld2.mp3 (High tones).mp3";
+    public static final String JUMP_SOUND = "music/Jump.mp3";
+    public static final String FALL_SOUND = "music/Fall.mp3";
 
 
 
