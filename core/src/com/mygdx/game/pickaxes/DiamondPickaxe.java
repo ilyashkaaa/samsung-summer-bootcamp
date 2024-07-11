@@ -5,7 +5,7 @@ import com.mygdx.game.GameResources;
 public class DiamondPickaxe extends BasicPickaxe{
     private int price;
     public DiamondPickaxe (){
-        super(GameResources.DIAMOND_PICKAXE_TEXTURE, 5);
+        super(GameResources.DIAMOND_PICKAXE_TEXTURE, 10);
         price = 1000;
     }
     private DiamondPickaxe (int damage, int price){

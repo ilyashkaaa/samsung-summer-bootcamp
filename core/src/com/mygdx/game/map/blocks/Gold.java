@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.GameResources;
 
 public class Gold extends BasicBlock{
-    private int durability = 75;
+    private int durability = 40;
     private static final Texture texture = new Texture(GameResources.GOLD_BLOCK_TEXTURE);
     private int hp = durability;
     private int cost = 25;

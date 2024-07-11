@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.GameResources;
 
 public class Lazurite extends BasicBlock{
-    private int durability = 50;
+    private int durability = 30;
     private static final Texture texture = new Texture(GameResources.LAZURITE_BLOCK_TEXTURE);
     private int hp = durability;
     private int cost = 15;
