@@ -106,8 +106,6 @@ public class PauseScreen extends ScreenAdapter {
                     MemoryManager.savePoints(MoneyManager.points);
                     MoneyManager.countOfMoney = MemoryManager.getMoney();
                     MoneyManager.points = MemoryManager.getPoints();
-                    System.out.println(MoneyManager.countOfMoney);
-                    System.out.println(MemoryManager.getMoney());
                     MemoryManager.saveMap(gameScreen.generateMap.mapArray);
                     MemoryManager.savePlayerPos(gameScreen.player.getBody().getPosition());
                     myGdxGame.setScreen(myGdxGame.menuScreen);

@@ -99,7 +99,7 @@ public class GameScreen extends ScreenAdapter {
         cameraMovement = new CameraMovement(myGdxGame);
         movingBackgroundSky = new MovingBackground(GameResources.SKY);
 
-        markets = new BasicMarket[]{new SellMarket(24.5f, buttonHandle), new FoodMarket(12.5f, buttonHandle), new UpdateMarket(18.5f, buttonHandle)};
+        markets = new BasicMarket[]{new SellMarket(94.5f, buttonHandle), new FoodMarket(82.5f, buttonHandle), new UpdateMarket(88.5f, buttonHandle)};
 
 //        sellMarket = new SellMarket(6.5f, generateMap.mapArray);
 //        foodMarket = new FoodMarket(10.5f, generateMap.mapArray);
@@ -122,7 +122,7 @@ public class GameScreen extends ScreenAdapter {
         lastHit = TimeUtils.millis();
 
         Body playerBody = BodyCreator.createBody(
-                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE * 20, ((GameSettings.MAP_HEIGHT + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE),
+                GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE * 100, ((GameSettings.MAP_HEIGHT + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE),
                 GameSettings.PLAYER_WIDTH * GameSettings.OBJECT_SCALE, GameSettings.PLAYER_HEIGHT * GameSettings.OBJECT_SCALE, false,
                 myGdxGame.world
         );
@@ -356,7 +356,7 @@ public class GameScreen extends ScreenAdapter {
             if (buttonHandle.buttonHandler(jumpButton))
                 player.jump();
 
-            if (buttonHandle.buttonHandler(actionButton)) {
+            if (buttonHandle.buttonHandler(actionButton) && player.getBody().getLinearVelocity().y == 0) {
                 if (!needToResetActionButton) {
                     if (!toggleActionButton) {
                         if (backpackUI.getCurrentItem().item instanceof BasicPickaxe) {

@@ -28,11 +28,8 @@ public class MoneyManager {
         this.width = width;
         this.height = height;
         bitmapFont = MyGdxGame.bitmapFont;
-        System.out.println(MemoryManager.getMoney());
-        System.out.println(MemoryManager.getPoints());
         countOfMoney = MemoryManager.getMoney();
         points = MemoryManager.getPoints();
-
         moneyTexture = GameResources.MONEY;
         pointsTexture = GameResources.POINTS;
     }
