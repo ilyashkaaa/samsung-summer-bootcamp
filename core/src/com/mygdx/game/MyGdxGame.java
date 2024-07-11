@@ -17,6 +17,7 @@ import com.mygdx.game.screens.SettingsScreen;
 public class MyGdxGame extends Game {
 	public World world;
 	public SpriteBatch batch;
+	private int fps = 120;
 	public static BitmapFont bitmapFont;
 	public OrthographicCamera camera;
 	public GameScreen gameScreen;
@@ -63,7 +64,11 @@ public class MyGdxGame extends Game {
 
 		if (accumulator >= GameSettings.STEP_TIME) {
 			accumulator -= GameSettings.STEP_TIME;
-			world.step(GameSettings.STEP_TIME, GameSettings.VELOCITY_ITERATIONS, GameSettings.POSITION_ITERATIONS);
+			world.step(1f / fps, GameSettings.VELOCITY_ITERATIONS, GameSettings.POSITION_ITERATIONS);
 		}
+	}
+	public void setFPS(float delta){
+		fps = Math.round(1 / delta / 60) * 60;
+		System.out.println(fps);
 	}
 }
