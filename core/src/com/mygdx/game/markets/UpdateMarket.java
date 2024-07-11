@@ -10,7 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MyGdxGame;
-import com.mygdx.game.NPC;
+import com.mygdx.game.entities.NPC;
 import com.mygdx.game.entities.Player;
 import com.mygdx.game.pickaxes.Stick;
 import com.mygdx.game.pickaxes.StonePickaxe;

@@ -1,7 +1,8 @@
-package com.mygdx.game;
+package com.mygdx.game.entities;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.mygdx.game.GameSettings;
 
 public class NPC {
     int x, y, height, width;
