@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.GameResources;
 
 public class Iron extends BasicBlock{
-    private int durability = 25;
+    private int durability = 20;
     private static final Texture texture = new Texture(GameResources.IRON_BLOCK_TEXTURE);
     private int hp = durability;
     private int cost = 10;

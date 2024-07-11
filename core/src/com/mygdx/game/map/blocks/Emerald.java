@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.mygdx.game.GameResources;
 
 public class Emerald extends BasicBlock{
-    private int durability = 150;
+    private int durability = 75;
     private static final Texture texture = new Texture(GameResources.EMERALD_BLOCK_TEXTURE);
     private int hp = durability;
     private int cost = 75;

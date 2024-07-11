@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.GameResources;
 
 public class Amethyst extends BasicBlock {
-    private int durability = 200;
+    private int durability = 100;
     private static final Texture texture = new Texture(GameResources.AMETHYST_BLOCK_TEXTURE);
     private int hp = durability;
     public int getHp(){return hp;}
