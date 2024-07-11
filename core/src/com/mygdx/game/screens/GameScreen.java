@@ -356,7 +356,7 @@ public class GameScreen extends ScreenAdapter {
             if (buttonHandle.buttonHandler(jumpButton))
                 player.jump();
 
-            if (buttonHandle.buttonHandler(actionButton) && player.getBody().getLinearVelocity().y == 0) {
+            if (buttonHandle.buttonHandler(actionButton)) {
                 if (!needToResetActionButton) {
                     if (!toggleActionButton) {
                         if (backpackUI.getCurrentItem().item instanceof BasicPickaxe) {
