@@ -231,6 +231,7 @@ public class GameResources {
     public static final Texture PAUSE_BUTTON = new Texture("textures/buttons/pause_menu_settings_screen/pause_button.png");
     public static final Texture SLIDER_TEXTURE = new Texture("textures/buttons/pause_menu_settings_screen/Line.png");
     public static final Texture TOGGLE_SLIDER_TEXTURE = new Texture("textures/buttons/pause_menu_settings_screen/settings_trigger.png");
+    public static final Texture TRASH_TEXTURE = new Texture("textures/buttons/trash.png");
 
 
 

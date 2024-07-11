@@ -151,7 +151,7 @@ public class GameScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        System.out.println(MyGdxGame.name);
+        //System.out.println(MyGdxGame.name);
         myGdxGame.stepWorld();
         draw(delta);
         player.playSounds();

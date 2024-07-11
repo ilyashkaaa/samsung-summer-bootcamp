@@ -3,6 +3,7 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.math.Vector3;
@@ -12,6 +13,7 @@ import com.mygdx.game.GameSettings;
 import com.mygdx.game.MemoryManager;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.uis.Button;
+import com.mygdx.game.uis.MoneyManager;
 import com.mygdx.game.uis.TextView;
 
 
@@ -25,12 +27,17 @@ public class PauseScreen extends ScreenAdapter {
 
     Vector3 cameraPos;
     GameScreen gameScreen;
+    Texture texture ;
+    int width, height;
 
 
     public PauseScreen(MyGdxGame myGdxGame, GameScreen gameScreen, Vector3 cameraPos) {
         this.myGdxGame = myGdxGame;
         this.gameScreen = gameScreen;
         this.cameraPos = cameraPos;
+        texture = new Texture("textures/backscreens/pause_settings_screen.png");
+        width = (int) (GameSettings.SCR_WIDTH * GameSettings.OBJECT_SCALE);
+        height = (int) (GameSettings.SCR_HEIGHT * GameSettings.OBJECT_SCALE);
         pauseText = new TextView(myGdxGame.bitmapFont, 0, 400, "PAUSE");
         menuButton = new Button(GameResources.BUTTON_IN_PAUSE_AND_SETTINGS,
                 0,
@@ -68,10 +75,17 @@ public class PauseScreen extends ScreenAdapter {
         myGdxGame.batch.setProjectionMatrix(myGdxGame.camera.combined);
         ScreenUtils.clear(Color.CLEAR);
         myGdxGame.batch.begin();
+
+        myGdxGame.batch.draw(texture,
+                myGdxGame.camera.position.x - width / 2f,
+                myGdxGame.camera.position.y - height / 2f,
+                width, height
+        );
         continueButton.draw(myGdxGame.batch, cameraPos);
         settingsButton.draw(myGdxGame.batch, cameraPos);
         menuButton.draw(myGdxGame.batch, cameraPos);
         pauseText.draw(myGdxGame.batch, myGdxGame.camera.position);
+
         myGdxGame.batch.end();
     }
     private void handleInput() {
@@ -87,6 +101,13 @@ public class PauseScreen extends ScreenAdapter {
                 }
                 if (gameScreen.buttonHandle.buttonHandler(menuButton)) {
                     myGdxGame.returnToPause = false;
+
+                    MemoryManager.saveMoney(MoneyManager.countOfMoney);
+                    MemoryManager.savePoints(MoneyManager.points);
+                    MoneyManager.countOfMoney = MemoryManager.getMoney();
+                    MoneyManager.points = MemoryManager.getPoints();
+                    System.out.println(MoneyManager.countOfMoney);
+                    System.out.println(MemoryManager.getMoney());
                     MemoryManager.saveMap(gameScreen.generateMap.mapArray);
                     MemoryManager.savePlayerPos(gameScreen.player.getBody().getPosition());
                     myGdxGame.setScreen(myGdxGame.menuScreen);
