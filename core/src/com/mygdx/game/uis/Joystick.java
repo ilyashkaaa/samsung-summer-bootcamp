@@ -79,7 +79,7 @@ public class Joystick {
         return keepTouching;
     }
 
-    public int countOfTouching() {
+    public static int countOfTouching() {
         int i = 0;
         while (i < Gdx.input.getMaxPointers()) {
             i++;

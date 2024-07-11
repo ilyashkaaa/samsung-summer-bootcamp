@@ -120,6 +120,9 @@ public class SettingsScreen extends ScreenAdapter {
                     MoneyManager.countOfMoney = 0;
                     MemoryManager.saveMoney(0);
                     MoneyManager.points = 0;
+                    MyGdxGame.name = "";
+                    MemoryManager.saveName(MyGdxGame.name);
+                    Gdx.app.log("clear data", "done");
                 }
             } else {
                 myGdxGame.isStillTouching = false;

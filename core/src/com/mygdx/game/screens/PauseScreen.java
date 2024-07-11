@@ -10,11 +10,14 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
+import com.mygdx.game.LeaderBoardManager;
 import com.mygdx.game.MemoryManager;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.MoneyManager;
 import com.mygdx.game.uis.TextView;
+
+import java.util.Objects;
 
 
 public class PauseScreen extends ScreenAdapter {
@@ -102,12 +105,13 @@ public class PauseScreen extends ScreenAdapter {
                 if (gameScreen.buttonHandle.buttonHandler(menuButton)) {
                     myGdxGame.returnToPause = false;
 
+                    if (!Objects.equals(MyGdxGame.name, ""))
+                        LeaderBoardManager.sendRes(MyGdxGame.name, MoneyManager.points);
+
                     MemoryManager.saveMoney(MoneyManager.countOfMoney);
                     MemoryManager.savePoints(MoneyManager.points);
                     MoneyManager.countOfMoney = MemoryManager.getMoney();
                     MoneyManager.points = MemoryManager.getPoints();
-                    System.out.println(MoneyManager.countOfMoney);
-                    System.out.println(MemoryManager.getMoney());
                     MemoryManager.saveMap(gameScreen.generateMap.mapArray);
                     MemoryManager.savePlayerPos(gameScreen.player.getBody().getPosition());
                     myGdxGame.setScreen(myGdxGame.menuScreen);

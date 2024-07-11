@@ -59,14 +59,14 @@ public class MyGdxGame extends Game {
 	@Override
 	public void dispose () {
 		batch.dispose();
-
 	}
+
 	public void stepWorld() {
 		float delta = Gdx.graphics.getDeltaTime();
 		accumulator += Math.min(delta, 0.25f);
 
-		if (accumulator >= GameSettings.STEP_TIME) {
-			accumulator -= GameSettings.STEP_TIME;
+		if (accumulator >= 1f / fps) {
+			accumulator -= 1f / fps;
 			world.step(1f / fps, GameSettings.VELOCITY_ITERATIONS, GameSettings.POSITION_ITERATIONS);
 		}
 	}
@@ -74,4 +74,5 @@ public class MyGdxGame extends Game {
 		fps = Math.round(1 / delta / 60) * 60;
 		System.out.println(fps);
 	}
+	public int getFps(){return fps;}
 }
