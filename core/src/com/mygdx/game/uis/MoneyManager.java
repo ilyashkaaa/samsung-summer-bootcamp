@@ -1,5 +1,6 @@
 package com.mygdx.game.uis;
 
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
@@ -7,11 +8,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
+import com.mygdx.game.MemoryManager;
 import com.mygdx.game.MyGdxGame;
 
 public class MoneyManager {
-    private static int countOfMoney;
-    private static int points;
+    public static int countOfMoney;
+    public static int points;
     private int x, y;
     private int width, height;
     private String text;
@@ -26,8 +28,11 @@ public class MoneyManager {
         this.width = width;
         this.height = height;
         bitmapFont = MyGdxGame.bitmapFont;
+        System.out.println(MemoryManager.getMoney());
+        System.out.println(MemoryManager.getPoints());
+        countOfMoney = MemoryManager.getMoney();
+        points = MemoryManager.getPoints();
 
-        countOfMoney = 0;
         moneyTexture = GameResources.MONEY;
         pointsTexture = GameResources.POINTS;
     }

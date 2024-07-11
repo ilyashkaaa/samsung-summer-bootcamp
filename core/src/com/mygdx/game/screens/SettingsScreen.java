@@ -11,6 +11,7 @@ import com.mygdx.game.MemoryManager;
 import com.mygdx.game.MyGdxGame;
 import com.mygdx.game.map.blocks.GenerateMap;
 import com.mygdx.game.uis.Button;
+import com.mygdx.game.uis.MoneyManager;
 import com.mygdx.game.uis.Slider;
 import com.mygdx.game.uis.TextView;
 
@@ -101,6 +102,10 @@ public class SettingsScreen extends ScreenAdapter {
                     MemoryManager.savePlayerPos(new Vector2(GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE * 20,
                             ((GameSettings.MAP_HEIGHT + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE)));
                     gameScreen.player.getBody().setTransform(MemoryManager.getPlayerPos(), 0);
+                    MemoryManager.savePoints(0);
+                    MoneyManager.countOfMoney = 0;
+                    MemoryManager.saveMoney(0);
+                    MoneyManager.points = 0;
                 }
             } else {
                 myGdxGame.isStillTouching = false;

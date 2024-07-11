@@ -5,6 +5,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
 import com.mygdx.game.map.blocks.BasicBlock;
+import com.mygdx.game.uis.MoneyManager;
 
 import java.util.ArrayList;
 
@@ -72,4 +73,35 @@ public class MemoryManager {
         Vector2 table = json.fromJson(Vector2.class, playerPos);
         return table;
     }
+    public  static void saveMoney(int money) {
+        Json json = new Json();
+        String tableInString = json.toJson(money);
+        preferences.putString("money", tableInString);
+        preferences.flush();
+    }
+    public static int getMoney() {
+        if (!preferences.contains("money"))
+            return 0;
+        String money = preferences.getString("money");
+        Json json = new Json();
+        Integer table = json.fromJson(Integer.class, money);
+        return table;
+    }
+
+    public  static void savePoints(int points) {
+        Json json = new Json();
+        String tableInString = json.toJson(points);
+        preferences.putString("points", tableInString);
+        preferences.flush();
+    }
+    public static int getPoints() {
+        if (!preferences.contains("points"))
+            return 0;
+        String points = preferences.getString("points");
+        Json json = new Json();
+        Integer table = json.fromJson(Integer.class, points);
+        return table;
+    }
+
+
 }
