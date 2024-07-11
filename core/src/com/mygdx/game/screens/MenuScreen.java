@@ -66,7 +66,7 @@ public class MenuScreen extends ScreenAdapter {
                 if (myGdxGame.gameScreen.buttonHandle.buttonHandler(playButton)) {
                     myGdxGame.setScreen(myGdxGame.gameScreen);
                 } else if (myGdxGame.gameScreen.buttonHandle.buttonHandler(leaderButton)) {
-                    //myGdxGame.setScreen(myGdxGame.);
+                    myGdxGame.setScreen(myGdxGame.leaderboard);
                 } else if (myGdxGame.gameScreen.buttonHandle.buttonHandler(settingsButton)) {
                     myGdxGame.setScreen(myGdxGame.settingsScreen);
 

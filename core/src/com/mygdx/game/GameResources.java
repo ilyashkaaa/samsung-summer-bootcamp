@@ -236,6 +236,7 @@ public class GameResources {
 
 
     public static final Texture STONE_BLOCK_BACKGROUND = new Texture("textures/blocks/blocks_blackout.png");
+    public static final Texture LEADERBOARD_BACKGROUND = new Texture("textures/backscreens/liders_screen.png");
     public static final Texture SELECTED_BLOCK = new Texture("textures/blocks/selected_block.png");
     public static final String SKY = "textures/backscreens/sky.png";
     public static final Texture JUMP_BUTTON = new Texture("textures/buttons/main_screen/jump_button_off.png");

@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.mygdx.game.screens.GameScreen;
+import com.mygdx.game.screens.Leaderboard;
 import com.mygdx.game.screens.MenuScreen;
 import com.mygdx.game.screens.PauseScreen;
 import com.mygdx.game.screens.SettingsScreen;
@@ -22,6 +23,7 @@ public class MyGdxGame extends Game {
 	public OrthographicCamera camera;
 	public GameScreen gameScreen;
 	public MenuScreen menuScreen;
+	public Leaderboard leaderboard;
 	public AudioManager audioManager;
 	public static String name;
 	float accumulator = 0;
@@ -33,8 +35,8 @@ public class MyGdxGame extends Game {
 	
 	@Override
 	public void create () {
-		Gdx.graphics.setVSync(true);
-		Gdx.graphics.setForegroundFPS(60);
+//		Gdx.graphics.setVSync(true);
+//		Gdx.graphics.setForegroundFPS(60);
 		Box2D.init();
 		name = MemoryManager.loadName();
 		world = new World(new Vector2(0, -150), true);
@@ -47,6 +49,7 @@ public class MyGdxGame extends Game {
 		batch = new SpriteBatch();
 		gameScreen = new GameScreen(this);
 		menuScreen = new MenuScreen(this);
+		leaderboard = new Leaderboard(this);
 		settingsScreen = new SettingsScreen(this, gameScreen);
 		pauseScreen = new PauseScreen(this,gameScreen, camera.position);
 		returnToPause = false;
