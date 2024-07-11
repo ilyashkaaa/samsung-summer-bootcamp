@@ -3,10 +3,8 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
 import com.mygdx.game.MovingBackground;
@@ -18,6 +16,8 @@ public class MenuScreen extends ScreenAdapter {
     Button playButton;
     Button settingsButton;
     Button leaderButton;
+    long fpsTimer;
+    boolean hasToSendFPS = true;
     MovingBackground movingBackground;
 
     // jumpButton = new Button(GameResources.JUMP_BUTTON, 700, -300, (int) (200 * GameSettings.OBJECT_SCALE));
@@ -36,7 +36,17 @@ public class MenuScreen extends ScreenAdapter {
     }
 
     @Override
+    public void show(){
+        fpsTimer = TimeUtils.millis();
+    }
+
+    @Override
     public void render(float delta) {
+        if (TimeUtils.millis() - fpsTimer >= 200 && hasToSendFPS) {
+            myGdxGame.setFPS(delta);
+            hasToSendFPS = false;
+        }
+
         myGdxGame.camera.update();
         myGdxGame.batch.setProjectionMatrix(myGdxGame.camera.combined);
         ScreenUtils.clear(Color.CLEAR);

@@ -6,7 +6,7 @@ import com.mygdx.game.ButtonHandlerInterface;
 import com.badlogic.gdx.utils.Disposable;
 import com.mygdx.game.GameResources;
 import com.mygdx.game.GameSettings;
-import com.mygdx.game.NPC;
+import com.mygdx.game.entities.NPC;
 
 public class FoodMarket extends BasicMarket implements Disposable {
     private static String texturePath = GameResources.FOOD_MARKET_TEXTURE;
