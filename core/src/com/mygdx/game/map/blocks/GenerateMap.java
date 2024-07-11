@@ -20,21 +20,21 @@ public class GenerateMap {
 
             for (int i = 0; i < MAP_HEIGHT; i++)
                 for (int j = 0; j < MAP_WIDTH; j++) {
-                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 175, 600, i)) == 0 && i <= MAP_HEIGHT - 100)
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 1, 60, i)) == 0 && i <= MAP_HEIGHT - 20)
                         generateCluster(j, i, Ruby.class, mapArray, 10);
-                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 165, 550, i)) == 0 && i <= MAP_HEIGHT - 85)
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 16, 55, i)) == 0 && i <= MAP_HEIGHT - 15)
                         generateCluster(j, i, Amethyst.class, mapArray, 15);
-                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 150, 500, i)) == 0 && i <= MAP_HEIGHT - 65)
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 15, 50, i)) == 0 && i <= MAP_HEIGHT - 12)
                         generateCluster(j, i, Emerald.class, mapArray, 20);
-                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 140, 450, i)) == 0 && i <= MAP_HEIGHT - 50)
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 14, 45, i)) == 0 && i <= MAP_HEIGHT - 10)
                         generateCluster(j, i, Diamond.class, mapArray, 25);
-                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 125, 400, i)) == 0 && i <= MAP_HEIGHT - 40)
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 12, 40, i)) == 0 && i <= MAP_HEIGHT - 8)
                         generateCluster(j, i, Gold.class, mapArray, 30);
-                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 115, 350, i)) == 0 && i <= MAP_HEIGHT - 30)
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 11, 35, i)) == 0 && i <= MAP_HEIGHT - 6)
                         generateCluster(j, i, Lazurite.class, mapArray, 35);
-                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 100, 300, i)) == 0 && i <= MAP_HEIGHT - 20)
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 10, 30, i)) == 0 && i <= MAP_HEIGHT - 5)
                         generateCluster(j, i, Iron.class, mapArray, 40);
-                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 250, 250, i)) == 0)
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 25, 25, i)) == 0)
                         generateCluster(j, i, Coal.class, mapArray, 50);
                 }
 

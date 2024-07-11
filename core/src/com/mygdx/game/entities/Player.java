@@ -388,13 +388,16 @@ public class Player extends GameEntity {
 //    }
 
     public void drawDigging(float x, float y) {
-        if (x == 0 && y == -1) {
-            playerState = PlayerStates.DOWN_DIGGING;
-        } else if (x == 0 && y == 2) {
-            playerState = PlayerStates.UP_DIGGING;
-        } else {
-            playerState = PlayerStates.SIDE_DIGGING;
+        if (body.getLinearVelocity().y == 0) {
+            if (x == 0 && y == -1) {
+                playerState = PlayerStates.DOWN_DIGGING;
+            } else if (x == 0 && y == 2) {
+                playerState = PlayerStates.UP_DIGGING;
+            } else {
+                playerState = PlayerStates.SIDE_DIGGING;
+            }
         }
+
     }
     private void drawPickaxe(PlayerStates playerState, int frame) {
         switch (playerState) {
@@ -504,7 +507,7 @@ public class Player extends GameEntity {
 
     }
     public void playSounds() {
-        if (playerState == PlayerStates.WALKING) {
+        if (playerState == PlayerStates.WALKING && body.getLinearVelocity().y == 0) {
             myGdxGame.audioManager.walkingOnGrassSound.setVolume(myGdxGame.audioManager.soundVolume*myGdxGame.audioManager.overallVolume);
             myGdxGame.audioManager.walkingOnGrassSound.play();
         } else {

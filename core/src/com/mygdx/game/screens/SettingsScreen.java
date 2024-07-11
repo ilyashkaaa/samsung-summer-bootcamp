@@ -113,13 +113,11 @@ public class SettingsScreen extends ScreenAdapter {
                     MemoryManager.saveMap(null);
                     gameScreen.generateMap = new GenerateMap();
                     gameScreen.blocksCollision.generateCollision(gameScreen.generateMap.mapArray);
-                    MemoryManager.savePlayerPos(new Vector2(GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE * 20,
+                    MemoryManager.savePlayerPos(new Vector2(GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE * 100,
                             ((GameSettings.MAP_HEIGHT + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE)));
                     gameScreen.player.getBody().setTransform(MemoryManager.getPlayerPos(), 0);
-                    MemoryManager.savePoints(0);
                     MoneyManager.countOfMoney = 0;
                     MemoryManager.saveMoney(0);
-                    MoneyManager.points = 0;
                     MyGdxGame.name = "";
                     MemoryManager.saveName(MyGdxGame.name);
                     Gdx.app.log("clear data", "done");

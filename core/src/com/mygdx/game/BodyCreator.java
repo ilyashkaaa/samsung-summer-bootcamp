@@ -12,7 +12,12 @@ public class BodyCreator {
     public static Body createBody(float x, float y, float width, float height, boolean isStatic, World world) {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = isStatic ? BodyDef.BodyType.StaticBody : BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(x, y);
+        if (MemoryManager.getPlayerPos() == null) {
+            MemoryManager.savePlayerPos(new Vector2(x, y));
+            System.out.println("aaa");
+        }
+        bodyDef.position.set(MemoryManager.getPlayerPos());
+        System.out.println(x/GameSettings.SCALE/GameSettings.BLOCK_SIDE);
         bodyDef.fixedRotation = true;
         Body body = world.createBody(bodyDef);
         PolygonShape shape = new PolygonShape();
@@ -34,13 +39,7 @@ public class BodyCreator {
         fixtureDef.density = 0.1f; // устанавливаем плотность тела
         fixtureDef.friction = 0f;
         body.createFixture(fixtureDef);
-
         shape.dispose();
-        if (MemoryManager.getPlayerPos() == null) {
-            body.setTransform(x, y, 0);
-        } else {
-            body.setTransform(MemoryManager.getPlayerPos().x, MemoryManager.getPlayerPos().y, 0);
-        }
         return body;
 
 
