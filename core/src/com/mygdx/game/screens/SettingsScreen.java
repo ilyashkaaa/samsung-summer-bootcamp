@@ -76,9 +76,9 @@ public class SettingsScreen extends ScreenAdapter {
                 myGdxGame.camera.position.y - height / 2f,
                 width, height
         );
-        musicVolumeInt.setText("Music volume: " + MemoryManager.loadMusicVolume());
-        soundVolumeInt.setText("Sound volume: " + MemoryManager.loadSoundVolume());
-        overallVolumeInt.setText("Overall volume: " + MemoryManager.loadOverallVolume());
+        musicVolumeInt.setText("Music volume: " + musicVolume.getValue(myGdxGame.camera.position));
+        soundVolumeInt.setText("Sound volume: " + soundVolume.getValue(myGdxGame.camera.position));
+        overallVolumeInt.setText("Overall volume: " + overallVolume.getValue(myGdxGame.camera.position));
         musicVolume.draw(myGdxGame.batch, myGdxGame.camera.position);
         soundVolume.draw(myGdxGame.batch, myGdxGame.camera.position);
         overallVolume.draw(myGdxGame.batch, myGdxGame.camera.position);
@@ -89,6 +89,7 @@ public class SettingsScreen extends ScreenAdapter {
         backButton.draw(myGdxGame.batch, myGdxGame.camera.position);
         trashButton.draw(myGdxGame.batch, myGdxGame.camera.position);
         trashText.draw(myGdxGame.batch, myGdxGame.camera.position);
+
 
         myGdxGame.batch.end();
     }
