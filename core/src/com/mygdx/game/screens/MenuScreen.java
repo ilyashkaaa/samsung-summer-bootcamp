@@ -3,6 +3,7 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.mygdx.game.GameResources;
@@ -18,6 +19,7 @@ public class MenuScreen extends ScreenAdapter {
     Button leaderButton;
     long fpsTimer;
     boolean hasToSendFPS = true;
+
     MovingBackground movingBackground;
 
     // jumpButton = new Button(GameResources.JUMP_BUTTON, 700, -300, (int) (200 * GameSettings.OBJECT_SCALE));

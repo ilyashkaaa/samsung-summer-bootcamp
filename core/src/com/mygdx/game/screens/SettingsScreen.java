@@ -3,6 +3,7 @@ package com.mygdx.game.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.mygdx.game.GameResources;
@@ -24,6 +25,9 @@ public class SettingsScreen extends ScreenAdapter {
     TextView soundVolumeInt;
     TextView overallVolumeInt;
     TextView trashText;
+    Texture texture ;
+    int width, height;
+
 
     MyGdxGame myGdxGame;
     GameScreen gameScreen;
@@ -48,7 +52,9 @@ public class SettingsScreen extends ScreenAdapter {
                 GameResources.TRASH_TEXTURE.getHeight() * GameSettings.SCALE );
         trashText = new TextView(MyGdxGame.bitmapFont, (int) (GameSettings.SCR_WIDTH / 2 - GameResources.TRASH_TEXTURE.getWidth() * 11 * GameSettings.SCALE),
                 (int) (-GameSettings.SCR_HEIGHT / 2 + GameResources.TRASH_TEXTURE.getHeight() * GameSettings.SCALE * 4), "Clear data");
-
+        texture = new Texture("textures/backscreens/pause_settings_screen.png");
+        width = (int) (GameSettings.SCR_WIDTH * GameSettings.OBJECT_SCALE);
+        height = (int) (GameSettings.SCR_HEIGHT * GameSettings.OBJECT_SCALE);
     }
 
     @Override
@@ -64,6 +70,12 @@ public class SettingsScreen extends ScreenAdapter {
         myGdxGame.batch.setProjectionMatrix(myGdxGame.camera.combined);
         ScreenUtils.clear(Color.CLEAR);
         myGdxGame.batch.begin();
+
+        myGdxGame.batch.draw(texture,
+                myGdxGame.camera.position.x - width / 2f,
+                myGdxGame.camera.position.y - height / 2f,
+                width, height
+        );
         musicVolumeInt.setText("Music volume: " + MemoryManager.loadMusicVolume());
         soundVolumeInt.setText("Sound volume: " + MemoryManager.loadSoundVolume());
         overallVolumeInt.setText("Overall volume: " + MemoryManager.loadOverallVolume());
@@ -77,6 +89,7 @@ public class SettingsScreen extends ScreenAdapter {
         backButton.draw(myGdxGame.batch, myGdxGame.camera.position);
         trashButton.draw(myGdxGame.batch, myGdxGame.camera.position);
         trashText.draw(myGdxGame.batch, myGdxGame.camera.position);
+
         myGdxGame.batch.end();
     }
 
