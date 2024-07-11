@@ -117,7 +117,9 @@ public class SettingsScreen extends ScreenAdapter {
                             ((GameSettings.MAP_HEIGHT + 1) * GameSettings.BLOCK_SIDE * GameSettings.OBJECT_SCALE)));
                     gameScreen.player.getBody().setTransform(MemoryManager.getPlayerPos(), 0);
                     MoneyManager.countOfMoney = 0;
+                    MoneyManager.points = 0;
                     MemoryManager.saveMoney(0);
+                    MemoryManager.savePoints(0);
                     MyGdxGame.name = "";
                     MemoryManager.saveName(MyGdxGame.name);
                     Gdx.app.log("clear data", "done");
