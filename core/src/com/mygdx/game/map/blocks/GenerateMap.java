@@ -61,6 +61,7 @@ public class GenerateMap {
                     }
                     mapArray[i][j].setDestroyed(false);
                 }
+            MemoryManager.saveMap(mapArray);
         } else {
             mapArray = MemoryManager.getMap();
         }

@@ -44,13 +44,7 @@ public class Leaderboard extends ScreenAdapter {
 
     @Override
     public void show(){
-//        LeaderBoardManager.sendRes("testic", 79);
         LeaderBoardManager.getRes(setTextInterface, -300, 480, 50);
-        String text = "";
-        for (String string : data){
-            text += string + "\n";
-        }
-//        textView.setText("text");
     }
 
     @Override
