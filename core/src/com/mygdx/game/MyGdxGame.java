@@ -57,7 +57,8 @@ public class MyGdxGame extends Game {
 	@Override
 	public void dispose () {
 		batch.dispose();
-
+		bitmapFont.dispose();
+		world.dispose();
 	}
 	public void stepWorld() {
 		float delta = Gdx.graphics.getDeltaTime();
