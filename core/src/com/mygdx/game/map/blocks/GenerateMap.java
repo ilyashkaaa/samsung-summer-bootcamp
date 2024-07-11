@@ -20,7 +20,7 @@ public class GenerateMap {
 
             for (int i = 0; i < MAP_HEIGHT; i++)
                 for (int j = 0; j < MAP_WIDTH; j++) {
-                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 1, 60, i)) == 0 && i <= MAP_HEIGHT - 20)
+                    if (random.nextInt(map(0, MAP_HEIGHT - 1, 10, 60, i)) == 0 && i <= MAP_HEIGHT - 20)
                         generateCluster(j, i, Ruby.class, mapArray, 10);
                     if (random.nextInt(map(0, MAP_HEIGHT - 1, 16, 55, i)) == 0 && i <= MAP_HEIGHT - 15)
                         generateCluster(j, i, Amethyst.class, mapArray, 15);

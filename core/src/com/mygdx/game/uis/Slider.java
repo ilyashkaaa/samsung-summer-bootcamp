@@ -21,6 +21,7 @@ public class Slider implements Disposable {
         this.y = y;
         this.width = width;
         this.height = height;
+        togglePos = width/2f- toggleTexture.getHeight() / 4f * GameSettings.SCALE;
     }
 
     public void draw(SpriteBatch batch, Vector3 cameraPos) {
