@@ -38,8 +38,13 @@ public class TextView implements Disposable {
 
     public void draw(SpriteBatch batch, Vector3 cameraPos) {
         bitmapFont.draw(batch, text,
-                x * GameSettings.SCALE+cameraPos.x - width / 2,
-                y * GameSettings.SCALE+cameraPos.y + height * GameSettings.SCALE);
+                x * GameSettings.SCALE + cameraPos.x - width / 2,
+                y * GameSettings.SCALE + cameraPos.y + height * GameSettings.SCALE);
+    }
+    public void draw(SpriteBatch batch, Vector3 cameraPos, boolean needToBeNice) {
+        bitmapFont.draw(batch, text,
+                x * GameSettings.SCALE + cameraPos.x,
+                y * GameSettings.SCALE + cameraPos.y);
     }
 
     @Override
