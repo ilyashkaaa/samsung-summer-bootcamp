@@ -50,6 +50,9 @@ public class GameResources {
             new Sprite(new Texture("textures/hero/jumping/jump1.png")),
             new Sprite(new Texture("textures/hero/jumping/jump2.png")),
             new Sprite(new Texture("textures/hero/jumping/jump3.png")),
+
+    };
+    public static final Sprite[] PLAYER_LANDING_TEXTURES = new Sprite[]{
             new Sprite(new Texture("textures/hero/jumping/jump4.png")),
             new Sprite(new Texture("textures/hero/jumping/jump5.png")),
     };

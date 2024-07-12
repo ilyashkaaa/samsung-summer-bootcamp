@@ -3,6 +3,7 @@ package com.mygdx.game.uis;
 import static com.mygdx.game.GameSettings.SCALE;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -66,12 +67,14 @@ public class Joystick {
                 changeCords(touch);
              selectedBlock = player.setMoveVector(getDirection(touch));
             keepTouching = true;
-            if (player.playerState == PlayerStates.STANDING && !player.isJumping) {
+            if (player.playerState == PlayerStates.STANDING && !player.isJumping && !player.digging) {
                 player.playerState = PlayerStates.WALKING;
+                player.setPlayerAnim(GameResources.PLAYER_WALKING_TEXTURES, true);
             }
         } else {
-            if (player.playerState == PlayerStates.WALKING && !player.isJumping) {
+            if (player.playerState == PlayerStates.WALKING && !player.isJumping && !player.digging) {
                 player.playerState = PlayerStates.STANDING;
+                player.setPlayerAnim(new Sprite[]{GameResources.PLAYER_STANDING_TEXTURE}, false);
             }
             keepTouching = false;
         }

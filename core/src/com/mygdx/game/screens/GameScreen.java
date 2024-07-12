@@ -9,6 +9,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
@@ -32,8 +33,11 @@ import com.mygdx.game.map.blocks.BasicBlock;
 import com.mygdx.game.map.blocks.BlocksCollision;
 import com.mygdx.game.map.blocks.GenerateMap;
 import com.mygdx.game.markets.UpdateMarket;
+import com.mygdx.game.pickaxes.DiamondPickaxe;
+import com.mygdx.game.pickaxes.IronPickaxe;
 import com.mygdx.game.pickaxes.Stick;
 import com.mygdx.game.pickaxes.BasicPickaxe;
+import com.mygdx.game.pickaxes.StonePickaxe;
 import com.mygdx.game.uis.Button;
 import com.mygdx.game.uis.CameraMovement;
 import com.mygdx.game.uis.Joystick;
@@ -99,7 +103,7 @@ public class GameScreen extends ScreenAdapter {
         cameraMovement = new CameraMovement(myGdxGame);
         movingBackgroundSky = new MovingBackground(GameResources.SKY);
 
-        markets = new BasicMarket[]{new SellMarket(94.5f, buttonHandle), new FoodMarket(82.5f, buttonHandle), new UpdateMarket(88.5f, buttonHandle)};
+        markets = new BasicMarket[]{new SellMarket(94.5f, buttonHandle)/*, new FoodMarket(82.5f, buttonHandle)*/, new UpdateMarket(88.5f, buttonHandle)};
 
 //        sellMarket = new SellMarket(6.5f, generateMap.mapArray);
 //        foodMarket = new FoodMarket(10.5f, generateMap.mapArray);
@@ -151,8 +155,15 @@ public class GameScreen extends ScreenAdapter {
         draw(delta);
         player.playSounds();
 
-        if (!player.isJumping && !player.falling && !player.fell)
+        if (!player.isJumping && !player.falling && !player.fell && !player.digging && player.playerState != PlayerStates.LANDING) {
             player.playerState = PlayerStates.STANDING;
+            player.setPlayerAnim(new Sprite[]{GameResources.PLAYER_STANDING_TEXTURE}, false);
+        }
+
+//        if (player.getBody().getLinearVelocity().y < 0){
+//            player.playerState = PlayerStates.FALLING;
+//            player.setPlayerAnimation(new Sprite[]{GameResources.PLAYER_STANDING_TEXTURE}, false);
+//        }
 
         cameraMovement.move(player.getBody().getPosition());
 
@@ -200,7 +211,7 @@ public class GameScreen extends ScreenAdapter {
 
         if (playerBlockCordX >= 0 && playerBlockCordX < GameSettings.MAP_WIDTH &&
                 playerBlockCordY >= 1 && playerBlockCordY <= GameSettings.MAP_HEIGHT) {
-            if (generateMap.mapArray[playerBlockCordX][playerBlockCordY - 1] != null && player.getBody().getLinearVelocity().y == 0) {
+            if (!generateMap.mapArray[playerBlockCordX][playerBlockCordY - 1].isDestroyed() && player.getBody().getLinearVelocity().y == 0) {
                 player.setJumpClickClack(true);
             }
         } else
@@ -259,7 +270,7 @@ public class GameScreen extends ScreenAdapter {
 //      font.draw(myGdxGame.batch, (1 / delta) + "", myGdxGame.camera.position.x, myGdxGame.camera.position.y);
 //**********************************************************
 //        if (MyGdxGame.name != null)
-            font.draw(myGdxGame.batch, MyGdxGame.name /*(1 / delta) + ""*/, myGdxGame.camera.position.x, myGdxGame.camera.position.y);
+//            font.draw(myGdxGame.batch, MyGdxGame.name /*(1 / delta) + ""*/, myGdxGame.camera.position.x, myGdxGame.camera.position.y);
 
 
         myGdxGame.batch.end();
@@ -353,21 +364,20 @@ public class GameScreen extends ScreenAdapter {
         }
 
         if (!backpackUI.backpackOpen) {
-            if (buttonHandle.buttonHandler(jumpButton))
+            if (buttonHandle.buttonHandler(jumpButton)) {
+//                player.setPlayerAnimation(GameResources.PLAYER_JUMPING_TEXTURES, false);
                 player.jump();
+            }
 
             if (buttonHandle.buttonHandler(actionButton)) {
                 if (!needToResetActionButton) {
                     if (!toggleActionButton) {
                         if (backpackUI.getCurrentItem().item instanceof BasicPickaxe) {
-                            if (player.getBody().getLinearVelocity().y == 0) {
+                            if (Math.round(player.getBody().getLinearVelocity().y) == 0) {
                                 player.drawDigging(joystick.selectedBlock.x, joystick.selectedBlock.y);
-                            } else if (!player.isJumping && !player.falling) {
-//                                            player.playerState = PlayerStates.STANDING;
                             }
                             if (x >= 0 && x < GameSettings.MAP_WIDTH && y >= 0 && y < GameSettings.MAP_HEIGHT
-                                    && !generateMap.mapArray[x][y].isDestroyed() && TimeUtils.millis() - lastHit >= 200
-                                    && player.playerState != PlayerStates.JUMPING && player.playerState != PlayerStates.FALLING) {
+                                    && !generateMap.mapArray[x][y].isDestroyed() && TimeUtils.millis() - lastHit >= 200) {
                                 lastHit = TimeUtils.millis();
                                 if (!generateMap.mapArray[x][y].hit(player.pickaxe.getDamage())) {
 //                            backpackUI.blocksInventory.add(generateMap.mapArray[x][y].getTexture());

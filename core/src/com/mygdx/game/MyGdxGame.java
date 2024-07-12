@@ -39,7 +39,7 @@ public class MyGdxGame extends Game {
 //		Gdx.graphics.setForegroundFPS(60);
 		Box2D.init();
 		name = MemoryManager.loadName();
-		world = new World(new Vector2(0, -150), true);
+		world = new World(new Vector2(0, -120), true);
 		bitmapFont = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 		bitmapFont.setColor(Color.WHITE);
 		bitmapFont.getData().scale(0.0000005f);
